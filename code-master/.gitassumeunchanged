@@ -1,0 +1,5 @@
+#!/bin/bash
+git update-index --assume-unchanged .gitassumeunchanged
+#git update-index --assume-unchanged
+git update-index --assume-unchanged share/darwin/boot-defaults.sh
+git update-index --assume-unchanged share/darwin/config.json

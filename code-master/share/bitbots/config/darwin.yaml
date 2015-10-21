@@ -1,0 +1,291 @@
+motors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+foot_size: [[61, -43], [43, -22]]
+min_joint_id: 0
+max_joint_id: 20
+Root:
+    name: "Root"
+    id: 0
+    transform: [0, 0, 0]
+    rpy: [0, 0, 0]
+    mass_offsets:
+        Body: {mass: 975.60, offset: [-3.1, -19.7, -39.4] }
+    #,def_min_max_angles: [0, 0, 0]
+ChainNames: ["Head","RArm","LArm","RLeg","LLeg"]
+Head:
+    - name: "Neck"
+      id: 19
+      transform: [0, 0, 0]
+      rpy: [90, 180, 0]
+      comment: "Due to the Joint Rotation, the x-axis is the negative global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 24.6, offset: [-1.4, -16.6, 0.7] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "Head"
+      id: 20
+      transform: [0, 50.5, 0]
+      rpy: [-90, -90, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 24.36, offset: [-16.6, -1.4, -0.7] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "CameraHolder"
+      id: 36
+      transform: [42, 0, -17]
+      rpy: [180, 90, 0]
+      comment: "The local and global coordinate system are equal"
+      mass_offsets:
+        Beispielmasse: {mass: 158.04, offset: [7.7, 0.1, 18.6] }
+      #,def_min_max_angles: [0, 0, 0]
+    - name: "Camera"
+      id: 31
+      transform: [0, 0, 0]
+      rpy: [0, -13, 0]
+      comment: "The local and global coordinate system are equal"
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, 0, 0]
+
+RArm:
+    - name: "RShoulderPitch"
+      id: 1
+      transform: [0, -62, 0]
+      rpy: [180, 0, 0]
+      comment: "x-axis in direction of global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 25.91, offset: [1.4, -13.5, -10.3] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RShoulderRoll"
+      id: 3
+      transform: [0, 20, 16]
+      rpy: [45, 0, 90]
+      mass_offsets:
+        Beispielmasse: {mass: 25.91, offset: [-16.8291, -1.4, 2.2627] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RElbow"
+      id: 5
+      transform: [60, -16, 0]
+      rpy: [-90, 90, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 168.38, offset: [-15.3, -0.7, -33.7] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RArmEndpoint"
+      id: 32
+      transform: [129, 0, 16]
+      rpy: [-135, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 59.29, offset: [-83.2, 2.96, 6.505] }
+      #,def_min_max_angles: [0, 0, 0]
+
+LArm:
+    - name: "LShoulderPitch"
+      id: 2
+      transform: [0, 62, 0]
+      rpy: [0, 0, 0]
+      comment: "the x-axis is in direction of the global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 25.91, offset: [1.4, -13.5, 10.3] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LShoulderRoll"
+      id: 4
+      transform: [0, 20, -16]
+      rpy: [-45, 0, 90]
+      mass_offsets:
+        Beispielmasse: {mass: 25.91, offset: [-16.8291, -1.4, -2.2627] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LElbow"
+      id: 6
+      transform: [60, -16, 0]
+      rpy: [90, -90, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 168.38, offset: [-15.3, -0.7, 33.7] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LArmEndpoint"
+      id: 33
+      transform: [129, 0, -16]
+      rpy: [-45, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 59.29, offset: [-83.2, -2.96, 6.505] }
+      #,def_min_max_angles: [0, 0, 0]
+
+RLeg:
+    - name: "RHipYaw"
+      id: 7
+      transform: [-5, -37, -122.2]
+      rpy: [-90, 0, 0]
+      comment: "the x-axis is in direction of global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RHipRoll"
+      id: 9
+      transform: [0, 0, 0]
+      rpy: [0, 0, 90]
+      comment: "the local x-axis is the negativ global z-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 27.07, offset: [-18.5, -0.5, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RHipPitch"
+      id: 11
+      transform: [0, 0, 0]
+      rpy: [90, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 167.11, offset: [13.9, 0, -18.2] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RKnee"
+      id: 13
+      transform: [93, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 119.04, offset: [-30, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RAnklePitch"
+      id: 15
+      transform: [93, 0, 0]
+      rpy: [180, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 70.31, offset: [-54, 0.6, -6.5] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RAnkleRoll"
+      id: 17
+      transform: [0, 0, 0]
+      #rpy: [90, 0, 0]
+      rpy: [-90, 0, 0]
+      comment: "the local y-axis is the global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 167.11, offset: [-13.9, -18.8, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RFootEndpoint"
+      id: 34
+      transform: [33, 0, 0]
+      #rpy: [0, -90, 90]
+      rpy: [-90, -90, 0]
+      comment: "the local and global coordinate system are equal"
+      mass_offsets:
+        Beispielmasse: {mass: 79.44, offset: [-0.5, -9.5, 7.5] }
+      #,def_min_max_angles: [0, 0, 0]
+
+LLeg:
+    - name: "LHipYaw"
+      id: 8
+      transform: [-5, 37, -122.2]
+      rpy: [90, 0, 180]
+      comment: "the y-axis is the negative global z-axis, local x-axis is the negative global"
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LHipRoll"
+      id: 10
+      transform: [0, 0, 0]
+      rpy: [0, 180, 90]
+      comment: "the local y axis is the global negative x-axis and the local x-axis is the global nagative z-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 27.07, offset: [-18.5, 0.5, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LHipPitch"
+      id: 12
+      transform: [0, 0, 0]
+      rpy: [-90, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 167.11, offset: [13.9, 0, 18.2] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LKnee"
+      id: 14
+      transform: [93, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 119.04, offset: [-30, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LAnklePitch"
+      id: 16
+      transform: [93, 0, 0]
+      rpy: [180, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 70.31, offset: [-54, 0.6, 6.5] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LAnkleRoll"
+      id: 18
+      transform: [0, 0, 0]
+      rpy: [90, 0, 0]
+      comment: "regular joint, local y-axis is the global x-axis"
+      mass_offsets:
+        Beispielmasse: {mass: 167.11, offset: [-13.9, -18.8, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LFootEndpoint"
+      id: 35
+      transform: [33, 0, 0]
+      #rpy: [-90, -90, 0]
+      rpy: [0, -90, 90]
+      comment: "the local and the global coordinate system are equal"
+      mass_offsets:
+        Beispielmasse: {mass: 79.44, offset: [-0.5, 9.5, 7.5] }
+      #,def_min_max_angles: [0, 0, 0]
+Virtual:
+    - name: "RToe"
+      id: 27
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, 0, 0]
+    - name: "LToe"
+      id: 28
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, 0, 0]
+    - name: "BellyRoll"
+      id: 29
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, 0, 0]
+    - name: "BellyPitch"
+      id: 30
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, 0, 0]
+    - name: "RHandRoll"
+      id: 21
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LHandRoll"
+      id: 22
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RHandPitch"
+      id: 23
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LHandPitch"
+      id: 24
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "RShoulderYaw"
+      id: 25
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]
+    - name: "LShoulderYaw"
+      id: 26
+      transform: [0, 0, 0]
+      rpy: [0, 0, 0]
+      mass_offsets:
+        Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+      #,def_min_max_angles: [0, -180, 180]

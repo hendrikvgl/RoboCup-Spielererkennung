@@ -1,0 +1,19 @@
+#!/bin/bash
+
+ROOT=$(readlink -f $(dirname $0))
+if [ -e $ROOT/../tests/run-cpp-tests.sh ]
+then
+    $ROOT/../tests/run-cpp-tests.sh >/dev/null
+    CPP_RETURN_CODE=$?
+else
+    CPP_RETURN_CODE=0
+fi
+
+if [ $CPP_RETURN_CODE -eq 0 ]
+then
+    echo "All CPP Test are green"
+    exit 0
+else
+    echo "Tests beended"
+    exit 1
+fi

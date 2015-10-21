@@ -1,0 +1,28 @@
+# Kompilierten Kram generell ignorieren
+*.pyc
+*.so
+*.o
+*.x
+*.out
+
+# Hier wird unser Modul gebaut
+.build*/
+.py-env*/
+
+# Configdateien
+.project
+.pydevproject
+.settings
+.geany
+.kdev4/
+*.kdev4
+.idea/
+.py-env
+.metadata
+
+# Backups/Misc
+*~
+*.sw?
+*.kate-swp
+
+doc/doxygen

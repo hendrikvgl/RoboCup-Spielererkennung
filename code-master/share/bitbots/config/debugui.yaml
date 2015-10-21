@@ -1,0 +1,24 @@
+##########################
+##
+##    Debug UI Config - until we rewrite this in a better way
+##
+##########################
+
+help: |
+    Variablen für gewisse Sachen in der DebugUI-Neu
+
+
+# color config für die Vision
+"DUMP_RECEIVING_DATA_IN_PLAIN" : True
+
+# The Path to the file to dump receiving debug
+"DUMP_FILE_PATH" : "/tmp/debug_dump_plain"
+
+# The Path to the file to dump receiving debug
+"CLEAR_DUMP_FILE_PATH_ON_STARTUP" : True
+
+# Toggle for the Vision View World Modell
+"NeedVisionView": false
+
+
+

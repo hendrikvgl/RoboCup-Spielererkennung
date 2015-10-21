@@ -1,0 +1,64 @@
+{
+ "name": "guck runter",
+    "discription": "Der Robotor guckt runter",
+    "hands": "Ignore",
+    "keyframes": [
+        {
+            "duration": 1.0,
+            "goals": {
+                "HeadPan": -0.087890625,
+                "HeadTilt": -35.0,
+                "LAnklePitch": -1.58203125,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "LHipPitch": 2.8125,
+                "LHipRoll": -0.087890625,
+                "LHipYaw": -0.087890625,
+                "LKnee": -0.087890625,
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.927734375,
+                "RAnklePitch": 1.318359375,
+                "RAnkleRoll": -0.087890625,
+                "RElbow": 8.701171875,
+                "RHipPitch": -3.076171875,
+                "RHipRoll": -0.087890625,
+                "RHipYaw": -0.087890625,
+                "RKnee": -0.087890625,
+                "RShoulderPitch": -49.921875,
+                "RShoulderRoll": -26.455078125
+            },
+            "pause": 0.0
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": 0.0,
+                "HeadTilt": -35.0,
+                "LAnklePitch": 10.810546875,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.052734375,
+                "LElbowRoll": 0.0,
+                "LHand": 0.0,
+                "LHipPitch": 40.95703125,
+                "LHipRoll": 0.087890625,
+                "LHipYaw": 0.087890625,
+                "LKnee": 0.0,
+                "LShoulderPitch": 48.8671875,
+                "LShoulderRoll": 24.873046875,
+                "RAnklePitch": -13.0078125,
+                "RAnkleRoll": 0.0,
+                "RElbow": 7.91015625,
+                "RElbowRoll": 0.0,
+                "RHand": 0.0,
+                "RHipPitch": -42.099609375,
+                "RHipRoll": 0.0,
+                "RHipYaw": 0.0,
+                "RKnee": -0.087890625,
+                "RShoulderPitch": -49.130859375,
+                "RShoulderRoll": -26.103515625
+            },
+            "pause": 0.0
+        }
+    ],
+    "name": "/home/darwin/biof.json"
+}

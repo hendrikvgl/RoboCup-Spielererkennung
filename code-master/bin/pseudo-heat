@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+from random import randint
+import bitbots.debug
+import os
+import time
+
+if __name__ == "__main__":
+    debug = bitbots.debug.Scope("Motion.Server")
+    while True:
+        time.sleep(0.1)
+        cid = randint(1,20)
+        temperature = randint(30,60)
+        debug.log("MX28.%d.Temperatur" % cid, temperature)

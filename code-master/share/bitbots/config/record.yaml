@@ -1,0 +1,13 @@
+# No log-file => no file logging
+"log_file": ""
+# global sending loglevel (debug below this level wont be sent, no matter what)
+# Seting this too high (>20) prevents important user-interaction
+# 10 is a safe setting.
+"log_level_global": 10
+# python logging.INFO = 20
+# minimum Loglevel of the _receiving_ side (the console)
+"console_log_level": 20
+# minimum loglevel of log-messages sent to darwin.Scope
+"darwin_debug_level": 10
+# Color-Theme used:
+theme: 'default'

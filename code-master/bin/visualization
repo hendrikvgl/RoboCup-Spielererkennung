@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+import sys
+import bitbots
+
+from bitbots.debug import Scope
+from bitbots.framework import Runtime
+from bitbots.modules.startup.startup_information import BASIC_IMPORTS, VISUALIZATION_RUNS
+import bitbots.modules.basic.visualization.visualization_module
+
+def main():
+    debug = Scope("Visualization")
+
+    if len(sys.argv) > 1:
+        bitbots.modules.basic.visualization.visualization_module.image_path = sys.argv[1]
+
+    # Module laden
+    runtime = Runtime(debug)
+    for name in BASIC_IMPORTS:
+        runtime.load(name)
+
+    runtime.run(VISUALIZATION_RUNS)
+
+if __name__ == "__main__":
+    main()

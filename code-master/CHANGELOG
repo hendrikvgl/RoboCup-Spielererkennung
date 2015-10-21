@@ -1,0 +1,106 @@
+Wichtige änderungen und Neuerungen an der API der grundfunktionen
+
+24.04.2014
+    - build/CMakelists
+        Ich, Robert, habe einige Projekte: walking, kick, locator und com_calculator
+        aus dem Standartbuild entfernt. Diese können mit -i bzw --include PROJEKT
+        dennoch gebaut werden. Das hat allerdings einen impliziten "clean-Build"
+        zur Folge
+
+    - lib/darwin/robot
+        Es gibt seit einiger Zeit eine neue Roboterimplementation, die über eine
+        Konfigurationsdatei shar/darwin/config/robot.yaml gepflegt wird. Diese
+        beherscht auch inverse Kinematik
+
+    - share/darwin
+        Es gibt einen Subordner zur Konfiguration: share/darwin/config
+
+    - share/darwin/ "config"
+        Config auf yaml umgestellt, json war früher ;)
+        Includes aus dem Subordner mit !PATH_TO_FILE_WITHOUT_EXTENSION eingebunden werden
+
+    - lib/darwin/modules/behaviour
+        Es gibt ein neues hochdynamisches Verhaltensframework basierend auf einem Stack.
+
+15.07.2013
+    - build
+        Wenn ohne Buildoption kompiliert wird, dann wird Debug als Option angenommen
+        Die Unittest werden, wenn die Konsolenvariable QUIET > 0 ist, nicht ausgeführt
+
+23.06.2013
+    - lib/darwin/debug/DebugLevelOverview, lib/darwin/moduls/basic/*:
+        Auch der Python Code wird nun teilweise vorverarbeitet.
+        Mit m_debug() wird nach dem Build implizit auf self.debug()
+        zugegriffen. So kann für die Situation entschieden zu werden,
+        wie ausführlich das Debug ist.
+        m_debug hat 2 oder mehr Parameter. Der erste ist das Debuglevel und
+        die weiteren richten sich nach den Anforderungen vom "regulären"
+        Debugaufruf.
+        Eine Übersicht über geplante Loglevel liegt unter Debug.
+
+19.05.2013
+    - lib/darwin/debug/debugmacro.h:
+        Es gibt nun ein Macro, dass alle C++-Teilprojekte inkludieren sollten,
+        damit globale Debugrichtlinien gelten. Es kann zum Ausführungszeitpunkt
+        die Konsolenvariable DEBUG_LEVEL gesetzt werden, oder zur Kompilations-
+        zeit das DEBUG_COMPILING_LEVEL in der CMakelist.txt um Debugausgaben
+        oberhalb des gewählten Level nicht erst zu senden.
+        Wenn ein Modul debugspezifische Variablen hat, sollten die auch in der
+        lib/darwin/debug/debugmacro.h im passenden namespace vermerkt sein.
+
+04.05.2013
+    - Config, Module und so weiter:
+        Die Configdistancen und Distancen, die in irgendwelchen Modulen benutzt
+        werden, sowie die Geschindigkeiten sollen in m, bzw m/s angegeben
+        werden, um weitere Einheitendifferenzen zu vermeiden!!!
+        KEINE Angaben mehr in cm machen!!!
+
+03.04.2013
+    - lib/darwin/modules/basic/LocatorModule.py:
+        Es gibt nun ein Modul zur Lokalisation. Es benötigt Vision
+        LinePoints und die Bewegungsinformationen des WalkingModule.
+        Die Verhaltensmodule können die Position unter "Position" aus
+        dem data dict ziehen
+
+13.03.13:
+    - bin/flash:
+        rsync option u wurde entfernt da es meistens nerft wenn
+        von anderen geflashte sachen da bleiben, bedeutet aber auch
+        das lokal auf dem bot angepasste dateien verloren gehen
+
+25.02.13:
+    - debug.Scope / Scope.sub:
+        Scope und sub haben einen neuen optionalen parameter
+        bool console_out mit default = True welcher bestimmt ob
+        Messages auf der Console ausgegeben werden.
+
+11.02.13:
+    - lib/darwin/modules/basic/VisionModule.py:
+        Auch im VisionModul wird jetzt die config über die zu verwendenen
+        teile der Vision geladen
+
+09.02.13:
+    - lib/darwin/vision/robovision.hpp:
+        Color-Config für Grün sollte momentan nicht gesetzt werden da
+        sie das Automatische Kalibrieren des Grünkanals behindern würde
+        alle Scripte welche momentan die Vision benutzen wurden angepasst
+
+        Die Configparameter welche Visionmodule ausgeführt werden, können
+        jetzt zur laufzeit gesetzt werden.
+
+    - bin/vision:
+        Setzt absofort die werte welche Visionmodule ausgeführt werden
+        anhand der Config.
+
+11.12.12:
+    - lib/darwin/modules/basic/WalkingModule.py:
+        Über den Configparameter Walking.ManualHipPitch kann der HipPitch
+        für andere Module freigegeben werden, und dann unter
+        data["Walking.HipPitch"] gesetzt werden, lesbar ist er dort immer.
+
+20.11.12:
+    - bin/record:
+        Der Befehl "play" hat ab sofort einen optionalen parameter anim
+        damit kann play angewiesen werden nicht die aktuell aufgenomme
+        Animation zu spielen sondern die über den Parameter spezifizierte
+        Animation. Der Aktuelle record status wird danach wiederhergestellt

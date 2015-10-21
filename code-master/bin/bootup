@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ "$TERM" != "screen" ] ; then
+    echo "this script must be run with screen"
+    exit 1
+fi
+
+if [ "$1" == "--simrobot" ] ; then
+    export MOTION_ADDITIONAL_ARGUMENTS="--simulate 192.168.230.50"
+    export BEHAVIOUR_ADDITIONAL_ARGUMENTS="--simulate"
+fi
+
+screen /home/darwin/darwin/bin/boot-motion.sh $MOTION_ADDITIONAL_ARGUMENTS
+screen /home/darwin/darwin/bin/boot-behaviour.sh $BEHAVIOUR_ADDITIONAL_ARGUMENTS
+

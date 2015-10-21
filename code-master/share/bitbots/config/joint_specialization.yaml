@@ -1,0 +1,12 @@
+# This is an example specialization file. Create your own in the
+# overlay config und include it in the given overlay, or define this list
+# directly in the overlay file
+
+#- name: "Camera"
+#  id: 31
+#  transform: [40, 0, -15]
+#  rpy: [0, -13, 0]
+#  comment: "The local and global koordinate system are equal"
+#  mass_offsets:
+#    Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }
+#  #,def_min_max_angles: [0, -180, 180]

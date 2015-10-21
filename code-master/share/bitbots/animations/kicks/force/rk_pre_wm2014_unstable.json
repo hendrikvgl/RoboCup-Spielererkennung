@@ -1,0 +1,168 @@
+{
+    "author": "Marc", 
+    "description": "schießt weiter als lk_pre_wem2014 aber ist dabei instabiler", 
+    "hostname": "tamara", 
+    "keyframes": [
+        {
+            "duration": 1,
+            "goals": {
+                "LAnklePitch": -12.0,
+                "LAnkleRoll": 0.6,
+                "LElbow": 75.0,
+                "LHipPitch": 50.0,
+                "LHipRoll": 0.6,
+                "LHipYaw": -0.277,
+                "LKnee": -38.0,
+                "LShoulderPitch": 0.0,
+                "LShoulderRoll": 30.0,
+                "RAnklePitch": 12.0,
+                "RAnkleRoll": -0.6,
+                "RElbow": -75.0,
+                "RHipPitch": -50.0,
+                "RHipRoll": 0.6,
+                "RHipYaw": 0.277,
+                "RKnee": 38.0,
+                "RShoulderPitch": 0.0,
+                "RShoulderRoll": -30.0
+            },
+            "pause": 1.0
+        },
+        {
+            "duration": 0.5, 
+            "goals": {
+                "RAnklePitch": 35.971, 
+                "RAnkleRoll": 13.623, 
+                "RHipPitch": -36.123, 
+                "RHipRoll": 0.791, 
+                "RHipYaw": 0.176, 
+                "RKnee": 45.559, 
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": 9.844, 
+                "LHipPitch": 36.123, 
+                "LHipRoll": 2.0, 
+                "LHipYaw": 0.176, 
+                "LKnee": -53.174
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.072, 
+            "goals": {
+                "RAnklePitch": 42.627, 
+                "RAnkleRoll": 13.623, 
+                "RHipPitch": -53.965, 
+                "RHipRoll": -5.0, 
+                "RHipYaw": 0.176, 
+                "RKnee": 85.43, 
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": 9.844, 
+                "LHipPitch": 47.9, 
+                "LHipRoll": -15.0, 
+                "LHipYaw": 0.176, 
+                "LKnee": -57.48, 
+                "LShoulderRoll": 0.0
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.001, 
+            "goals": {
+                "RAnklePitch": -50.0, 
+                "RAnkleRoll": 10.0, 
+                "RHipPitch": -77.695, 
+                "RHipRoll": -20.0, 
+                "RHipYaw": 0.176, 
+                "RKnee": 0.0, 
+                "LAnklePitch": -27.07, 
+                "LAnkleRoll": 6.943, 
+                "LHipPitch": 25.0, 
+                "LHipRoll": -22.0, 
+                "LHipYaw": 0.176, 
+                "LKnee": -55.723
+            }, 
+            "pause": 0.25
+        }, 
+        {
+            "duration": 0.072, 
+            "goals": {
+                "RAnklePitch": 42.627, 
+                "RAnkleRoll": 13.623, 
+                "RHipPitch": -67.148, 
+                "RHipRoll": 6.592, 
+                "RHipYaw": 0.176, 
+                "RKnee": 85.43, 
+                "LAnklePitch": -29.355, 
+                "LAnkleRoll": 9.844, 
+                "LHipPitch": 42.627, 
+                "LHipRoll": -3.34, 
+                "LHipYaw": 0.176, 
+                "LKnee": -55.723
+            }, 
+            "pause": 0.25
+        }, 
+        {
+            "duration": 0.112, 
+            "goals": {
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": 0.791, 
+                "RHipPitch": -36.123, 
+                "RHipRoll": 0.352, 
+                "RHipYaw": 0.0, 
+                "RKnee": 53.174, 
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": 0.791, 
+                "LHipPitch": 36.123, 
+                "LHipRoll": -0.352, 
+                "LHipYaw": 0.0, 
+                "LKnee": -53.174, 
+                "LShoulderRoll": 30.0
+            }, 
+            "pause": 0.4
+        }, 
+        {
+            "duration": 0.2, 
+            "goals": {
+                "RAnklePitch": 12.0, 
+                "RAnkleRoll": -0.6, 
+                "RHipPitch": -50.0, 
+                "RHipRoll": -0.6, 
+                "RHipYaw": 0.277, 
+                "RKnee": 38.0, 
+                "LAnklePitch": -12.0, 
+                "LAnkleRoll": 0.6, 
+                "LHipPitch": 50.0, 
+                "LHipRoll": -0.6, 
+                "LHipYaw": -0.277, 
+                "LKnee": -38.0
+            }, 
+            "pause": 0.0
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "LAnklePitch": -12.0,
+                "LAnkleRoll": 0.6,
+                "LElbow": 75.0,
+                "LHipPitch": 50.0,
+                "LHipRoll": 0.6,
+                "LHipYaw": -0.277,
+                "LKnee": -38.0,
+                "LShoulderPitch": 0.0,
+                "LShoulderRoll": 30.0,
+                "RAnklePitch": 12.0,
+                "RAnkleRoll": -0.6,
+                "RElbow": -75.0,
+                "RHipPitch": -50.0,
+                "RHipRoll": 0.6,
+                "RHipYaw": 0.277,
+                "RKnee": 38.0,
+                "RShoulderPitch": 0.0,
+                "RShoulderRoll": -30.0
+            },
+            "pause": 1.0
+        }
+    ], 
+    "last_edited": "2014-07-07 22:20:52.378503", 
+    "name": "rk_pre_wm2014_unstable", 
+    "version": 9
+}

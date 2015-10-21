@@ -1,0 +1,7 @@
+{
+    "name": "/tmp/backup.json",
+    "keyframes": [
+
+    {"duration": 0.5, "pause": 0.0, "goals": {"LShoulderPitch": 86.396484375, "LShoulderRoll": -76.728515625, "RShoulderRoll": 71.630859375, "HeadTilt": 0.0, "LKnee": -127.6171875, "RHipYaw": -0.966796875, "LAnklePitch": -79.62890625, "RKnee": 126.474609375, "RAnkleRoll": -2.373046875, "RAnklePitch": 76.640625, "LHipPitch": 79.013671875, "LHipYaw": 1.58203125, "LHipRoll": -1.494140625, "RHipRoll": -3.427734375, "LAnkleRoll": -0.615234375, "LElbow": 78.662109375, "RElbow": -93.251953125, "RHipPitch": -84.19921875, "HeadPan": -0.263671875, "RShoulderPitch": -87.71484375}}]
+
+}

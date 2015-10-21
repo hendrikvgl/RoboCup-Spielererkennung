@@ -1,0 +1,181 @@
+{
+    "default_interpolator": "CatmullRomInterpolator",
+    "name": "lPASS",
+"discription": "Passt mit Links",
+    "keyframes": [
+        {
+            "duration": 1,
+            "goals": {
+                "LAnklePitch": -12.0,
+                "LAnkleRoll": 0.6,
+                "LElbow": 75.0,
+                "LHipPitch": 50.0,
+                "LHipRoll": 0.6,
+                "LHipYaw": -0.277,
+                "LKnee": -38.0,
+                "LShoulderPitch": 0.0,
+                "LShoulderRoll": 30.0,
+                "RAnklePitch": 12.0,
+                "RAnkleRoll": -0.6,
+                "RElbow": -75.0,
+                "RHipPitch": -50.0,
+                "RHipRoll": 0.6,
+                "RHipYaw": 0.277,
+                "RKnee": 38.0,
+                "RShoulderPitch": 0.0,
+                "RShoulderRoll": -30.0
+            },
+            "pause": 1.0
+        },
+        {
+            "duration": 0.2,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -56.6015625,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": -28.4765625,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -8.876953125,
+                "RAnklePitch": 27.158203125,
+                "LHipPitch": 44.736328125,
+                "LHipYaw": -0.703125,
+                "LHipRoll": -1.318359375,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -21.796875,
+                "RHipPitch": -46.0546875
+            }
+        },
+        {
+            "duration": 0.07200000000000001,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -85.869140625,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": -43.154296875,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -8.876953125,
+                "RAnklePitch": 27.158203125,
+                "LHipPitch": 53.525390625,
+                "LHipYaw": -29.970703125,
+                "LHipRoll": -7.119140625,
+                "RHipRoll": 2.8125,
+                "LAnkleRoll": -15.908203125,
+                "RHipPitch": -51.943359375
+            }
+        },
+        {
+            "duration": 0.07200000000000001,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -30.234375,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": 18.369140625,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -8.876953125,
+                "RAnklePitch": 25.6640625,
+                "LHipPitch": 62.314453125,
+                "LHipYaw": -35.859375,
+                "LHipRoll": 1.669921875,
+                "RHipRoll": 2.8125,
+                "LAnkleRoll": -10.01953125,
+                "RHipPitch": -43.154296875
+            }
+        },
+        {
+            "duration": 0.07200000000000001,
+            "pause": 0.096,
+            "goals": {
+                "LKnee": -30.234375,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": 18.369140625,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -8.876953125,
+                "RAnklePitch": 25.6640625,
+                "LHipPitch": 62.314453125,
+                "LHipYaw": -27.0703125,
+                "LHipRoll": 36.826171875,
+                "RHipRoll": 2.8125,
+                "LAnkleRoll": -10.01953125,
+                "RHipPitch": -43.154296875
+            }
+        },
+        {
+            "duration": 0.07200000000000001,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -30.234375,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": 18.369140625,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -8.876953125,
+                "RAnklePitch": 25.6640625,
+                "LHipPitch": 62.314453125,
+                "LHipYaw": -35.859375,
+                "LHipRoll": 1.669921875,
+                "RHipRoll": 2.8125,
+                "LAnkleRoll": -10.01953125,
+                "RHipPitch": -43.154296875
+            }
+        },
+        {
+            "duration": 0.2,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -85.869140625,
+                "RHipYaw": -0.703125,
+                "LAnklePitch": -43.154296875,
+                "RKnee": 55.283203125,
+                "RAnkleRoll": -7.3828125,
+                "RAnklePitch": 27.158203125,
+                "LHipPitch": 59.326171875,
+                "LHipYaw": -0.703125,
+                "LHipRoll": -4.21875,
+                "RHipRoll": 2.8125,
+                "LAnkleRoll": -10.01953125,
+                "RHipPitch": -46.0546875
+            }
+        },
+        {
+            "duration": 0.07200000000000001,
+            "pause": 0.0,
+            "goals": {
+                "LKnee": -55.72265625,
+                "RHipYaw": 0.17578125,
+                "LAnklePitch": -27.59765625,
+                "RKnee": 56.162109375,
+                "RAnkleRoll": 0.791015625,
+                "RAnklePitch": 28.037109375,
+                "LHipPitch": 45.615234375,
+                "LHipYaw": 0.17578125,
+                "LHipRoll": -0.439453125,
+                "RHipRoll": 0.791015625,
+                "LAnkleRoll": -0.439453125,
+                "RHipPitch": -45.17578125
+            }
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "LAnklePitch": -12.0,
+                "LAnkleRoll": 0.6,
+                "LElbow": 75.0,
+                "LHipPitch": 50.0,
+                "LHipRoll": 0.6,
+                "LHipYaw": -0.277,
+                "LKnee": -38.0,
+                "LShoulderPitch": 0.0,
+                "LShoulderRoll": 30.0,
+                "RAnklePitch": 12.0,
+                "RAnkleRoll": -0.6,
+                "RElbow": -75.0,
+                "RHipPitch": -50.0,
+                "RHipRoll": 0.6,
+                "RHipYaw": 0.277,
+                "RKnee": 38.0,
+                "RShoulderPitch": 0.0,
+                "RShoulderRoll": -30.0
+            },
+            "pause": 1.0
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+To use the Capture you only need to include Capture/Capture.hpp and compile
+everything in this folder along with your code. The interface of the Capture is
+documented in the .hpp file.

@@ -1,0 +1,90 @@
+{
+  "author": "Jessica", 
+    "description": "Aufstehen vom Bauch aus mit den GO2014 Koepfen. Version fuer Wheatley mit Haenden.", 
+    "hostname": "tamara", 
+    "keyframes": [
+        {
+            "duration": 1.0, 
+            "goals": {
+                "HeadPan": -0.088, 
+                "HeadTilt": 0.0, 
+                "LAnklePitch": -26.719, 
+                "LAnkleRoll": -0.967, 
+                "LElbow": -15.0, 
+                "LHipPitch": 61.963, 
+                "LHipRoll": -0.088, 
+                "LHipYaw": -1.318, 
+                "LKnee": -62.227, 
+                "LShoulderPitch": 63.0, 
+                "LShoulderRoll": 0.0, 
+                "RAnklePitch": 22.764, 
+                "RAnkleRoll": 1.318, 
+                "RElbow": 15.0, 
+                "RHipPitch": -65.742, 
+                "RHipRoll": -0.088, 
+                "RHipYaw": -0.439, 
+                "RKnee": 61.963, 
+                "RShoulderPitch": -63.0, 
+                "RShoulderRoll": 0.0
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": "0.200", 
+            "goals": {
+                "HeadPan": -0.088, 
+                "HeadTilt": 0.0, 
+                "LAnklePitch": -27.949, 
+                "LAnkleRoll": -0.967, 
+                "LElbow": -71.016, 
+                "LHipPitch": 98.262, 
+                "LHipRoll": -0.088, 
+                "LHipYaw": -1.318, 
+                "LKnee": -93.252, 
+                "LShoulderPitch": -20.0, 
+                "LShoulderRoll": 20.0, 
+                "RAnklePitch": 23.643, 
+                "RAnkleRoll": 1.318, 
+                "RElbow": 69.873, 
+                "RHipPitch": -100.811, 
+                "RHipRoll": -0.088, 
+                "RHipYaw": -0.439, 
+                "RKnee": 89.209, 
+                "RShoulderPitch": 20.0, 
+                "RShoulderRoll": -20.0
+            }, 
+            "p": {}, 
+            "pause": "0.200"
+        }, 
+        {
+            "duration": "0.800", 
+            "goals": {
+                "HeadPan": -0.088, 
+                "HeadTilt": 0.0, 
+                "LAnklePitch": -76.816, 
+                "LAnkleRoll": -0.088, 
+                "LElbow": 59.678, 
+                "LHipPitch": 90.088, 
+                "LHipRoll": -0.088, 
+                "LHipYaw": -1.318, 
+                "LKnee": -132.188, 
+                "LShoulderPitch": -32.0, 
+                "LShoulderRoll": 30.0, 
+                "RAnklePitch": 71.367, 
+                "RAnkleRoll": -0.088, 
+                "RElbow": -63.369, 
+                "RHipPitch": -97.295, 
+                "RHipRoll": -0.088, 
+                "RHipYaw": -0.439, 
+                "RKnee": 130.518, 
+                "RShoulderPitch": 32.0, 
+                "RShoulderRoll": -30.0
+            }, 
+            "p": {}, 
+            "pause": "0.200"
+        } 
+    ], 
+    "last_edited": "2015-07-27 19:06:39.596007", 
+    "name": "unserup", 
+    "version": 17
+}

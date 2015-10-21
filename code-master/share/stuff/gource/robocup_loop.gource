@@ -1,0 +1,16 @@
+[gource]
+stop-at-end=false
+auto-skip-seconds=1
+file-idle-time=0
+loop=true
+max-file-lag=-1
+title=Bit-Bots
+seconds-per-day=3
+key=true
+logo=bitBot_color_shadow.png
+
+########## User spezifisches: ##############
+user-image-dir=users
+default-user-image=default_user.png
+user-scale=2
+colour-images=false # user einfärben

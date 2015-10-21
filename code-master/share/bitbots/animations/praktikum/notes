@@ -1,0 +1,796 @@
+--------------------------
+Initialisierung:
+----------------
+from bitbots.robot.kinematics import *
+from bitbots.robot.pypose import *
+from bitbots.ipc.ipc import *
+import numpy as np
+import time
+from bitbots.util.animation import play_animation
+
+ipc = SharedMemoryIPC()
+pose = ipc.get_pose()
+#pose = PyPose()
+robot = Robot()
+task = KinematicTask(robot)
+
+root = 0
+end_joint = 35
+angle_task_joints = [16]
+ignore_joints = [8, 18]
+
+robot.update(pose)
+
+-----------------------------
+Befehle:
+---------
+play_animation("walkready", ipc)
+time.sleep(1)
+
+#Berechnete Gelenkwinkel am roboter darstellen
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+
+#Positionen überprüfen
+robot.get_joint_by_id(ID).get_chain_matrix()
+robot.get_joint_by_id(ID).get_endpoint()
+np.dot(robot.get_joint_by_id(34).get_chain_matrix(inverse=True), robot.get_joint_by_id(35).get_chain_matrix())
+
+Kinematik:
+robot.update(ipc.get_pose())
+robot.inverse_chain(4, np.array((10, 30, -290)), 1e-3, 100)
+robot.inverse_chain_t(...)
+#4 für linken Fuß
+task.perform(0, 35, np.array((110, 45, -260)))
+#35 für linken Fuß
+#Koordinaten in der Reihenfolge: vorne, links, oben
+
+task.perform(root, end_joint, [(1, 0, 0), target], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+
+#Berechnetes Ergebnis ausführen:
+robot.set_angles_to_pose(pose); ipc.update(pose)
+
+----------------------------
+Ergebnisse:
+-------------
+Relativ gute Schuss Koordinaten:
+robot.inverse_chain(4, np.array((110, 45, -260))
+
+Kompletter Tritt Befehl:
+play_animation("start_kick2", ipc); time.sleep(0.8); robot.update(ipc.get_pose()); robot.inverse_chain(4, np.array((110, 45, -260)), 1e-3, 100); robot.set_angles_to_pose(pose); ipc.update(pose); time.sleep(0.15); play_animation("end_kick", ipc)
+
+Aufgeteilt:
+play_animation("start_kick2", ipc) 
+time.sleep(0.8)
+robot.update(ipc.get_pose())
+robot.inverse_chain(4, np.array((110, 45, -260)), 1e-3, 100)
+robot.set_angles_to_pose(pose); ipc.update(pose)
+time.sleep(0.15)
+play_animation("end_kick", ipc)
+
+----------------------------------------------
+Misc.
+-------
+lib/bitbots/robot
+demo_kinematic.py
+kinematics.pyx (Implementation)
+kinematics.pxd (Deklaration)
+jointids.hpp
+
+
+--------------------------------------------------------------------------
+Mittwoch:
+--------------------------------
+Neuer Kinematik Befehl:
+task.perform(root, end_joint, [(1, 0, 0), np.array((10, 34, -290))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+
+Kick mit einer Position (gerade, obsolet):
+play_animation("start_kick2", ipc); time.sleep(0.8); robot.update(ipc.get_pose()); task.perform(root, end_joint, [(1, 0, 0), np.array((110, 45, -260))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose); time.sleep(0.15); play_animation("end_kick", ipc)
+play_animation("start_kick2", ipc); time.sleep(0.8); robot.update(ipc.get_pose()); task.perform(root, end_joint, [(1, 0, 0), np.array((140, 45, -260))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose); time.sleep(0.15); play_animation("end_kick", ipc)
+
+2 Positionen:
+Gerade
+play_animation("start_kick2", ipc); time.sleep(0.8); robot.update(ipc.get_pose()); task.perform(root, end_joint, [(1, 0, 0), np.array((0, 45, -285))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose); time.sleep(0.1); task.perform(root, end_joint, [(1, 0, 0), np.array((140, 45, -260))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose);time.sleep(0.15); play_animation("end_kick", ipc)
+Nach Links (wackelig)
+play_animation("start_kick2", ipc); time.sleep(0.8); robot.update(ipc.get_pose()); task.perform(root, end_joint, [(1, 0, 0), np.array((0, 75, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose); time.sleep(0.1); task.perform(root, end_joint, [(1, 0, 0), np.array((120, 90, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints); robot.set_angles_to_pose(pose); ipc.update(pose);time.sleep(0.15); play_animation("end_kick", ipc)
+
+start_kick3 ist nicht so gut wie 2
+end_kick2 macht kaum unterschied
+
+-----------------------------
+Mit Kommandozeilen parametern:
+------------------------------
+height_1 = int(sys.argv[1])
+height_2 = int(sys.argv[2])
+forward = int(sys.argv[3])
+left_1 = int(sys.argv[4])
+left_2 = int(sys.argv[5])
+
+gerade: -240, -280, 150, 40, 40
+#130 ist manchmal besser
+links: -280, -240, 110, 85, 90
+-
+forward_1 = int(sys.argv[1])
+forward_2 = int(sys.argv[2])
+left_1 = int(sys.argv[3])
+left_2 = int(sys.argv[4])
+
+links: 50, 110, 85, 90 (stabiler, aber nicht so stark)
+(linker tritt nicht ganz so hoch?)
+
+|Parameter 0 bis 100 (gerade bis links)
+xDiff 40
+yDiff 50
+
+x = 140 - 0.4 * param
+y1 = 40 + 0.5 * param
+y2 = y1 - 0.05 * param
+
+----------------------------------------------------------------------
+Donnerstag: Ausfallschritt (abgewiesen)
+----------------------------------------
+
+set_angles_to_pose(self, PyPose pose, int chain_id=?, float time=?)
+
+
+play_animation("start_kick2", ipc)
+time.sleep(0.77)
+# pos 1
+robot.update(ipc.get_pose())
+task.perform(root, end_joint, [(1, 0, 0), np.array((0, 45, -285))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.1)
+# pos 2
+ipc.update(pose)
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 45, -260))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.15)
+# pos 3
+ipc.update(pose)
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 45, -260))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.1)
+# endanimation
+play_animation("ende_schritt", ipc)
+time.sleep(1)
+
+np.array((0, 45, -285))
+np.array((140, 45, -260))
+
+for x in range(1, 20):
+    ipc.update(pose)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((140 - (x * 8), 45, -270))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    ipc.update(pose)
+    time.sleep(0.01)
+    
+
+play_animation("walkready", ipc)
+time.sleep(1)
+
+
+play_animation("start_kick2", ipc)
+time.sleep(0.77)
+# pos 1
+robot.update(ipc.get_pose())
+task.perform(root, end_joint, [(1, 0, 0), np.array((0, 45, -285))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.1)
+# pos 2
+ipc.update(pose)
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 45, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.15)
+# zuruckfahren
+for x in range(1, 20):
+    ipc.update(pose)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((140 - (x * 8), 40, -245))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    ipc.update(pose)
+    time.sleep(0.01)
+time.sleep(0.1)
+# endanimation
+# play_animation("ende_schritt2", ipc)
+ipc.update(pose)
+task.perform(root, end_joint, [(1, 0, 0), np.array((-20, 60, -305))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(1)
+
+---------------------------------
+Armanimationen beachten:
+------------------------
+
+Test/Beispiel:
+robot.update(ipc.get_pose()); robot.set_angles_to_pose(pose); pose.l_shoulder_pitch.speed = 40; pose.l_shoulder_pitch.goal = 80; ipc.update(pose); time.sleep(1)
+
+#Frame 4 (Tritt)
+pose.l_shoulder_pitch.goal = 61.69921875
+pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -0.703125
+pose.r_knee.goal = 55.283203125
+pose.r_ankle_roll.goal = -9.4921875
+pose.r_ankle_pitch.goal = 27.421875
+pose.r_hip_pitch.goal = -40.517578125
+pose.r_shoulder_pitch.goal = -15.64453125
+pose.r_shoulder_roll.goal = 0
+pose.r_elbow.goal = 49.39453125
+
+#Frame 5 (Halb zurück)
+pose.l_shoulder_pitch.goal = 47.021484375
+pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -29.970703125
+pose.r_knee.goal = 55.283203125
+pose.r_ankle_roll.goal = -7.734375, 
+pose.r_ankle_pitch.goal = 29.970703125,
+pose.r_hip_pitch.goal = -36.123046875
+pose.r_shoulder_pitch.goal = -42.01171875
+pose.r_shoulder_roll.goal = 0
+pose.r_elbow.goal = 28.916015625
+
+#speed
+pose.l_shoulder_pitch.speed = 0
+pose.l_shoulder_roll.speed = 0
+pose.l_elbow.speed = 0
+pose.r_knee.speed = 0
+pose.r_ankle_roll.speed = 0
+pose.r_ankle_pitch.speed = 0
+pose.r_hip_pitch.speed = 0
+pose.r_shoulder_pitch.speed = 0
+pose.r_shoulder_roll.speed = 0
+pose.r_elbow.speed = 0
+
+
+|Eingebaut:|
+play_animation("start_kick2", ipc)
+time.sleep(0.77)
+robot.update(ipc.get_pose())
+task.perform(root, end_joint, [(1, 0, 0), np.array((0, 40, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+time.sleep(0.1)
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 40, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+# Winkel
+pose.l_shoulder_pitch.goal = 61.69921875
+pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -0.703125
+pose.r_knee.goal = 55.283203125
+pose.r_ankle_roll.goal = -9.4921875
+pose.r_ankle_pitch.goal = 27.421875
+pose.r_hip_pitch.goal = -40.517578125
+pose.r_shoulder_pitch.goal = -15.64453125
+pose.r_shoulder_roll.goal = 0
+pose.r_elbow.goal = 49.39453125
+# Winkel
+ipc.update(pose)
+time.sleep(0.15)
+play_animation("end_kick", ipc)
+time.sleep(1)
+play_animation("walkready", ipc)
+time.sleep(3)
+
+------------------------------------
+Skrip mit neuen Wartefunktionen
+--------------------------------
+|Alt, funktioniert:|
+if var == 0 :
+    #Gerader Tritt mit schlauen Wartezeiten (funktioniert nicht, Endlosschleife):
+    #play_animation("walkready", ipc)
+    #time.sleep(3)
+    play("walkready", ipc)
+    #play_animation("walkready", ipc)
+    
+    time.sleep(2)
+    play("start_kick2", ipc)
+    time.sleep(0.77)
+    #robot.update(ipc.get_pose())
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    #robot.set_angles_to_pose(pose)
+    #ipc.update(pose)
+    time.sleep(0.1)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    ipc.update(pose)
+    time.sleep(0.15)
+    play("end_kick", ipc)
+    time.sleep(1)
+    play("walkready", ipc)
+    time.sleep(2)
+else:
+    play("walkready", ipc)
+    time.sleep(2)
+    play("start_kick2", ipc)
+    time.sleep(0.77)
+    robot.update(ipc.get_pose())
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    ipc.update(pose)
+    time.sleep(0.1)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    # Winkel
+    pose.l_shoulder_pitch.goal = 61.69921875
+    pose.l_shoulder_roll.goal = 0
+    pose.l_elbow.goal = -0.703125
+    pose.r_knee.goal = 55.283203125
+    pose.r_ankle_roll.goal = -9.4921875
+    pose.r_ankle_pitch.goal = 27.421875
+    pose.r_hip_pitch.goal = -40.517578125
+    pose.r_shoulder_pitch.goal = -15.64453125
+    pose.r_shoulder_roll.goal = 0
+    pose.r_elbow.goal = 49.39453125
+    # Winkel
+    ipc.update(pose)
+    time.sleep(0.15)
+    play("end_kick", ipc)
+    time.sleep(1)
+    play("walkready", ipc)
+    time.sleep(2)
+
+||||||||||||||||||||||||||||||||||||||
+
+|So sollte es sein, funktioniert aber nicht:|
+if var == 0 :
+    play("walkready", ipc)
+    #time.sleep(2)
+    play("start_kick2", ipc)
+    #time.sleep(0.77)
+    #robot.update(ipc.get_pose())
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    #robot.set_angles_to_pose(pose)
+    #ipc.update(pose)
+    #time.sleep(0.1)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    #robot.set_angles_to_pose(pose)
+    #ipc.update(pose)
+    #time.sleep(0.15)
+    play("end_kick", ipc)
+    #time.sleep(1)
+    play("walkready", ipc)
+    #time.sleep(2)
+else:
+    play("walkready", ipc)
+    play("start_kick2", ipc)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    #statt end_kinematic
+    robot.set_angles_to_pose(pose)
+    # Winkel
+    pose.l_shoulder_pitch.goal = 61.69921875
+    pose.l_shoulder_roll.goal = 0
+    pose.l_elbow.goal = -0.703125
+    pose.r_knee.goal = 55.283203125
+    pose.r_ankle_roll.goal = -9.4921875
+    pose.r_ankle_pitch.goal = 27.421875
+    pose.r_hip_pitch.goal = -40.517578125
+    pose.r_shoulder_pitch.goal = -15.64453125
+    pose.r_shoulder_roll.goal = 0
+    pose.r_elbow.goal = 49.39453125
+    # Winkel
+    ipc.update(pose)
+    play("end_kick", ipc)
+    play("walkready", ipc)
+
+-------------------------------------------------------
+Freitag
+---------------
+| Neu und funktioniert: |
+
+#Normal, ohne Arme
+if var == 0 :
+    play("walkready", ipc)
+    play("start_kick2", ipc)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    play("end_kick", ipc)
+    play("walkready", ipc)
+#Mit Armbewegungen aus Frame 4
+else:
+    play("walkready", ipc)
+    play("start_kick2", ipc)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((0, y1, -280))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    end_kinematic(robot, ipc, pose)
+    start_kinematic(robot, ipc)
+    task.perform(root, end_joint, [(1, 0, 0), np.array((x, y2, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+    robot.set_angles_to_pose(pose)
+    # Winkel
+    pose.l_shoulder_pitch.goal = 61.69921875
+    pose.l_shoulder_roll.goal = 0
+    pose.l_elbow.goal = -0.703125
+    pose.r_knee.goal = 55.283203125
+    pose.r_ankle_roll.goal = -9.4921875
+    pose.r_ankle_pitch.goal = 27.421875
+    pose.r_hip_pitch.goal = -40.517578125
+    pose.r_shoulder_pitch.goal = -15.64453125
+    pose.r_shoulder_roll.goal = 0
+    pose.r_elbow.goal = 49.39453125
+    # Winkel
+    ipc.update(pose)
+    play("end_kick", ipc)
+    play("walkready", ipc)
+
+
+-----------------------
+robot.update(ipc.get_pose())
+robot.set_angles_to_pose(pose)
+pose.l_shoulder_pitch.goal = 61.69921875
+pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -0.703125
+pose.r_knee.goal = 55.283203125
+pose.r_ankle_roll.goal = -9.4921875
+pose.r_ankle_pitch.goal = 27.421875
+pose.r_hip_pitch.goal = -40.517578125
+pose.r_shoulder_pitch.goal = -15.64453125
+pose.r_shoulder_roll.goal = 0
+pose.r_elbow.goal = 49.39453125
+ipc.update(pose)
+time.sleep(1)
+
+robot.update(ipc.get_pose())
+robot.set_angles_to_pose(pose)
+pose.l_shoulder_pitch.goal = 61.69921875
+pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -0.703125
+pose.r_knee.goal = 55.283203125
+pose.r_ankle_roll.goal = -9.4921875
+pose.r_ankle_pitch.goal = 27.421875
+pose.r_hip_pitch.goal = -40.517578125
+pose.r_shoulder_pitch.goal = -10.64453125
+pose.r_shoulder_roll.goal = 10
+pose.r_elbow.goal = -10.39453125
+ipc.update(pose)
+time.sleep(1)
+
+robot.update(ipc.get_pose())
+robot.set_angles_to_pose(pose)
+pose.l_shoulder_pitch.goal = 61.69921875
+#pose.l_shoulder_roll.goal = 0
+pose.l_elbow.goal = -49.921875
+pose.r_knee.goal = 29.794921875
+pose.r_ankle_roll.goal = -9.4921875
+pose.r_ankle_pitch.goal = -22.32421875
+pose.r_hip_yaw.goal = 0.17578125
+pose.r_hip_pitch.goal = -77.6953125
+pose.r_hip_roll.goal = 6.591796875
+pose.r_shoulder_pitch.goal = -62.2265625
+#pose.r_shoulder_roll.goal = 0
+pose.r_elbow.goal = 0.17578125
+ipc.update(pose)
+time.sleep(1)
+
+
+play_animation("walkready", ipc)
+
+
+..........
+end_kick : Frame 1: Pause = 0.1
+wird in record nicht richtig angezeigt
+..........
+
+
+---------------
+Kamera Ballpositionen
+-----------------------
+direkt vor dem linken Fuß: u = 45, v = 60
+vor rechts: u = 60, v =-40
+
+links außen: u = 40, v = 130-140
+
+wie weit?: 107
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+Zweite Woche
+---------------------------------------------------
+---------------------------------------------------
+Kann gelöscht werden:
+left-kick-script
+right-kick-script
+Debug Kram rausnehemn
+
+Kopf drehen
+20: -74
+
+Versuch, Fuß zu drehen:
+
+ipc.update(pose)
+robot.update(self.ipc.get_pose())
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 40, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+
+ipc.update(pose)
+robot.update(ipc.get_pose())
+task.perform(root, end_joint, [(1, 0, 0), np.array((140, 40, -240))], (1e-2, 1), (0, 3), 100, angle_task_joints, ignore_joints)
+pose.l_hip_yaw.goal = 10
+robot.set_angles_to_pose(pose)
+ipc.update(pose)
+
+-> Wird nichts!
+
+----------------------------
+Mit Glados funktioniert es auch gut
+
+----------------------------------------
+||||||||||||||||||||||||||||||||||||||
+Dynamische Einwerfen
+||||||||||||||||||||||||||||||||||||||
+-----------------------------------------
+
+Speed:
+pose.head_pan.speed = 90
+pose.head_tilt.speed = 90
+pose.l_ankle_pitch.speed = 90
+pose.l_ankle_roll.speed = 90
+pose.l_elbow.speed = 90
+pose.l_hip_pitch.speed = 90
+pose.l_hip_roll.speed = 90
+pose.l_hip_yaw.speed = 90
+pose.l_knee.speed = 90
+pose.l_shoulder_pitch.speed = 90
+pose.l_shoulder_roll.speed = 90
+pose.r_ankle_pitch.speed = 90
+pose.r_ankle_roll.speed = 90
+pose.r_elbow.speed = 90
+pose.r_hip_pitch.speed = 90
+pose.r_hip_roll.speed = 90
+pose.r_hip_yaw.speed = 90
+pose.r_knee.speed = 90
+pose.r_shoulder_pitch.speed = 90
+pose.r_shoulder_roll.speed = 90
+
+Frame 1:
+pose.head_pan.goal = 0.176
+pose.head_tilt.goal = 0.0
+pose.l_ankle_pitch.goal = 24.17
+pose.l_ankle_roll.goal = -3.516
+pose.l_elbow.goal = 64.375
+pose.l_hip_pitch.goal = 96.855
+pose.l_hip_roll.goal = -1.758
+pose.l_hip_yaw.goal = -0.879
+pose.l_knee.goal = 2.197
+pose.l_shoulder_pitch.goal = -90.527
+pose.l_shoulder_roll.goal = 25.0
+pose.r_ankle_pitch.goal = -24.609
+pose.r_ankle_roll.goal = 0.0
+pose.r_elbow.goal = -61.191
+pose.r_hip_pitch.goal = -100.635
+pose.r_hip_roll.goal = 6.768
+pose.r_hip_yaw.goal = -0.264
+pose.r_knee.goal = -4.746
+pose.r_shoulder_pitch.goal = 85.254
+pose.r_shoulder_roll.goal = -25.0
+
+Frame 2:
+pose.head_pan.goal = -0.439
+pose.head_tilt.goal = 0.0
+pose.l_ankle_pitch.goal = 20.215
+pose.l_ankle_roll.goal = -2.812
+pose.l_elbow.goal = 80.508
+pose.l_hip_pitch.goal = 96.943
+pose.l_hip_roll.goal = -1.758
+pose.l_hip_yaw.goal = -0.879
+pose.l_knee.goal = 2.197
+pose.l_shoulder_pitch.goal = -120.428
+pose.l_shoulder_roll.goal = 30.562
+pose.r_ankle_pitch.goal = -19.775
+pose.r_ankle_roll.goal = 0.0
+pose.r_elbow.goal = -80.723
+pose.r_hip_pitch.goal = -100.635
+pose.r_hip_roll.goal = 4.57
+pose.r_hip_yaw.goal = -0.264
+pose.r_knee.goal = -4.746
+pose.r_shoulder_pitch.goal = 120.354
+pose.r_shoulder_roll.goal = -30.0
+
+Frame 3:
+pose.head_pan.goal = -0.35
+pose.head_tilt.goal = 0.0
+pose.l_ankle_pitch.goal = 18.215
+pose.l_ankle_roll.goal = -2.812
+pose.l_elbow.goal = 80.508
+pose.l_hip_pitch.goal = 96.943
+pose.l_hip_roll.goal = -1.758
+pose.l_hip_yaw.goal = -1.279
+pose.l_knee.goal = 2.597
+pose.l_shoulder_pitch.goal = -120.428
+pose.l_shoulder_roll.goal = 37.062
+pose.r_ankle_pitch.goal = -16.775
+pose.r_ankle_roll.goal = 0.7
+pose.r_elbow.goal = -80.723
+pose.r_hip_pitch.goal = -100.635
+pose.r_hip_roll.goal = 5.07
+pose.r_hip_yaw.goal = -0.964
+pose.r_knee.goal = -4.746
+pose.r_shoulder_pitch.goal = 120.354
+pose.r_shoulder_roll.goal = -37.0
+
+
+| Bewegungsablauf: |
+
+play_animation("walkready_haende", ipc)
+time.sleep(4)
+play_animation("einwurf_init", ipc)
+time.sleep(1)
+#----------------
+pose.head_pan.speed = 90
+pose.head_tilt.speed = 90
+pose.l_ankle_pitch.speed = 90
+pose.l_ankle_roll.speed = 90
+pose.l_elbow.speed = 90
+pose.l_hip_pitch.speed = 90
+pose.l_hip_roll.speed = 90
+pose.l_hip_yaw.speed = 90
+pose.l_knee.speed = 90
+pose.l_shoulder_pitch.speed = 90
+pose.l_shoulder_roll.speed = 90
+pose.r_ankle_pitch.speed = 90
+pose.r_ankle_roll.speed = 90
+pose.r_elbow.speed = 90
+pose.r_hip_pitch.speed = 90
+pose.r_hip_roll.speed = 90
+pose.r_hip_yaw.speed = 90
+pose.r_knee.speed = 90
+pose.r_shoulder_pitch.speed = 90
+pose.r_shoulder_roll.speed = 90
+#-----------------------------
+pose.head_pan.goal = -0.439
+pose.head_tilt.goal = 0.0
+pose.l_ankle_pitch.goal = 20.215
+pose.l_ankle_roll.goal = -2.812
+pose.l_elbow.goal = 80.508
+pose.l_hip_pitch.goal = 96.943
+pose.l_hip_roll.goal = -1.758
+pose.l_hip_yaw.goal = -0.879
+pose.l_knee.goal = 2.197
+pose.l_shoulder_pitch.goal = -120.428
+pose.l_shoulder_roll.goal = 30.562
+pose.r_ankle_pitch.goal = -19.775
+pose.r_ankle_roll.goal = 0.0
+pose.r_elbow.goal = -80.723
+pose.r_hip_pitch.goal = -100.635
+pose.r_hip_roll.goal = 4.57
+pose.r_hip_yaw.goal = -0.264
+pose.r_knee.goal = -4.746
+pose.r_shoulder_pitch.goal = 120.354
+pose.r_shoulder_roll.goal = -30.0
+ipc.update(pose)
+time.sleep(0.75)
+#------------------------------
+pose.head_pan.goal = -0.35
+pose.head_tilt.goal = 0.0
+pose.l_ankle_pitch.goal = 18.215
+pose.l_ankle_roll.goal = -2.812
+pose.l_elbow.goal = 80.508
+pose.l_hip_pitch.goal = 96.943
+pose.l_hip_roll.goal = -1.758
+pose.l_hip_yaw.goal = -1.279
+pose.l_knee.goal = 2.597
+pose.l_shoulder_pitch.goal = -120.428
+pose.l_shoulder_roll.goal = 37.062
+pose.r_ankle_pitch.goal = -16.775
+pose.r_ankle_roll.goal = 0.7
+pose.r_elbow.goal = -80.723
+pose.r_hip_pitch.goal = -100.635
+pose.r_hip_roll.goal = 5.07
+pose.r_hip_yaw.goal = -0.964
+pose.r_knee.goal = -4.746
+pose.r_shoulder_pitch.goal = 120.354
+pose.r_shoulder_roll.goal = -37.0
+ipc.update(pose)
+time.sleep(0.75)
+#-------------------
+play_animation("einwurf_ende", ipc)
+time.sleep(2)
+play_animation("walkready_haende", ipc)
+time.sleep(4)
+
+
+-----------------------------------------
+
+-----------------------------------------
+
+Winkel: Von 90 bis 120
+Bereich: 60 bis 130
+
+-----------------------------------
+||||||||||||||||||||||||||||||||||<
+------------------------------------
+
+Anderer Kram
+-------------------------------------
+
+from bitbots.util.speaker import say, get_config
+
+say("Test Hello")
+
+/motionserver/front-up-fix-zmp.json
+Beste Aufstehanimation auch für wheatly
+
+/animations/throwball_go2014
+ausprobieren
+
+
+
+---------------------------
+----------------------------------
+-------------------------------------
+---------------------------------------
+---------------------------
+----------------------------------
+-------------------------------------
+---------------------------------------
+---------------------------
+----------------------------------
+-------------------------------------
+---------------------------------------
+---------------------------
+----------------------------------
+-------------------------------------
+---------------------------------------
+
+Präsentation:
+- Aufgabe und Ziel: Schuss nach vorne unabhängig von der Ballposition
+- Motivation: hinlaufen ist ungenau
+- Aber: Vorne Hinten macht nicht wirklich Sinn, also nur links-rechts
+- Erstmal auf einen Fuß/Bein konzentriert
+- komplett auf ein Bein stellen war nicht praktikabel
+- normalen schuss (lk_wheatly zeigen)
+- Idee: ^ aufteilen in start, dynamische Mitte, ende
+- mitte mit inverser Kinematik, erklären
+- Vorführung des Moduls
+- 2 Positionen, abhängig von Parameter
+- Je nach Ballposition wird die Seite entschieden, dann umwandung in Parameter
+- Verbesserungen: Fuß bleibt gerade (Robert), arme bewegen sich mit
+--
+- Aufgabe Ziel: Einwurf; beim Aufheben Arme an Ballposition anpassen
+- Weil Challenge: hinlaufen ist immer noch ungenau
+- Modul vorführen, erklären
+- Ähnliches Prinzip wie Schuss, Anfang, dynamische Mitte, Ende
+- Aber keine inverse Kinematik, sonder Winkel in der Schulter
+- Wir haben die alten Animationen verbessert: stabiler
+- Außerdem: bricht ab ohne Ball
+- das funktioniert mit Pixelanzahl, bis jetzt keine Fehlentscheidungen
+--
+- Dabei haben wir zwei Skripte geschrieben
+- 1. animationen spiegeln, das war beim Kick hilfreich
+- 2. symmetrisch machen, das war beim Wurf hilfreich
+- Vorführen: Animation mit 2 Frames aufnehmen (record)
+- spiegeln ausführen, vorführen
+- erklären
+- symmetisch vorführen
+- erklären
+
+
+
+
+---------------------------
+----------------------------------
+-------------------------------------
+---------------------------------------
+
+
+
+
+
+

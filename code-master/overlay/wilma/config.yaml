@@ -1,0 +1,23 @@
+"PLAYER" : 5
+"hands" : false
+#"HipPitch": 12
+"NEW_CAMERA_INVERTED_PICTURE": true
+animations:
+#    "bottom-up" : "bottom-up-zmp-tamara"
+    motion:
+        torjubel : "wave"
+        front-up : "front-up-fiona-2015-go"
+        bottom-up : "bottom_up_rollover_2015_go"
+"ZMPConfig":
+    Darwin:
+        "Parameter":
+            "footX": 0.010
+        "HipPitch": 20
+"JointOverride":
+ - name: "Camera"
+   id: 31
+   transform: [0, 0, 0]
+   rpy: [0, -15, 0]
+   comment: "The local and global koordinate system are equal"
+   mass_offsets:
+     Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }

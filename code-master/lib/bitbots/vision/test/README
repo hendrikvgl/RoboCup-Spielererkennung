@@ -1,0 +1,22 @@
+@author: Robert 26.01.2014
+
+Dies ist ein Test zum Profilen der Vision bezüglich der internen
+Methodenaufrufe und Ausführungszeiten. Dieses Modul wird nicht mit
+dem restlichen Projekt gebaut, da dies ein weiteres Kompilieren der
+Vision mit sich zieht. Diese Entscheidung, das ganze seperat zu
+anzulegen, habe ich getroffen, da es mit nicht möglich war ein
+Shared Object mit gprof zu profilen.
+
+Die ausführbare Datei heißt test und nimmt die Parameter über stdin.
+Bei Angabe einer negativen Iterationszahl wird versucht ein Bild zu laden.
+Ansonsten wird mit einem Mock geprofiled.
+
+Unter tools/yuv2png gibt es eine .java Datei, die man kompilieren kann.
+Das resultierende Programm kann dann die .gz Bilder der Vision in PNG's
+konvertieren.
+
+Das Makefile ist bewusst mit vielen Variablen ausgestattet, so dass über
+"make -e" diverse Kompileroptionen gesetzt werden, ohne das Makefile
+anzupassen.
+
+Es liegt noch ein Skript bei, das ein exemplarisches Profiling durchführt.

@@ -1,0 +1,37 @@
+{
+    "author": "Anne-Victoria Meyer, Benjamin Scholz, Tim Dobert", 
+    "description": "Startanimation für den dynamschen Einwurf", 
+    "hostname": "wheatley", 
+    "keyframes": [
+        {
+            "duration": "1.000", 
+            "goals": {
+                "HeadPan": 0.0, 
+                "HeadTilt": 0.0, 
+                "LAnklePitch": 24.0, 
+                "LAnkleRoll": 0.0, 
+                "LElbow": 64.0, 
+                "LHipPitch": 100.0, 
+                "LHipRoll": 0.0, 
+                "LHipYaw": 0.0, 
+                "LKnee": 0.0, 
+                "LShoulderPitch": -90.0, 
+                "LShoulderRoll": 20.0, 
+                "RAnklePitch": -24.0, 
+                "RAnkleRoll": 0.0, 
+                "RElbow": -64.0, 
+                "RHipPitch": -100.0, 
+                "RHipRoll": 0.0, 
+                "RHipYaw": 0.0, 
+                "RKnee": 0.0, 
+                "RShoulderPitch": 90.0, 
+                "RShoulderRoll": -20.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "2014-08-26 14:14:51.460416", 
+    "name": "einwurf_init2", 
+    "version": 6
+}

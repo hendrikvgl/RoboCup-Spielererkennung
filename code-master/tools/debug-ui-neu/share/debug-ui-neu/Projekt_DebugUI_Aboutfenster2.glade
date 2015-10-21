@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.24"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="Aboutfenster">
+    <property name="width_request">738</property>
+    <property name="height_request">637</property>
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Aboutfenster</property>
+    <child>
+      <object class="GtkFrame" id="frame1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="border_width">10</property>
+        <property name="label_xalign">0</property>
+        <property name="shadow_type">none</property>
+        <child>
+          <object class="GtkVBox" id="vbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="label2">
+                <property name="height_request">40</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Debug-UI</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="absolute-size" value="29000"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label3">
+                <property name="height_request">46</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="scrolledwindow1">
+                <property name="height_request">264</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkViewport" id="viewport1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Hilfe:
+Diese UI wurde speziell für die Arbeit mit den Darwin-Robotern
+ entwickelt und ermöglicht über verschiedene Ansichten (Views)
+ das Ablesen der unterschiedlichen vom Roboter gesendeten 
+Daten. 
+Untenstehend finden sich Erläuterungen zu den Einzelnen 
+Views und ihren jeweils zugehörigen Funktionen
+
+Hauptfenster
+Dieses Fenster wird zum Programmstart angezeigt und umfasst alle Views und bietet
+ Zugriff auf weitere Funktionen.
+
+Die Menüleiste am oberen Fensterrand enthält folgende Menüpunkte:
+
+Ansicht
+Enthält Funktionen zum Schließen der GUI. 
+
+Hilfe
+Beinhaltet die Hilfefunktion
+
+Alle Views innerhalb des Hauptfensters enthalten Buttons, die es ermöglichen,
+die Views in einem separaten Fenster darzustellen.
+
+Roboterauswahl
+Ermöglicht das Auslesen von Daten der an die UI angeschlossenen Roboter. Die Informationen
+ sind hierbei in einer Baumansicht angeordnet. Mit Rechtsklick auf die Baumansicht lässt sich
+ diese auf- oder einklappen und kontextabhängig lassen sich außerdem zbs. die Imageview und die
+ TVE-View öffnen
+
+Nachrichtenverlauf
+In dieser Ansicht werden alle Meldungen, die von den Robotern an die GUI geschickt werden, angezeigt. 
+Die Nachrichten enthalten hierbei den Scope, eine Art Adresse, von der aus sie verschickt werden. 
+An erster bzw. oberster Stelle wird der sendende Roboter aufgeführt. Dahinter wird, ähnlich wie in
+ der Baumstruktur der Roboterauswahl,
+ die Kategorie angegeben, zu der die Nachricht gehört, gegebenenfalls gefolgt von der zugehörigen
+ Unterkategorie. 
+Eine solche Nachricht hat beispielsweise folgenden Scope: „glados::Module.CameraModule“.
+Über eine Option im Oberen Bereich der Ansicht kann eingestellt werden,
+ ob die Nachrichten mitgescrollt werden sollen.
+
+Das unter dem oberen Nachrichtenfenster gelegene Nachichtenfeld ist ausschließlich für Warnmeldungen 
+vorgesehen. Diese sind in beiden Ansichten sichtbar und zur besseren Unterscheidung in roter Schrift.
+
+Nachrichtenfilter
+Ermöglicht die ausschließliche Anzeige der Nachrichten, die den Text enthalten, der in das Filterfenster
+ eingegeben wurde.
+
+Motorview
+In dieser Ansicht werden alle Motoren des Roboters inklusive der an ihnen gemessenen Temperatur
+ dargestellt.
+
+Batterieansicht
+Zeigt den Ladestand des Akkus des ausgewählten Roboters an.
+
+Fehleranzeige
+Zeigt die vom Roboter erfassten Fehler dar. Bietet eine Funktion zum Mitscrollen der Fehlermeldungen.
+
+Imageview
+Zeigt das Kamerabild des ausgewählten Roboters. Die Auswahl des Roboters erfolgt über Tabs oben in der
+ Ansicht.
+
+Stateview
+Zeigt den Verhaltenszustand des Roboters. Die Auswahl des Roboters erfolgt über Tabs oben in der Ansicht.
+
+Fehlermeldungsfenster
+Informiert über aufgetretenden Fehler und macht auf ihn aufmerksam.</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHSeparator" id="hseparator1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHButtonBox" id="hbuttonbox1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="layout_style">end</property>
+                <child>
+                  <object class="GtkButton" id="buttonAboutfensterSchließen">
+                    <property name="label" translatable="yes">Schließen</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <signal name="clicked" handler="on_buttonAboutfensterSchliessen_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child type="label">
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="use_markup">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

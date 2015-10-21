@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+#bitbots.util.Config.DO_NOT_LOAD_HOME_CONFIG = True
+from bitbots.util.config import get_config
+from bitbots.util import find_resource
+import yaml
+
+config = get_config()
+
+with open(find_resource("config.yaml"), 'w') as fp:
+    fp.write(yaml.dump(config, default_flow_style=False))

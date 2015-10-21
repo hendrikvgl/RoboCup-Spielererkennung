@@ -1,0 +1,98 @@
+# General Configuration Options
+"TEAM": 8
+"PLAYER": 99
+"ADDRESS": ["0.0.0.0", 3838]
+"SPEAK": true
+"USE_GYRO": true
+"TEAM_IP": "192.168.108.255"
+
+
+# motors steht jetzt in darwin.yaml und Hambot.yaml
+
+
+#Setzen der PID register im MX28 Ram
+"setMXRam": true
+"setMXRom": true
+
+
+#ZMPWalkingParameter
+#changed by me(Dennis) from FORWARD 300.0 SIDEWARD 100.0 ANGLE -200.0
+"ZMPConfig": !include config/zmpwalk
+"falling": !include config/falling
+"dynamic_animation": true
+
+# Teamkomunikation
+"mitecom": !include config/mitecom
+
+# Walking Parameter
+#initialwert
+"HipPitch": 15
+# momentan deaktiviert
+"WalkCorrectHeight" : 6
+# momentan deaktiviert
+"WalkCorrectLow" : 1
+# momentan deaktiviert
+"WalkCorrection" : 4
+# automatische HipPitch Correction beim hinfallen
+"HipPitchCorrection": false
+# ob die Arme benutzt werden (empfelung: false)
+"walking.armsOff" : false
+# ob der Hip Pitch von außerhalb der Walking beinflusst werden kann
+"Walking.ManualHipPitch" : true
+
+# Augen unterdrücken
+"EyesOff": false
+# Penalty durch augen signalisieren? (Auch bei EysOff=true!)
+"EyesPenalty": true
+
+vision: !include config/vision
+
+#ob der Roboter Hände hat (4 Zusätzliche Motoren)
+"hands": false
+
+# ob das nice Modul aktiviert sein soll
+"nice": true
+
+# Animations
+animations: !include config/animations
+
+"joints" : !include config/joints
+"mx28config": !include config/mx28config
+
+# Die Behaviour Config
+"Behaviour": !include config/behaviour
+
+"MODULES" :
+    "TeamDataReasoning" :
+        # The Value for u (BallInfo) up to which the Ball is Matched as beeing in own half
+        "BALL_DISTANCE_FOR_OWN_HALF" : 2.5
+
+
+# Configuration for Audio Processing
+"AUDIO" :             !include config/audio
+
+"speaker": !include config/speaker
+
+#Optionen für die Neuimlementation der Kinematik
+"Darwin" : !include config/darwin
+"Hambot" : !include config/Hambot
+"Minibot" : !include config/minibot
+"RobotTypeName": "Darwin"
+"JointOverride": !include config/joint_specialization
+#Record-Script Options
+"Record" : !include config/record
+
+#Debug UI Configuration
+"debugui" : !include config/debugui
+
+#Toggels eingebaut um features über die Config toggels zu können.
+"Toggels":
+    #Testweise die Beine Manipulieren um bei Sicher stehend aufgenommenden Testbildern die Kinematiks zu prüfen
+    "LegManipulation": false
+#Ob der Locator mitläuft oder nicht
+    "Location": true
+    use_filtered_goals: false
+
+field: !include config/field
+  
+getting-up-angles: !include config/getting-up-angles

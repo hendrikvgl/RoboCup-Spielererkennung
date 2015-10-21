@@ -1,0 +1,72 @@
+{
+  "author": "Unknown", 
+  "description": "Edit me!", 
+  "hostname": "fiona", 
+  "keyframes": [
+    {
+      "duration": "1.000",
+      "goals": {
+        "HeadPan": -0.527,
+        "HeadTilt": 0.0,
+        "LAnklePitch": -87.803,
+        "LAnkleRoll": -1.0,
+        "LElbow": 93.428,
+        "LElbowRoll": 0.0,
+        "LHand": 0.0,
+        "LHipPitch": 30.0,
+        "LHipRoll": -1.088,
+        "LHipYaw": -1.582,
+        "LKnee": -130.0,
+        "LShoulderPitch": 20.0,
+        "LShoulderRoll": 27.0,
+        "RAnklePitch": 88.682,
+        "RAnkleRoll": -1.0,
+        "RElbow": -80.684,
+        "RElbowRoll": 0.0,
+        "RHand": 0.0,
+        "RHipPitch": -30.0,
+        "RHipRoll": 0.219,
+        "RHipYaw": -0.967,
+        "RKnee": 130.0,
+        "RShoulderPitch": -20.0,
+        "RShoulderRoll": -30.387
+      },
+      "p": {},
+      "pause": "0.000"
+    },
+    {
+      "duration": "0.600",
+      "goals": {
+        "HeadPan": 0.0,
+        "HeadTilt": 0.0,
+        "LAnklePitch": -29.0,
+        "LAnkleRoll": 0.0,
+        "LElbow": -14.326,
+        "LElbowRoll": 0.0,
+        "LHand": 0.0,
+        "LHipPitch": 35.0,
+        "LHipRoll": 0.0,
+        "LHipYaw": 0.0,
+        "LKnee": -55.0,
+        "LShoulderPitch": 44.0,
+        "LShoulderRoll": 0.791,
+        "RAnklePitch": 29.0,
+        "RAnkleRoll": 0.0,
+        "RElbow": 14.326,
+        "RElbowRoll": 0.0,
+        "RHand": 0.0,
+        "RHipPitch": -35.0,
+        "RHipRoll": 0.0,
+        "RHipYaw": 0.0,
+        "RKnee": 55.0,
+        "RShoulderPitch": -44.0,
+        "RShoulderRoll": -1.143
+      },
+      "p": {},
+      "pause": "1.000"
+    }
+  ], 
+  "last_edited": "2015-07-18 05:21:43.429253", 
+  "name": "bottom-up-fiona-wm2015", 
+  "version": 14
+}

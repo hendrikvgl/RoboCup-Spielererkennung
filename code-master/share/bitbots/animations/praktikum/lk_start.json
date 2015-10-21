@@ -1,0 +1,85 @@
+{
+    "author": "Anne-Victoria Meyer, Benjamin Scholz, Tim Dobert", 
+    "description": "Startanimation für den dynamischen Schuss mit links", 
+    "hostname": "wheatley", 
+    "keyframes": [
+        {
+            "duration": "0.496", 
+            "goals": {
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": -0.791, 
+                "LElbow": -29.531, 
+                "LHipPitch": 36.123, 
+                "LHipRoll": -0.352, 
+                "LHipYaw": 0.0, 
+                "LKnee": -53.174, 
+                "LShoulderPitch": 0.0, 
+                "LShoulderRoll": 0.0, 
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": 0.791, 
+                "RElbow": 29.268, 
+                "RHipPitch": -36.123, 
+                "RHipRoll": 0.352, 
+                "RHipYaw": 0.0, 
+                "RKnee": 53.174, 
+                "RShoulderPitch": -48.34, 
+                "RShoulderRoll": -17.842
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }, 
+        {
+            "duration": "0.200", 
+            "goals": {
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": -15.908, 
+                "LElbow": -29.971, 
+                "LHipPitch": 36.123, 
+                "LHipRoll": -1.318, 
+                "LHipYaw": -0.703, 
+                "LKnee": -53.174, 
+                "LShoulderPitch": 55.811, 
+                "LShoulderRoll": 0.0, 
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": -9.492, 
+                "RElbow": 28.916, 
+                "RHipPitch": -36.123, 
+                "RHipRoll": -0.088, 
+                "RHipYaw": -0.703, 
+                "RKnee": 53.174, 
+                "RShoulderPitch": -33.223, 
+                "RShoulderRoll": 0.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }, 
+        {
+            "duration": "0.072", 
+            "goals": {
+                "LAnklePitch": -30.033, 
+                "LAnkleRoll": -15.908, 
+                "LElbow": -29.971, 
+                "LHipPitch": 53.525, 
+                "LHipRoll": -7.119, 
+                "LHipYaw": -0.703, 
+                "LKnee": -85.869, 
+                "LShoulderPitch": 55.811, 
+                "LShoulderRoll": 0.0, 
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": -9.492, 
+                "RElbow": 28.916, 
+                "RHipPitch": -44.912, 
+                "RHipRoll": 2.812, 
+                "RHipYaw": -0.703, 
+                "RKnee": 53.174, 
+                "RShoulderPitch": -33.223, 
+                "RShoulderRoll": 0.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "2014-08-19 15:36:16.795321", 
+    "name": "start_kick2", 
+    "version": 2
+}

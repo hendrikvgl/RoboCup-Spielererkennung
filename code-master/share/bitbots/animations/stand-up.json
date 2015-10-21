@@ -1,0 +1,32 @@
+{
+    "default_interpolator": "CatmullRomInterpolator",
+    "name": "stand-up",
+    "keyframes": [
+        {
+            "duration": 1.0,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 41.30859375,
+                "LShoulderRoll": 17.578125,
+                "RShoulderRoll": -17.841796875,
+                "HeadTilt": -35.0,
+                "LKnee": -52.55859375,
+                "RHipYaw": 0.0,
+                "LAnklePitch": -31.728515625,
+                "RKnee": 52.55859375,
+                "RAnkleRoll": 0.791015625,
+                "RAnklePitch": 31.728515625,
+                "LHipPitch": 34.1015625,
+                "LHipYaw": 0.0,
+                "LHipRoll": -0.3515625,
+                "RHipRoll": 0.3515625,
+                "LAnkleRoll": -0.791015625,
+                "LElbow": -29.53125,
+                "RElbow": 29.267578125,
+                "RHipPitch": -34.1015625,
+                "HeadPan": 0.0,
+                "RShoulderPitch": -48.33984375
+            }
+        }
+    ]
+}

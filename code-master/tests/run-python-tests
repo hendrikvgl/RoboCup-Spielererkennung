@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+# @author Sheepy
+# This is the script which handles the python testing
+#---
+# It is able to run single tests from the defined suites by classname.methodname
+# when provided as string argument
+# ---
+# If executed without parameter it looks through all the defined modules in
+# the `suites` list and searches for methods starting with `suites_` defining a suite.
+# It generates a HTML output which can be inspected and gives a rough overview.
+
+import os
+import sys
+
+from bitbots.testing.lib import handle_single_run
+from bitbots.testing.lib.bit_bots_test_runner import BitBotsTestRunner
+from bitbots.testing.lib.html_result_processor import BitBotsHtmlResultBuffer
+
+# Setting environmental variables for debug framework on own machine
+os.environ["DEBUG"] = "1"
+os.environ["DEBUG_HOST"] = "127.0.0.1"
+os.environ["DEBUG_PORT"] = "60445"
+
+os.environ["FORCE_SPEAKER_TO_BE_QUIET"] = "1"
+
+# Defining all the suites that should be included
+suites = [
+    "bitbots.testing.suites.default",
+    "bitbots.testing.suites.ExplanationSuite"
+]
+
+if __name__ == '__main__':
+    # Gather all the suites for the test run
+    # This is done by importing all given suites from above and aggregating
+    # all methods that start with suite_ which are later added to the test runner
+    suite_method_dict = {}
+    for suite_file in suites:
+        import_reference = __import__(suite_file)
+        suite_methods = [(k, v) for (k, v) in sys.modules[suite_file].__dict__.items() if k.startswith("suite_")]
+        suite_method_dict.update(suite_methods)
+
+    suites = [get_suite() for get_suite in suite_method_dict.values()]
+
+    # Handle the case that a specific test case was requested
+    if len(sys.argv) == 2:
+        # Get the parameter
+        test_to_call = sys.argv[1]
+        # Call the method which handles the test search and call
+        handle_single_run(test_to_call, suites)
+    else:
+        # Setup the HTML buffer for the results
+        # If necessary use duck typing to produce other output formats
+        html_result_buffer = BitBotsHtmlResultBuffer()
+
+        # Call all the methods to get the suites and sort by suite name
+        suites = sorted(suites, key=lambda x: x.short_name)
+
+        # Next: Actually run all suites and aggregate the results
+        for suite in suites:
+            # Execute the specific suite
+            bit_bots_test_result = BitBotsTestRunner(verbosity=2).run(suite)
+            html_result_buffer.add_test_results(suite, bit_bots_test_result)
+
+        # Write the resulting HTML
+        with open("test_result.html",'w') as result_file:
+            result_file.write(html_result_buffer.buffer)

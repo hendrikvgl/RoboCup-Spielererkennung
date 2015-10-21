@@ -1,0 +1,46 @@
+{
+    "author": "Unknown", 
+    "description": "Edit me!", 
+    "hostname": "wheatley", 
+    "keyframes": [
+        {
+            "duration": 1, 
+            "goals": {
+                "BellyPitch": 0.0, 
+                "BellyRoll": 0.0, 
+                "HeadPan": 0.52734375, 
+                "HeadTilt": 0.52734375, 
+                "LAnklePitch": -55.634765625, 
+                "LAnkleRoll": -2.197265625, 
+                "LElbow": 70.3125, 
+                "LElbowRoll": 0.0, 
+                "LHand": 0.0, 
+                "LHipPitch": 52.470703125, 
+                "LHipRoll": -2.8125, 
+                "LHipYaw": 0.263671875, 
+                "LKnee": -100.107421875, 
+                "LShoulderPitch": 0.52734375, 
+                "LShoulderRoll": 21.708984375, 
+                "LShoulderYaw": 0.0, 
+                "LToe": 0.0, 
+                "RAnklePitch": 54.228515625, 
+                "RAnkleRoll": 2.900390625, 
+                "RElbow": -69.43359375, 
+                "RElbowRoll": 0.0, 
+                "RHand": 0.0, 
+                "RHipPitch": -51.15234375, 
+                "RHipRoll": 3.779296875, 
+                "RHipYaw": 0.52734375, 
+                "RKnee": 100.546875, 
+                "RShoulderPitch": -0.263671875, 
+                "RShoulderRoll": -21.62109375, 
+                "RShoulderYaw": 0.0, 
+                "RToe": 0.0
+            }, 
+            "pause": 0.0
+        }
+    ], 
+    "last_edited": "2015-04-25 11:04:52.989170", 
+    "name": "walkready_zmp", 
+    "version": 2
+}

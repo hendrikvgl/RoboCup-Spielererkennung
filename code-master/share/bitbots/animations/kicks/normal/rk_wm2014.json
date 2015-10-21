@@ -1,0 +1,122 @@
+{
+    "author": "Unknown", 
+    "description": "Edit me!", 
+    "hostname": "fiona", 
+    "keyframes": [
+        {
+            "duration": 0.5, 
+            "goals": {
+                "RAnklePitch": 35.971, 
+                "RAnkleLoll": 13.623, 
+                "RHipPitch": -36.123, 
+                "RHipLoll": 0.791, 
+                "RHipYaw": 0.176, 
+                "RKnee": 45.559, 
+                "LAnklePitch": -29.971, 
+                "LAnkleLoll": 9.844, 
+                "LHipPitch": 36.123, 
+                "LHipLoll": 2.0, 
+                "LHipYaw": 0.176, 
+                "LKnee": -53.174
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.072, 
+            "goals": {
+                "RAnklePitch": 42.627, 
+                "RAnkleLoll": 13.623, 
+                "RHipPitch": -53.965, 
+                "RHipLoll": 6.592, 
+                "RHipYaw": 0.176, 
+                "RKnee": 85.43, 
+                "LAnklePitch": -29.971, 
+                "LAnkleLoll": 9.844, 
+                "LHipPitch": 47.9, 
+                "LHipLoll": -10.0, 
+                "LHipYaw": 0.176, 
+                "LKnee": -57.48
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": "0.000", 
+            "goals": {
+                "RAnklePitch": -22.324, 
+                "RAnkleLoll": 9.58, 
+                "RHipPitch": -77.695, 
+                "RHipLoll": 6.592, 
+                "RHipYaw": 0.176, 
+                "RKnee": 29.795, 
+                "LAnklePitch": -27.07, 
+                "LAnkleLoll": 6.943, 
+                "LHipPitch": 43.506, 
+                "LHipLoll": -5.34, 
+                "LHipYaw": 0.176, 
+                "LKnee": -55.723
+            }, 
+            "p": {}, 
+            "pause": "0.150"
+        }, 
+        {
+            "duration": "0.072", 
+            "goals": {
+                "RAnklePitch": 42.627, 
+                "RAnkleLoll": 13.623, 
+                "RHipPitch": -67.148, 
+                "RHipLoll": 6.592, 
+                "RHipYaw": 0.176, 
+                "RKnee": 85.43, 
+                "LAnklePitch": -29.355, 
+                "LAnkleLoll": 9.844, 
+                "LHipPitch": 42.627, 
+                "LHipLoll": -3.34, 
+                "LHipYaw": 0.176, 
+                "LKnee": -55.723
+            }, 
+            "p": {}, 
+            "pause": "0.150"
+        }, 
+        {
+            "duration": "0.112", 
+            "goals": {
+                "RAnklePitch": 29.971, 
+                "RAnkleLoll": 0.791, 
+                "RHipPitch": -36.123, 
+                "RHipLoll": 0.352, 
+                "RHipYaw": -0.0, 
+                "RKnee": 53.174, 
+                "LAnklePitch": -29.971, 
+                "LAnkleLoll": -0.791, 
+                "LHipPitch": 36.123, 
+                "LHipLoll": -0.352, 
+                "LHipYaw": -0.0, 
+                "LKnee": -53.174
+            }, 
+            "p": {}, 
+            "pause": "0.200"
+        }, 
+        {
+            "duration": "0.200", 
+            "goals": {
+                "RAnklePitch": 12.0, 
+                "RAnkleLoll": -0.6, 
+                "RHipPitch": -50.0, 
+                "RHipLoll": -0.6, 
+                "RHipYaw": 0.277, 
+                "RKnee": 38.0, 
+                "LAnklePitch": -12.0, 
+                "LAnkleLoll": 0.6, 
+                "LHipPitch": 50.0, 
+                "LHipLoll": -0.6, 
+                "LHipYaw": -0.277, 
+                "LKnee": -38.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "20140718 22:08:19.197223", 
+    "name": "lk_wm2014", 
+    "version": 1
+}

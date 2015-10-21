@@ -1,0 +1,229 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import os
+import sys
+import gzip
+import json
+import numpy
+import re
+
+from math import sqrt
+from PIL import Image
+
+"""
+This is the trainer for our image tagger to generate our colour masqs.
+The image tagger tags the images and produces an export.json file.
+Using this the colour config can be generated.
+Per defaut the image tagger and the trainer assume a resulution of
+1280x720. When your images have another resolution give it as an addional
+parameter e.g. --size=800x600 .
+Then the trainer should print out the successfully applied parameter.
+When there are further issues with the export.json file, try to get rid of
+the unused data executing the following shell command:
+sed -i -r 's/,."file":"[^"]*".,/,/g' export.json
+but better do this replacement using vim or any other editor
+
+The image tagger is not save to ensure, that all data boxes are kept inside
+the image range. This can cause problems with this trainer. You then need
+to fix these issues manually.
+"""
+
+def load_yuyv_frame(name, width, height):
+    fopen = gzip.GzipFile if name.endswith(".gz") else open
+    with fopen(name) as fp:
+        data = numpy.fromstring(fp.read(), dtype=numpy.uint8, count=width*height*2)
+        # Ist das die magische Zeile, die das Spiegeln an der x-Achse ausführt?
+        data = data.astype(numpy.float32).reshape((height, width*2))[::-1]
+
+    yuv = numpy.empty((height, width, 3), dtype=numpy.float32)
+    yuv[:,:,0] = data[:,::2]
+    yuv[:,0::2,1] = yuv[:,1::2,1] = data[:,1::4]
+    yuv[:,0::2,2] = yuv[:,1::2,2] = data[:,3::4]
+
+    return yuv
+
+def load_image_info_file(name):
+    with open(name) as fp:
+        infos = json.load(fp)
+
+    base = os.path.dirname(name)
+    entries = sorted(infos, key=lambda i: i["file"])
+    for entry in entries:
+        name = entry["file"]
+        if os.path.exists(name):
+            continue
+
+        name = os.path.join(base, name)
+        if os.path.exists(name):
+            entry["file"] = name
+            continue
+
+    return entries
+
+def mahalanobis(S, x):
+    return sqrt(numpy.dot(x.transpose(), numpy.dot(S, x)))
+
+def extract_circle(arr, x, y, radius):
+    xx, yy = numpy.meshgrid(range(-radius, radius), range(-radius, radius))
+
+    # Gültig Indices im Kreis
+    indices = (xx**2 + yy**2) <= (radius - 1)**2
+
+    # An die korrekte Position verschieben
+    xx += x
+    yy += y
+
+    # Werte zurückgeben
+    return arr[yy[indices], xx[indices]].transpose()
+
+def extract_rectangle(arr, x, y, width, height):
+    xx, yy = numpy.meshgrid(range(x, x+width), range(y, y+height))
+    return arr[yy.flatten(), xx.flatten()].transpose()
+
+def point_in_poly(xx, yy, xp, yp):
+    count = numpy.zeros(xx.shape, dtype=numpy.uint16)
+    for j in range(0, len(xp)):
+        i = (j + 1) % len(xp)
+        count += numpy.logical_and(
+            numpy.logical_or(
+                numpy.logical_and(yp[i] <= yy, yy < yp[j]),
+                numpy.logical_and(yp[j] <= yy, yy < yp[i])),
+            xx < (xp[j] - xp[i]) * (yy - yp[i]) / (yp[j] - yp[i]) + xp[i])
+
+    return count & 1 == 1
+
+def extract_polygon(arr, xp, yp):
+    height, width = arr.shape[:2]
+    xx, yy = numpy.meshgrid(range(width), range(height))
+    mask = point_in_poly(xx, yy, xp, yp)
+    return arr[yy[mask], xx[mask]].transpose()
+
+def main():
+    infos = []
+    begin = 1
+    width, height = 1280, 720
+    if re.match("^\-\-size=", sys.argv[1]):
+        def repl(m):
+            return m.groups(0)[0]
+        width, height = re.sub("^\-\-size=(\d+x\d+)", repl, sys.argv[1]).split("x")
+        width = int(width)
+        height = int(height)
+        print "Bildgröße ist: %d, %d" % (width, height)
+        begin  = 2
+
+    for infoname in sys.argv[begin:]:
+        infos.extend(load_image_info_file(infoname))
+
+    # Hier werden die Farbwerte für die einzelnen Objekte gesammelt
+    ball_yuv = []
+    field_line_yuv = []
+    carpet_yuv = []
+    cyan_team_marker_yuv = []
+    magenta_team_marker_yuv = []
+    yellow_goal_yuv = []
+
+    for idx, info in enumerate(infos):
+        name = info["file"]
+        try:
+            yuv = load_yuyv_frame(name, width, height)
+        except Exception:
+            print "Überspringe", name
+            continue
+
+        print "Bild %s (%d von %d) geladen" % (name, idx, len(infos))
+        if idx == 30:
+            test_image = yuv
+            continue
+
+        if "ball" in info and info["ball"].get("entirely-visible", False):
+            ball = info["ball"]
+            pixels = extract_circle(yuv, ball["x"], ball["y"], ball["radius"])
+            ball_yuv.append(pixels)
+
+        if "carpet" in info:
+            pixels = extract_rectangle(yuv, **info["carpet"])
+            carpet_yuv.append(pixels)
+
+        if "field-line" in info:
+            px = [p["x"] for p in info["field-line"]]
+            py = [p["y"] for p in info["field-line"]]
+            pixels = extract_polygon(yuv, px, py)
+            field_line_yuv.append(pixels)
+
+        if "cyan-team-marker" in info:
+            pixels = extract_rectangle(yuv, **info["cyan-team-marker"])
+            cyan_team_marker_yuv.append(pixels)
+
+        if "magenta-team-marker" in info:
+            pixels = extract_rectangle(yuv, **info["magenta-team-marker"])
+            magenta_team_marker_yuv.append(pixels)
+
+        if "yellow-goal-left" in info:
+            pixels = extract_rectangle(yuv, **info["yellow-goal-left"])
+            yellow_goal_yuv.append(pixels)
+
+        if "yellow-goal-right" in info:
+            pixels = extract_rectangle(yuv, **info["yellow-goal-right"])
+            yellow_goal_yuv.append(pixels)
+
+    hist_configs = (
+        ((0,), ball_yuv, "ball"),
+        ((1,), carpet_yuv, "carpet"),
+        ((0, 1, 2), field_line_yuv, "white"),
+        ((2,1), cyan_team_marker_yuv, "cyan"),
+        ((2,0), magenta_team_marker_yuv, "magenta"),
+        ((0, 1), yellow_goal_yuv, "yellow"),
+    )
+
+    cum_yu = numpy.zeros((256, 256, 3), dtype=numpy.float64)
+    cum_yv = numpy.zeros((256, 256, 3), dtype=numpy.float64)
+    cum_uv = numpy.zeros((256, 256, 3), dtype=numpy.float64)
+    for ch, yuvs_list, name in hist_configs:
+        yu = numpy.zeros((256, 256), dtype=numpy.float64)
+        yv = numpy.zeros((256, 256), dtype=numpy.float64)
+        uv = numpy.zeros((256, 256), dtype=numpy.float64)
+        for idx, yuvs in enumerate(yuvs_list):
+            print "Aktuell %d von %d verarbeitet" % (idx, len(yuvs_list))
+            for idx in xrange(yuvs.shape[1]):
+                y, u, v = yuvs[0:3, idx]
+                yu[y,u] += 1
+                yv[y,v] += 1
+                uv[u,v] += 1
+
+        for arr in (yu, yv, uv):
+            if arr.max() == 0:
+                continue
+
+            arr[1:-1,1:-1] += arr[:-2,1:-1] + arr[2:,1:-1] + arr[1:-1,2:] + arr[1:-1,:-2]
+
+            arr[:,:] = numpy.sqrt(arr)
+            arr[:,:] = arr > 0.04*arr.max()
+            arr *= 128 / arr.max()
+
+        hist = numpy.hstack((yu, yv, uv)).astype(numpy.uint8)
+        Image.fromarray(hist).save("%s.png" % name)
+
+        # In die richtigen Farbkanäle packen
+        for idx in ch:
+            cum_yu[:,:,idx] += yu
+            cum_yv[:,:,idx] += yv
+            cum_uv[:,:,idx] += uv
+
+    for arr in (cum_yu, cum_yv, cum_uv):
+        arr[arr > 255] = 255
+
+    hist = numpy.hstack((cum_yu, cum_yv, cum_uv))
+    Image.fromarray(hist.astype(numpy.uint8)).save("hist.png")
+
+    return
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        print "\033[1m An exception occured, maybe you find the solution", \
+                "in the comments in this file %s\033[0m" % sys.argv[0]
+        raise e
+
+

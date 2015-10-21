@@ -1,0 +1,37 @@
+{
+    "keyframes": [
+        {
+            "duration": 2.5,
+            "goals": {
+                "HeadPan": 10.1953125,
+                "HeadTilt": -50.0,
+                "LAnklePitch": -27.94921875,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -28.388671875,
+                "LElbowRoll": 2.28515625,
+                "LHand": 0.0,
+                "LHipPitch": 34.716796875,
+                "LHipRoll": 0.3515625,
+                "LHipYaw": 0.52734375,
+                "LKnee": -55.8984375,
+                "LShoulderPitch": 39.19921875,
+                "LShoulderRoll": 17.578125,
+                "RAnklePitch": 28.212890625,
+                "RAnkleRoll": 0.87890625,
+                "RElbow": 27.94921875,
+                "RElbowRoll": 0.3515625,
+                "RHand": 0.0,
+                "RHipPitch": -35.068359375,
+                "RHipRoll": -0.087890625,
+                "RHipYaw": -0.615234375,
+                "RKnee": 55.458984375,
+                "RShoulderPitch": -46.93359375,
+                "RShoulderRoll": -17.75390625
+            },
+            "pause": 0.5
+        }
+    ],
+    "name": "walkready_arms",
+    "discription": "Diese animation ist das walkready für Roboter mit händen, bringt ihn also in die Position die zum Laufen nötig ist.",
+    "hands": "yes"
+}

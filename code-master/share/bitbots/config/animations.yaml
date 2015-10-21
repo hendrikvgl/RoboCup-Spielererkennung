@@ -1,0 +1,30 @@
+motion:
+    walkready : "walkready_zmp-wm2014"
+    goalie-walkready: "goalie_walkready"
+    front-up : "aufrichten-anfang-front-tamara"
+    bottom-up : "aufrichten-anfang-bottom-tamara"
+    toSquat: "aufrichten-hocke-tamara"
+    stand-up: "aufrichten-ende-tamara"
+    penalized : "sit-down"
+    sit-down : "sit-down"
+    torjubel: "strike"
+kicks:
+    rk : "rk_wm2014_unstable"
+    lk : "lk_wm2014_unstable"
+    rko : "r-pass-wm2014"
+    lko : "l-pass-new-wm2014"
+    rkp : "rk_wm2014_unstable" #möglichst stark mit rechts schießen, auch wenn er hinfällt
+    lkp : "lk_wm2014_unstable" #möglichst stark mit links schießen, auch wenn er hinfällt
+    flk : "l-pass-wm2014-weak" #leichter kick nach links vorne
+    frk : "r-pass-wm2014-weak" #leichter kick nach rechts vorne
+    fflk : "lk_wm2014_weak" #leichter kick nach vorne mit linkem fuß
+    ffrk : "rk_wm2014_weak" #leichter kick nach vorne mit rechtem fuß
+
+goalie:
+    throw_left : "goalie_left2" #trowing of the goalie
+    throw_middle : "sit-down"
+    throw_right : "goalie_right3"
+    raiseBoth : "goalie_both_arms"
+    raiseLeft : "goalie_left_shoulder"
+    raiseRight: "goalie_right_shoulder"
+    raiseMiddle: "goalie_grund2"

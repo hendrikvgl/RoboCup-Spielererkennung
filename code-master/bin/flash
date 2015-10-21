@@ -1,0 +1,131 @@
+#!/bin/bash
+
+if [ $# -lt 1 ] ; then
+	echo "$0 hostname host-names [more host-names]"
+	exit 1
+fi
+
+if ! [ -f $HOME/darwin/bin/activate ] ; then
+    echo "virtualenv has to be in $HOME/darwin"
+    exit 1
+fi
+
+# Auslesen der Config und ausgeben einiger Informationen
+. $HOME/darwin/share/bitbots/boot-defaults.sh
+if $BOOT_ENABLED ; then
+    echo " * startup at boot is enabled"
+    echo " * flash-target is $BOOT_VIRTUALENV"
+    if env | grep DEBUG > /dev/null ; then
+        echo " * debug is enabled"
+        echo " * debug-host is $DEBUG_HOST"
+    else
+        echo " * debug is disabled"
+    fi
+else
+    echo " * startup at boot is disabled"
+fi
+
+while true ; do
+    read -p "is everything okay? [Y/n] "
+    echo $REPLY
+    if [ x"$REPLY" = "xy" -o x"$REPLY" = "x" ] ; then
+        break
+    fi
+
+    if [ x"$REPLY" = "xn" ] ; then
+        exit 0
+    fi
+done
+
+FLAG_DO_RESET=true
+FLAG_DO_REBOOT=false
+for HOST in $* ; do
+    case "$HOST" in
+        --reset)
+            FLAG_DO_RESET=true
+            ;;
+
+        --no-reset)
+            FLAG_DO_RESET=false
+            ;;
+
+        --reboot)
+            FLAG_DO_REBOOT=true
+            ;;
+
+        --no-reboot)
+            FLAG_DO_REBOOT=false
+            ;;
+
+        *)
+            echo "fetching remote hostname..."
+            R_HOST=$(ssh $HOST hostname)
+            if [ x"$R_HOST" = "x" ] ; then
+                echo "Can't connect to remote host $HOST"
+                exit 0
+            fi
+
+            echo "Collect excludes"
+            echo "" > /tmp/exclude
+            echo "*lib/python2.7/site-packages/*" >> /tmp/exclude
+            echo "*bin/python*" >> /tmp/exclude
+            echo "*bin/python2" >> /tmp/exclude
+            echo "*.pyc" >> /tmp/exclude
+            if [[ "goal kuddel cascade" =~ "$R_HOST" ]]; then  # TODO: das muss algemeiner
+                cd $HOME/darwin
+                find . |xargs file | grep Intel | cut -d ':' -f1 | sed "s/\.\///g" >> /tmp/exclude
+                cd ..
+            fi
+            #find darwin |xargs file | grep Intel | cut -d ':' -f1 > /tmp/exclude
+            echo "flashing software on '$R_HOST', please wait..."
+            rsync -cav --delete --exclude-from /tmp/exclude $HOME/darwin/ ${HOST}:"$BOOT_VIRTUALENV"  | egrep -v '^(sending|sent|total) |^$|pyc$'
+            EXITCODE=$?; if [ $EXITCODE -ne 0 ]; then echo "Rsync Failed"; exit $EXITCODE; fi
+
+            # rsync option u wurde entfernt da es meistens nerft wenn
+            # von anderen geflashte sachen da bleiben, bedeutet aber auch
+            # das lokal auf dem bot angepasste dateien verloren gehen
+            if [ -d $HOME/darwin/overlay/generic ] ; then
+                echo "flashing generic overlay..."
+                rsync -ca $HOME/darwin/overlay/generic/ ${HOST}:
+                EXITCODE= $?; if [ $EXITCODE -ne 0 ]; then echo "Flashing Generic Failed"; exit $EXITCODE; fi
+            fi
+
+            if [ -d $HOME/darwin/overlay/$R_HOST ] ; then
+                echo "flashing overlay to /home/darwin..."
+                TMP_FILE=/tmp/.overlay_flash_log
+                rsync -cav $HOME/darwin/overlay/$R_HOST/ ${HOST}: > $TMP_FILE
+                EXITCODE=$?; if [ $EXITCODE -ne 0 ]; then echo "Flashing Overlay Failed"; exit $EXITCODE; fi
+                egrep -v '^(sending|sent|total) |^$|pyc$' $TMP_FILE
+                rm $TMP_FILE
+            fi
+
+            if $FLAG_DO_REBOOT ; then
+                echo "rebooting $HOST in 5 seconds. press ctrl-c to cancel."
+                sleep 5 && ssh $HOST 'sudo reboot'
+            else
+                if $FLAG_DO_RESET ; then
+                   ssh $HOST '\
+                    echo "syncing..."; \
+                    sync;\
+                    echo -n "killing python on ${HOSTNAME}" ; \
+                    for SIGNAL in INT INT TERM TERM TERM KILL KILL ; do\
+                        echo -n "."; \
+	                    if ! sudo killall -$SIGNAL python 2> /dev/null ; then\
+	                        break; \
+	                    fi; \
+	                    \
+	                    sleep 0.2; \
+	                done; \
+	                echo; \
+	                espeak "i am ready to play" 2> /dev/null;\
+	                echo "i am ready to play";'
+                else
+                    echo "$HOST is ready to go"
+                fi
+            fi
+
+            echo
+            ;;
+    esac
+done
+

@@ -1,0 +1,555 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+"""
+vision
+^^^^^^
+Ein Python Skript zum simplen ausführen der Bildverarbeitung.
+Die Vision kann auf angeschlossene Kameras oder auf gespeichter Bilder zugreifen, die dann
+verarbeitet werden.
+
+21.12.2013 @Robert:
+    Da die Vision die Autokalibrierung und den Export von Farbmasken unterstützt, wird das auch
+    in dieses Skript übernommen. Zu Debugzwecken wird beim normalen ausführen, ohne die Option
+    Benchmark jeden FIXME 5. Frame die Ballmaske neu kalibriert und gespeichert.
+
+19.04.2014 @Robert
+    Locator rausgeworfen, Compilezeit ist mir wichtiger und er wird eh nicht benutzt
+
+11.04.2015 @Marc:
+    Refactoring and added displaying of module data
+
+"""
+import bitbots.vision.capture as capture
+import bitbots.vision.robotvision as robotvision
+# import bitbots.locator.locator as locator
+from bitbots.locator.transformer import Transformer
+from bitbots.modules.basic.vision.ball_module import BallModule
+from bitbots.modules.basic.vision.goalpost_module import GoalPostModule
+from bitbots.modules.basic.vision.vision_module import VisionModule as VM
+from bitbots.modules.basic.vision.ball_module import BallModule as BM
+from bitbots.modules.basic.vision.camera_module import CameraModule as CM
+from bitbots.util.png import save_png_image
+from bitbots.util.kinematicutil import get_robot_horizon_p
+from bitbots.debug.timer import Timer
+import numpy
+
+import os
+import gzip
+import time
+import glob
+import string
+
+from bitbots.debug import Scope
+from bitbots.ipc import SharedMemoryIPC
+from bitbots.robot.pypose import PyPose as Pose
+
+import json
+import argparse
+from bitbots.modules.keys import DATA_KEY_BALL_FOUND, DATA_KEY_IS_NEW_FRAME, DATA_KEY_RAW_BALL, DATA_KEY_IMAGE_POSE, \
+    DATA_KEY_CAMERA_FRAME_VERSION, DATA_KEY_RECALIBRATE_BALL, DATA_KEY_CAMERA_FOOT_PHASE, DATA_KEY_RAW_IMAGE, \
+    DATA_KEY_BALL_INFO, DATA_KEY_RAW_GOAL_DATA, DATA_KEY_GOAL_INFO, DATA_KEY_IMAGE_FORMAT, DATA_KEY_CAMERA_EXPOSURE_CALLBACK, \
+    DATA_KEY_CAMERA_RESOLUTION
+
+from bitbots.util import find_resource, get_config
+
+# Testweise für die Distanzen
+from math import sqrt
+
+## Ende
+from bitbots.util.file_management import read_yuyv_file, read_pose_file, load_filenames
+
+debug = Scope("bin.View")
+leg_info = Scope("Locator")
+distance_debug = Scope("Module.Vision")
+ipc = SharedMemoryIPC()
+config = get_config()["vision"]
+body_counter = 0 # todo fix this
+
+class SaveCairoState(object):
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def __enter__(self):
+        self.ctx.save()
+        return self.ctx
+
+    def __exit__(self, *ignore):
+        self.ctx.restore()
+
+
+def parse_programm_arguments():
+    parser = argparse.ArgumentParser(prog="vision")
+
+    parser.add_argument("-r", "--record", action="store_true",
+                        help="Aufnehmen von Pose und .yuv-Daten")
+
+    parser.add_argument("-n", "--nogui", action="store_true",
+                        help="Keine GUI starten"
+                        )
+
+    parser.add_argument("-p", "--preload", action="store_true",
+                        help="Bilder Vorab in den Speicher laden"
+                        )
+
+    parser.add_argument("-c", "--recalibrate", action="store_true",
+                        help="Recalibriert den Ball automatisch"
+                        )
+
+    parser.add_argument("-b", "--benchmark", action="store_true",
+                        help="""Misst die Gesamtlaufzeit, impliziert no-gui
+                        Werden keine Bilder angegeben wird nach 100 Frames
+                        von der Kamera abgebrochen.
+                        """
+                        )
+
+    parser.add_argument(
+        "-d", "--device", action="store", default="/dev/video0",
+        help="""Optionale angabe des Kameradevices,
+                        z.B. /dev/video1
+                        """
+    )
+
+    parser.add_argument(
+        "-R", "--resolution", action="store", default="1280 720",
+        help="""Optionale Angabe der Kameraauflösung,
+                        z.B. "800 600"
+                        """
+    )
+
+    parser.add_argument("images",
+                        nargs='*',
+                        help='Bilder die verarbeitet werden sollen'
+                        )
+
+    parser.add_argument("-m", "--modules", action="store_true", dest="module",
+                        help=""" Shows only the resulting data which is given to the behaviour""")
+
+    parser.add_argument("-a", "--both", action="store_true", dest="both_data",
+                        help=""" Shows the resulting data which is given to the behaviour additional to the normal vision data""")
+
+    parser.add_argument("-k", "--no-kinematic-horizon", action="store_true", dest="no_kin_horizon",
+                        help=""" Disables the use of the kinematic horizon """)
+
+    parser.add_argument("-g", "--goal", action="store_true", dest="goal_data", help="""Shows only data about the goals""")
+    return parser.parse_args()
+
+
+class Source(object):
+    def __init__(self):
+        self.yuyv = None
+        self.pose = None
+        self.robot_angle = None
+
+    def advance(self):
+        pass
+
+    def get_gray_image(self):
+        return self.yuyv[:, ::2].copy()
+
+    def get_yuyv_image(self):
+        return self.yuyv
+
+    def get_pose(self):
+        return self.pose
+
+    def get_robot_angle(self):
+        return self.robot_angle
+
+    def get_size(self):
+        height, width = self.yuyv.shape
+        return (width / 2, height)
+
+
+class CameraSource(Source):
+    def __init__(self, args):
+        cm = CM()
+        data = {}
+        data["Config"] = get_config()
+        width, height = args.resolution.split(" ")
+        data["CameraResulution"] = (width, height)
+
+        cm.start(data)
+
+        self.device = cm.cap
+
+    def advance(self):
+        self.yuyv = self.device.grab()
+        self.pose = ipc.get_pose()
+        self.robot_angle = ipc.get_robot_angle()
+        return True
+
+    def get_size(self):
+        return (self.device.width, self.device.height)
+
+
+class ImageSource(Source):
+    def __init__(self, images):
+        self.images = images
+        self.yuyv = read_yuyv_file(self.images[0])
+
+    def advance(self):
+        if not self.images:
+            return False
+
+        name = self.images.pop(0)
+        debug.log("Lese Frame '%s'" % name)
+
+        self.yuyv = read_yuyv_file(name)
+        self.pose, self.robot_angle = read_pose_file(name, default=Pose())
+        return True
+
+    def get_size(self):
+        height, width = self.yuyv.shape
+        return (width / 2, height)
+
+
+class PreloadImageSource(ImageSource):
+    def __init__(self, images):
+        super(PreloadImageSource, self).__init__(images)
+        self.data = []
+        self.preload()
+
+    def preload(self):
+        i = 0
+        while self.images:
+            name = self.images.pop(0)
+            debug.log("Lese Frame '%s'" % name)
+
+            yuyv = read_yuyv_file(name)
+            pose, robot_angle = read_pose_file(name, default=Pose())
+            self.data.append((yuyv, pose, robot_angle))
+            i += 1
+            if i > 100:
+                # wir wollen den spiecher nicht vollständig verfüllen
+                break
+
+    def advance(self):
+        if not self.data:
+            if self.images:
+                self.preload()
+            else:
+                return False
+        self.yuyv, self.pose, self.robot_angle = self.data.pop(0)
+        return True
+
+def make_vision(width, height, send_bw_debug=True):
+    vm = VM()
+    bm = BM()
+    gm = GoalPostModule()
+    data = {DATA_KEY_CAMERA_RESOLUTION: (width, height), DATA_KEY_IMAGE_FORMAT: "YUYV",
+            DATA_KEY_CAMERA_EXPOSURE_CALLBACK: None}
+    vm.start(data)
+    bm.start(data)
+    gm.start(data)
+    vm.vision.set_b_w_debug_image(send_bw_debug)
+    return vm, bm, gm, data
+
+def start_record_loop(args):
+    idx = 0
+    source = CameraSource(args)
+    width, height = source.get_size()
+    vm, _, _, _ = make_vision(width, height)
+    vision = vm.vision
+    while True:
+        source.advance()
+
+        # Dateiname für den nächsten Frame
+        name = "frame-%04d.yuv" % idx
+        idx += 1
+        with Timer("Speichere " + name, debug):
+            yuyv = source.get_yuyv_image()
+
+            with open(name + ".json", "wb") as fp:
+                angle = ipc.get_robot_angle()
+                json.dump({"positions": source.get_pose().positions, "robot_angle": [angle.x, angle.y, angle.z]}, fp)
+
+            with gzip.GzipFile(name + ".gz", "wb", compresslevel=1) as fp:
+                fp.write(yuyv.tostring())
+
+        vision.process(yuyv)
+        if vision.camera_exposure_wish is not 0 and hasattr(source, 'device'):
+            adjust_camera_exposure(source.device, vision.camera_exposure_wish)
+
+
+def _default_source(args):
+    if args.record:
+        return CameraSource(args)
+
+    if args.images:
+        files = load_filenames(args.images)
+        if args.preload:
+            return PreloadImageSource(files)
+        else:
+            return ImageSource(files)
+
+    return CameraSource(args)
+
+
+
+def save_color_config(vision, name):
+    config = vision.get_color_config(name)
+    path = find_resource("vision-color-config/auto-color-config")
+    save_png_image("%s/%s.png" % (path, name), config)
+
+
+
+
+def make_goal_candidate_shapes(data, width, height):
+    goal_array = data.get(DATA_KEY_RAW_GOAL_DATA, None)
+    if goal_array is None:
+        return []
+    posts, color = goal_array
+    shapes = []
+    for post in posts:
+        x, y, w_rel, w, h = post
+        x, y, w, h = make_rect(x, y, w, h, width, height)
+
+        shape = [('goal', {"x": x, "y": y, "width": w, "height": h, "color.r": 0, "color.g": 10, "color.b": 0})]
+        shapes.extend(shape)
+    return shapes
+
+def make_goal_sorted_shapes(data, width, height):
+    shapes = []
+    for dataset in data[DATA_KEY_SORTED_OUT_GOALS]:
+        # mark as white
+        x = dataset[1]
+        y = dataset[2]
+        w = dataset[3]
+        h = dataset[4]
+
+        x, y, w, h = make_rect(x, y, w, h, width, height)
+        if dataset[0] == "X" or dataset[0] == "XE":
+            shape = [('goal', {"x": x, "y": y, "width": w, "height": h, "color.r": 255, "color.g": 255, "color.b": 0})]
+            shapes.extend(shape)
+        x += w +5
+        y += h/2
+
+        shapes.extend([('big_text', {"x": x, "y": y, "color.r": 255, "color.g": 0, "color.b": 0, "text": dataset[0]})])
+    print shapes
+    return shapes
+
+def make_final_goal_shape(data, width, height):
+    goal = data.get(DATA_KEY_GOAL_INFO, None)
+    if goal is None:
+        return []
+    shapes = []
+    index = 0
+    for post in goal:
+        x = goal[index].x
+        y = goal[index].y
+        w = goal[index].width
+        h = goal[index].height
+        index +=1
+
+        shape = [('rect', {"x": x, "y": y, "width": w, "height": h, "color.r": 255, "color.g": 255, "color.b": 0})]
+        shapes.extend(shape)
+    return shapes
+
+def adjust_camera_exposure(device, factor):
+    if config["newCamera"] is True:
+        factor = -factor
+    if factor > 0:
+        device.exposure_absolute = (device.exposure_absolute + 1) * 1.333
+    else:
+        device.exposure_absolute *= 0.75
+    debug("Tried to adjust camera exposure")
+
+
+
+
+def main():
+    ################
+    ### Initilize###
+    ################
+    args = parse_programm_arguments()
+    if args.no_kin_horizon:
+        config["use_kinematic_horizon"] = False
+    use_kinematic_horizon = config["use_kinematic_horizon"]
+    if args.record:
+        start_record_loop(args)
+    source = _default_source(args)
+    width, height = source.get_size()
+    module_data = args.module
+    both_data = args.both_data
+    goal_data = args.goal_data
+    vm, bm, gm, data = make_vision(width, height, get_config()["vision"]["SEND_BW_DEBUG"])
+    vision = vm.vision
+    transformer = vm.transformer
+    vision.set_ball_pos_is_ball_footpoint(True)
+
+    counter = -1
+    ball_candidates_counter = 0
+    ball_counter = 0
+    to_small_counter = 0
+    to_big_counter = 0
+    to_far_counter = 0
+    runtime = time.time()
+    num_benchmark_frames = 1000
+    if args.benchmark:
+        # setting nogui when benchmarking
+        args.nogui = True
+        if not args.images:
+            counter = num_benchmark_frames
+
+    time_calculating = 0
+    frame_version = 0
+    # iterate over all images
+    while source.advance():
+        print frame_version
+        data[DATA_KEY_CAMERA_FRAME_VERSION] = frame_version
+        frame_version = frame_version + 1
+        yuyv = source.get_yuyv_image()
+        pose = source.get_pose()
+        data[DATA_KEY_RAW_IMAGE] = yuyv
+
+        begin_calculating = time.time()
+
+        if vision.camera_exposure_wish is not 0 and hasattr(source, 'device'):
+            adjust_camera_exposure(source.device, vision.camera_exposure_wish)
+
+        foot_phase = transformer.update_pose(pose)
+        data[DATA_KEY_CAMERA_FOOT_PHASE] = foot_phase
+
+        with Timer("Bildverarbeitung", debug):
+            # Autorecalibration
+            if args.recalibrate and counter % 120 is 0:
+                vision.process(yuyv, True, False)
+                save_color_config(vision, "ball")
+                save_color_config(vision, "carpet")
+                print "Updated Ball Autocolorconfig"
+            else:
+                # get normal data
+                if use_kinematic_horizon:
+                    robo_horizon = get_robot_horizon_p(transformer.robot, 0)
+                    robo_horizon[1] = robo_horizon[1] / transformer.get_camera_angle()
+                    vision.set_robot_horizon(robo_horizon / transformer.get_camera_angle())
+                vision.process(yuyv)
+                # get the data from the module
+                if module_data or both_data:
+                    vm.update(data)
+                    data[DATA_KEY_IS_NEW_FRAME] = True
+                    bm.update(data)
+                elif goal_data:
+                    vm.update(data)
+                    data[DATA_KEY_IS_NEW_FRAME] = True
+                    gm.update(data)
+        ball_rating, _ = vision.ball_info if vision.ball_info is not None else -1, -1
+        data[DATA_KEY_IMAGE_POSE] = pose
+        if ball_rating >= 0:
+            debug('Ball', True)  # fürs profiling
+            if module_data or both_data:
+                ball_candidates_counter += len(data[DATA_KEY_RAW_BALL])
+        # Obstacles
+        vm.extract_obstacle_infos(data, vision.obstacle)
+
+        #############
+        ### Goals ###
+        #############
+        #vm.extract_goal_infos(data, vision.goal_info)
+        if data.get("GoalInfo", None) is not None:
+            goal_info = data["GoalInfo"]
+            for n in goal_info:
+                debug("GoalInfo.%d.x" % n, goal_info[n].x)
+                debug("GoalInfo.%d.y" % n, goal_info[n].y)
+                debug("GoalInfo.%d.u" % n, goal_info[n].u)
+                debug("GoalInfo.%d.v" % n, goal_info[n].v)
+            if pose:
+                (x, y) = goal_info[0].x, goal_info[0].y
+                (u, v) = transformer.transform_point_to_location(x, y, 0)
+                distance_debug("GoalInfo.u", u)
+                distance_debug("GoalInfo.v", v)
+
+        #############
+        ### Balls ###
+        #############
+        if pose:
+            if not (module_data or both_data or goal_data):
+                ballinfo = vision.ball_info
+                rating, (x, y, radius) = ballinfo if ballinfo is not None else -1, (0, 0, 0)
+                (u, v) = transformer.transform_point_to_location(x, y,
+                                                                 config["DEFAULT_RADIUS"] / 40)
+
+                if rating >= 0:
+                    distance = 100 * sqrt(u ** 2 + v ** 2)
+
+                    distance_debug("Ballinfo.x ", x)
+                    distance_debug("Ballinfo.y ", y)
+                    distance_debug("Ballinfo.u ", u)
+                    distance_debug("Ballinfo.v ", v)
+                    distance_debug("Ballinfo.Distance ", distance)
+                    distance_debug("Time", time.time())
+                    print "Ballinfo: %s, u: %.3f, v: %.3f " % (ballinfo, u, v)
+
+        counter -= 1
+        if counter is 0:
+            break  # benchmarking we exit after 100 frames
+
+        time_calculating += time.time() - begin_calculating
+
+        if args.nogui:
+            continue
+
+        with Timer("Debug-Shapes zeichnen", debug):
+            shapes = []
+            if both_data:
+                shapes.extend(vision.get_debug_shapes())
+            if module_data:
+                candidates_shapes = make_candidates_shapes(data, width, height)
+                shapes.extend(candidates_shapes)
+                # count counter
+                statistic = data[DATA_KEY_BALL_CANDIDATE_STATISTIC]
+                to_small_counter += statistic[0]
+                to_big_counter += statistic[1]
+                to_far_counter += statistic[2]
+                #make shapes
+                new_shapes = make_module_shapes(data, width, height)
+                if data[DATA_KEY_BALL_FOUND]:
+                    ball_counter += 1
+                shapes.extend(new_shapes)
+                even_newer_shapes = make_sorted_out_shapes(data, width, height)
+                shapes.extend(even_newer_shapes)
+            elif goal_data:
+                print "keks3"
+                goal_candidate_shapes = make_goal_candidate_shapes(data, width, height)
+                shapes.extend(goal_candidate_shapes)
+                goal_sorted_shapes = make_goal_sorted_shapes(data, width, height)
+                shapes.extend(goal_sorted_shapes)
+                final = make_final_goal_shape(data, width, height)
+                shapes.extend(final)
+            else:
+                shapes.extend(vision.get_debug_shapes())
+            # shapes.extend(locator.get_debug_shapes())
+            #print shapes
+            #image = draw_debug_shapes(source.get_gray_image(), shapes)
+
+        # We want to reduce the functions of the vision script. It should be able to record images.
+        # But for visualization of data, we want to use the visualization script
+        continue
+        import cv2
+
+        cv2.imshow("Ergebnis", source.get_gray_image().copy())
+        if cv2.waitKey(10 if isinstance(source, CameraSource) else 0) in (27, 1048603):
+            break
+
+    count = num_benchmark_frames if counter is 0 else - counter - 1
+    print "#######################"
+    print "Laufzeit: %0.3f s davon %0.3f s reine Rechenzeit für %d Frames, %.02f (%.02f) fps" % \
+          (
+              time.time() - runtime, time_calculating,
+              count,
+              (float(count) / (time.time() - runtime)),
+              (float(count) / time_calculating))
+    print "#######################"
+    print "Seen ball candidates: " + str(ball_candidates_counter)
+    print "Seen balls: " + str(ball_counter)
+    print "To small balls:" + str(to_small_counter)
+    print "To big balls:" + str(to_big_counter)
+    print "To far balls:" + str(to_far_counter)
+    #print "Body balls: " + str(body_counter)
+
+if __name__ == "__main__":
+    try:
+        ipc.eye_color = (0, 255, 0)
+        main()
+    finally:
+        ipc.eye_color = (255, 0, 0)

@@ -1,0 +1,44 @@
+{
+    "keyframes": [
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": -27.685546875,
+                "HeadTilt": -5.0,
+                "RElbow": -73.828125,
+                "RElbowRoll": 1.494140625,
+                "RHipYaw": 0.087890625,
+                "RShoulderPitch": 64.6875,
+                "RShoulderRoll": -38.935546875
+            },
+            "pause": 0.0
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": -26.982421875,
+                "HeadTilt": -5.0,
+                "RElbow": -56.6015625,
+                "RElbowRoll": -82.705078125,
+                "RHand": -30.5859375,
+                "RShoulderPitch": 60.205078125,
+                "RShoulderRoll": -29.619140625
+            },
+            "pause": 0.0
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": -26.89453125,
+                "HeadTilt": -5.0,
+                "RElbow": 25.224609375,
+                "RElbowRoll": -73.037109375,
+                "RHand": -31.46484375,
+                "RShoulderPitch": 54.404296875,
+                "RShoulderRoll": -29.443359375
+            },
+            "pause": 0.0
+        }
+    ],
+    "name": "/home/darwin/present_walkready.json"
+}

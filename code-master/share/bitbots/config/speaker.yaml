@@ -1,0 +1,25 @@
+#####################
+###
+###   Speaker Config
+###
+#####################
+
+help: |
+    Config für Den Speaker Clienten. ACHTUNG: der Server hat den Port noch
+    Hartcoded, da er nicht einfach util.Config laden kann.
+
+# Der Port auf dem der Server lauscht
+server-port: 55664
+# Der Host des Servers
+server-ip: 127.0.0.1
+# Ob lokal auf einen laufenden Server getestet werden soll
+test-server: On
+# Name des Server-Programmes (Wird bei test-server gesucht und gestartet)
+server-bin: speaker-helper-server
+
+# secondary-server sendet die Ausgaben an einen 2. Server, um einem debug
+# debugrechner auch ausgeben kann Werte: (Off/Ip)
+secondary-server: 192.168.0.3
+
+# Soll der Server empfangene daten ausgeben?
+server-print: On

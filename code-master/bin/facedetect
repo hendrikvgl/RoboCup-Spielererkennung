@@ -1,0 +1,152 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+import cv2
+import numpy as np
+import subprocess
+import time
+import argparse
+from bitbots.ipc.ipc import SharedMemoryIPC
+from bitbots.robot.pypose import PyPose as Pose
+from bitbots.util import get_config
+from bitbots.util.resource_manager import ResourceManager
+from bitbots.debug import Scope
+from bitbots.util.animation import play_animation
+
+
+CAMERA_INDEX = 0
+ANGLE = 60.0
+UI = False
+FLIP = True
+MIN_DIFF = 10
+TURNDEGREE = 1
+SHUTUPTIME = 60  # sekunden die der Roboter nach einer begrüßung die fresse hält
+WAVETIME = 10  # Sekunden die es dauert bis der Roboter wieder winkt
+ipc = SharedMemoryIPC()
+config = get_config()
+debug = Scope("facedetect")
+rm = ResourceManager()
+HAAR_CASCADE_PATH = rm.find_resource("haarcascade_frontalface_default.xml")
+last_contact = 0
+
+
+def detect_faces(image):
+    faces = []
+    detected = cascade.detectMultiScale(
+        image, 1.2, 2, cv2.cv.CV_HAAR_DO_CANNY_PRUNING, (100, 100))
+    if detected is not None:
+        for (x, y, w, h) in detected:
+            faces.append((x, y, w, h))
+    return faces
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Let Darwin search for faces")
+    parser.add_argument('--ui',
+                        dest='ui',
+                        action='store_const',
+                        const=True,
+                        default=False,
+                        help="show image (requires x-session)")
+    parser.add_argument('--flip',
+                        dest='flip',
+                        action='store_const',
+                        const=False,
+                        default=False,
+                        help="enable image flipping (vertical)")
+    args = parser.parse_args()
+    UI = args.ui
+    FLIP = args.flip
+
+    if UI:
+        cv2.namedWindow("Video", cv2.cv.CV_WINDOW_AUTOSIZE)
+
+    capture = cv2.VideoCapture(CAMERA_INDEX)
+    cascade = cv2.CascadeClassifier(HAAR_CASCADE_PATH)
+    faces = []
+
+    i = 0
+    newcenter = (0, 0)
+    cv2.waitKey(30)
+    while not play_animation('init', ipc):
+        pass
+    while True:
+        cv2.waitKey(20)
+        retval, image = capture.read()
+
+        if retval:
+            if FLIP:
+                image = cv2.flip(image, 0)
+            rows, cols = image.shape[:2]
+            imcenter = np.array((cols / 2, rows / 2))
+            # Only run the Detection algorithm every 5 frames to improve performance
+            if i % 5 == 0:
+                print "searching..."
+                faces = detect_faces(image)
+
+                if faces:
+                    ipc.eye_color = (0, 255, 0)
+                    #alle 200 sekunden neue gesichter begrüßen
+                    if time.time() - last_contact > WAVETIME:
+                        play_animation('wave', ipc)
+                    if time.time() - last_contact > SHUTUPTIME:
+                        try:
+                            subprocess.Popen(['espeak', "Hello Human!"])
+                        except:
+                            print "ERROR could not use espeak"
+                        last_contact = time.time()
+
+                    print "%s Face(s) detected!" % len(faces)
+                    center = None
+                    print "imcenter is %s " % imcenter
+                    for (x, y, w, h) in faces:
+                        newcenter = np.array((x + w / 2, y + h / 2))
+                        if center is None:
+                            center = newcenter
+                            print "new center determined: %s" % center
+                        elif np.linalg.norm(imcenter - newcenter) < np.linalg.norm(imcenter - center):
+                            center = newcenter
+                            print "new closer center found: %s" % center
+                        cv2.rectangle(image, (x, y), (x + w, y + h), 255)
+
+                    pose = ipc.get_pose()
+                    diff = center - imcenter
+                    print "diff is %s " % diff
+                    x = diff[0] / float(cols)
+                    y = diff[1] / float(rows)
+                    print "x = %s (%s / %s) y = %s (%s / %s)" % (x, diff[0], cols, y, diff[1], rows)
+
+                    if abs(x) > 0.05 and abs(y) > 0.05:
+                        pangoal = min(90, max(
+                            -90, (pose.head_pan.position - x * ANGLE)))
+                        tiltgoal = min(0, max(
+                            -70, (pose.head_tilt.position - y * ANGLE)))
+
+                        newpose = Pose()
+                        newpose.head_pan.goal = pangoal
+                        newpose.head_pan.speed = config[
+                            "TRACKING"]["MAX_PAN_SPEED"]
+                        newpose.head_tilt.goal = tiltgoal
+                        newpose.head_tilt.speed = config[
+                            "TRACKING"]["MAX_TILT_SPEED"]
+                        print "Setze Pan %s und Tilt %s" % (pangoal, tiltgoal)
+                        ipc.update(newpose)
+
+                else:
+                    ipc.eye_color = (0, 0, 255)
+                    # loook around the "randomly"
+                    if i % 40 == 0:  # alle 40 frames umgucken
+                        pose = ipc.get_pose()
+                        newpose = Pose()
+                        if pose.head_pan.goal >= 50:
+                            newpose.head_pan.goal = 0
+                        elif pose.head_pan.goal == 0:
+                            newpose.head_pan.goal = -50
+                        else:
+                            newpose.head_pan.goal = 50
+                        newpose.head_pan.speed = 20
+                        newpose.head_tilt.goal = 0
+                        ipc.update(newpose)
+            cv2.circle(image, tuple(imcenter), 5, (0, 0, 255))
+            cv2.circle(image, tuple(newcenter), 5, (0, 255, 255))
+            if UI:
+                cv2.imshow("w1", image)
+        i += 1

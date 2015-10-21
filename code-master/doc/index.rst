@@ -1,0 +1,20 @@
+
+Darwin Dokumentation
+====================
+
+Dies ist die Dokumentationsseite für unser Projekt.
+Sie mag vielleicht nicht ganz vollständig oder immer aktuell sein, jedoch
+ist sie mit viel Liebe geschrieben.
+Weitere Information ist auch in unserer
+`Projektverwaltung <http://redmine.mafiasi.de>`_ zu finden.
+
+Ich wünsche viel Spaß beim Entwickeln!
+
+
+.. toctree::
+    :maxdepth: 2
+
+    schnelleinstieg
+    software
+    hardware
+    public_relations

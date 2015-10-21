@@ -1,0 +1,48 @@
+#!/bin/bash
+
+echo "Please enter Version [M.m]: "
+read version
+
+# Remove the former RELEASE_BASE
+git tag -d RELEASE_BASE
+git push origin :refs/tags/RELEASE_BASE
+
+# Tag the current Master as RELEASE_BASE
+git tag RELEASE_BASE
+
+# Define the Name for the Test Branch
+release_branch="release_branch_V${version}"
+
+# Make a new Test Branch from the current one
+git checkout -b ${release_branch}
+
+# Enter the Version Number to VERSION file
+echo "Version ${version}" > VERSION
+
+# Commit this change
+git add VERSION
+git commit -m "Prepare for Release ${version}"
+
+# Tag it
+git tag "V${version}.0"
+
+# Push the Tag
+git push --tags
+
+# Push the Branch
+git push -u origin ${release_branch}
+
+# Checkout Master again
+git checkout master
+
+# Define the Bugfix Branch
+bugfix_branch="release_bugfix_V${version}"
+
+# Make a new Bugfix Branch from the current one
+git checkout -b ${bugfix_branch}
+
+# Push the Branch
+git push -u origin ${bugfix_branch}
+
+# Checkout master again to be clear
+git checkout master

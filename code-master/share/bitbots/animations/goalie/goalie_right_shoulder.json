@@ -1,0 +1,29 @@
+{
+    "keyframes": [
+        {
+            "duration": 0.1,
+            "goals": {
+                "LElbow": -26.015625,
+                "LShoulderPitch": 28.212890625,
+                "LShoulderRoll": 17.490234375,
+                "RElbow": -91.494140625,
+                "RShoulderPitch": -170.419921875,
+                "RShoulderRoll": -21.4453125
+            },
+            "pause": 1.0
+        },
+        {
+            "duration": 0.1,
+            "goals": {
+                "LElbow": -26.015625,
+                "LShoulderPitch": 28.212890625,
+                "LShoulderRoll": 17.490234375,
+                "RElbow": -91.494140625,
+                "RShoulderPitch": -170.419921875,
+                "RShoulderRoll": -21.4453125
+            },
+            "pause": 0
+        }
+    ], 
+    "name": "/tmp/backup.json"
+}

@@ -1,0 +1,24 @@
+"PLAYER" : 1
+"HipPitch" : 18
+"NEW_CAMERA_INVERTED_PICTURE" : true
+animations:
+    motion:
+        torjubel : "freddy"
+        front-up : "front-up-glados-2015-go"
+        bottom-up : "bottom_up_rollover_2015_go"
+        walkready : "goalie_walkready"
+"ZMPConfig":
+    Darwin:
+         "HipPitch": 20
+         "Parameter":
+            "footX": 0.042
+"GOALIE" :
+    "SEARCH_INTERVAL" : 1
+    "TIME_FOR_TURNING_90DEG": 3
+"JointOverride":
+ - name: "Camera"
+   id: 31
+   transform: [0, 0, 0]
+   rpy: [0, -15, 0]
+   mass_offsets:
+     Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }

@@ -1,0 +1,22 @@
+h1. Sourcecode Review
+
+<<<<<<< HEAD
+- Start in /code/lib/modules/behaviour/body/decisions/InGoal.py
+
+
+
+=======
+- Start in /code/lib/bitbots/modules/behaviour/body/decisions/InGoal.py 	// perform Methode in class InGoal
+
+/code/lib/bitbots/modules/behaviour/body/decisions/
+- BallDangerous.py // Auszuführende Tasks, abhängig von Ballposition/Bewegung
+   uestimate -> Entfernung in mm (abgeschätzte Entfernung in gerader Linie)
+   vestimate -> Entfernung in mm (abgeschätzte Entfernung links/rechts von der Entfernungslinie)
+
+
+PlainWalkAction ( vor-/rückwärts, drehen, geschwindigkeit, dauer in sekunden )
+self.push(PlainWalkAction, [[WalkingCapsule.ZERO, WalkingCapsule.SLOW_ANGULAR_RIGHT, WalkingCapsule.FAST_SIDEWARDS_LEFT, 4],
+                                                       [WalkingCapsule.ZERO, WalkingCapsule.ZERO, WalkingCapsule.ZERO, 1],
+                                                       [WalkingCapsule.ZERO, WalkingCapsule.SLOW_ANGULAR_RIGHT, WalkingCapsule.FAST_SIDEWARDS_LEFT, 4],
+                                                       [WalkingCapsule.ZERO, WalkingCapsule.ZERO, WalkingCapsule.ZERO, 1]])
+>>>>>>> 5589d7b27a22e1497be5335eb69bd467a7ffd4fc

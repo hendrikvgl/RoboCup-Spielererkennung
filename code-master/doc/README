@@ -1,0 +1,19 @@
+
+Alles im virtual-env machen!
+
+Kompilieren der Dokumentation mit Sphinx:
+  $ ./build                        # Code bauen, damit autodoc sachen funktionieren
+  $ make html                      # Bauen
+  $ firefox _build/html/index.html # Ergebnis prüfen
+
+Um bereits existierende Probleme aufzudecken, 
+und machmal um Cross-Referenzen richtig aufzulösen
+empfiehlt sich von Zeit zu Zeit ein clean build.
+
+Dafür einfach:
+
+  $ make clean html                # Bauen
+  $ firefox _build/html/index.html # Ergebnis prüfen
+
+In beiden Fällen bitte auf die "WARNINGS" achten. 
+Diese stehen fast immer für Dinge die anders angezeigt werden als du möchtest.

@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import sys
+
+from bitbots.framework.runtime import Runtime
+from bitbots.debug import Scope
+from bitbots.modules.startup.startup_information import BEHAVIOUR_IMPORTS, BEHAVIOUR_RUNS
+import bitbots.modules.behaviour.body.decisions.common.duty_decider
+
+
+def main():
+    debug = Scope("Behaviour")
+
+    if len(sys.argv) > 1:
+        bitbots.modules.behaviour.body.decisions.common.duty_decider.duty = sys.argv[1]
+
+    # Module laden
+    runtime = Runtime(debug)
+    for name in BEHAVIOUR_IMPORTS:
+        runtime.load(name)
+
+    # When quick testing a module
+    # BEHAVIOUR_RUNS += ["SomeModuleToTest"]
+
+    # Run Behaviour
+    runtime.run(BEHAVIOUR_RUNS)
+
+if __name__ == "__main__":
+    main()

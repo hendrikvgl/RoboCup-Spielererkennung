@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+
+from bitbots.remote_control.keyboard import KeyBoardControl
+
+from bitbots.debug import Scope
+
+debug = Scope("bin.Walk")
+
+def main():
+    # Start the Walk Loop
+    #ipc, walk = start_walk_loop()
+    # Start the KeyBoardControl
+    kbr = KeyBoardControl(debug)
+    kbr.keyboard_control()
+
+if __name__ == "__main__":
+    main()

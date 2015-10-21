@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+from bitbots.framework.runtime import Runtime
+from bitbots.debug import Scope
+
+from bitbots.modules.startup.startup_information import BASIC_IMPORTS, DEMO_RUNS
+
+def main():
+    debug = Scope("Demo")
+
+    # Module laden
+    runtime = Runtime(debug)
+    for name in BASIC_IMPORTS:
+        runtime.load(name)
+
+    # When quick testing a module
+    print DEMO_RUNS
+    #DEMO_RUNS.append("WalkingTest")
+    #DEMO_RUNS.append("WalkingAutoHipPitch")
+    #DEMO_RUNS.append("Vision")
+    #DEMO_RUNS.append("Ball")
+    DEMO_RUNS.append("RemoteControlModule") # Bevor das auskommentiert wird probiert ein "pip install evdev" auf dem Roboter
+
+    print DEMO_RUNS
+    # Run Behaviour
+    runtime.run(DEMO_RUNS)
+
+if __name__ == "__main__":
+    main()
+

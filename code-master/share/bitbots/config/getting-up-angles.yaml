@@ -1,0 +1,12 @@
+bottomUp:
+    min: 30
+    max: 100
+bendForward:
+    min: 30
+    max: 100
+squatted:
+    min: -10
+    max: 30
+upright:
+    min: -15
+    max: -5

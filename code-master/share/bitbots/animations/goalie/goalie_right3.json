@@ -1,0 +1,29 @@
+{
+   "keyframes" : [
+      {
+         "pause" : 0,
+         "duration" : 0.75,
+         "goals" : {
+            "RKnee" : 129.7265625,
+            "LShoulderPitch" : 2.087890625,
+            "LHipYaw" : -24.873046875,
+            "RHipYaw" : 0.966796875,
+            "LElbow" : 58.271484375,
+            "RHipRoll" : -8.96484375,
+            "LHipRoll" : 0,
+            "LHipPitch" : 7.91015625,
+            "RAnklePitch" : 64.951171875,
+            "LKnee" : -16.875,
+            "RAnkleRoll" : 4.130859375,
+            "LAnkleRoll" : -29.443359375,
+            "RHipPitch" : -66.62109375,
+            "RShoulderPitch" : -176.396484375,
+            "RElbow" : -92.197265625,
+            "LShoulderRoll" : 26.279296875,
+            "LAnklePitch" : -3.427734375,
+            "RShoulderRoll" : -38.3203125
+         }
+      }
+   ],
+   "name" : "goalie_right2.json"
+}

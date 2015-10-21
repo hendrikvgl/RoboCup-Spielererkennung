@@ -1,0 +1,19 @@
+###################################
+##
+##  Die Dimensionen des Spielfeldes
+##
+###################################
+
+help: |
+    Hier sind die Dimensionen des Spielfeldes eingetragen
+    Alle Maßeinheiten sind in mm
+
+length: 9000
+width: 6000
+goal-width: 1800
+
+# mit own goal kann man zu debugzwecken umdrehen was zu beginn das eigene Tor ist
+# Mögliche Werte:
+#   - 0 Das Dichtere Tor ist das eigene Tor
+#   - 1 Das Weit entfernte Tor ist das eigene Tor
+own-goal: 0

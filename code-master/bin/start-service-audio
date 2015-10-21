@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+from bitbots.services.audio_service import start_audio_service
+
+if __name__ == '__main__':
+    start_audio_service()

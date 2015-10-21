@@ -1,0 +1,49 @@
+{
+    "author": "Unknown", 
+    "description": "vorheriger Zustand: hambot_squatted; vom hockenden Zustand in den stehenden Zustand (leicht eingeknickte Beine)", 
+    "hostname": "goal", 
+    "keyframes": [
+        {
+            "duration": "1.000", 
+            "goals": {
+                "BellyPitch": 11.514, 
+                "BellyRoll": 0.527, 
+                "HeadPan": 0.264, 
+                "HeadTilt": 0.527, 
+                "LAnklePitch": -26.895, 
+                "LAnkleRoll": 4.658, 
+                "LElbow": -7.119, 
+                "LElbowRoll": 0.0, 
+                "LHand": 0.0, 
+                "LHipPitch": 0.176, 
+                "LHipRoll": 1.582, 
+                "LHipYaw": -2.988, 
+                "LKnee": -34.805, 
+                "LShoulderPitch": 0.264, 
+                "LShoulderRoll": 28.213, 
+                "LShoulderYaw": 0.0, 
+                "LToe": -13.877, 
+                "RAnklePitch": 26.895, 
+                "RAnkleRoll": -2.373, 
+                "RElbow": 5.01, 
+                "RElbowRoll": 0.0, 
+                "RHand": 0.0, 
+                "RHipPitch": -0.352, 
+                "RHipRoll": 0.264, 
+                "RHipYaw": 0.791, 
+                "RKnee": 33.398, 
+                "RShoulderPitch": 0.088, 
+                "RShoulderRoll": -29.268, 
+                "RShoulderYaw": 0.0, 
+                "RToe": 14.59
+            }, 
+            "p": {
+                "BellyPitch": 32.0
+            }, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "2015-08-05 10:41:44.920856", 
+    "name": "hambot_upright", 
+    "version": 70
+}

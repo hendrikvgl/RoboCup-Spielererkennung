@@ -1,0 +1,45 @@
+/**
+
+\mainpage bitbots
+
+\brief This is Softwarelibrary of the RoboCup soccer team Hamburg Bit-Bots
+
+This is the C++ software library of the Hamburg Bit-Bots.
+You can find our main documentation at \ref doku.bit-bots.de.
+Most of our library is written in Python, so this documentation is quiete small and only reduced to the
+software.
+
+This documentation is mainly a class based documentation.
+
+\section GettingStarted
+Our framework is a python based architecture. We are using a virtual-env to install
+our software and the dependencies. Before you can compile our code using the
+default build script, you need to be in an activated virtual-env.
+Please consider our main documentation for more information.
+
+\section Python
+
+Our framework is written in python. We use a module based architecture.
+We have many modules providing any data that is needed like image raw and further
+processing. A modules can requiere and provide data. The framework automatically
+defines an order, so that all a modules dependencies will be executed before.
+
+Our main behaviour is written in Python. Complex algorithm like the walking algorithm
+or the image processing is written in C++ and accessable via Cython bindings.
+
+\section Cython
+
+We have some Cython modules inside our framework. These modules can be "simple" wrapper
+for the C++ implementations like our robotvision, or complex modules itself like
+the motion. All the logic for the motion is written in typed python style cython
+and compiled to C++ code and finally into python libraries.
+Cython is much faster than python.
+
+\section CPlusPlus
+
+Our most importand algorithms are still written in C++. Our walking algoorithm,
+image processing and the kinematic framework are optimiued C++ implementations.
+They are accessable via cython wrappers.
+
+
+**/

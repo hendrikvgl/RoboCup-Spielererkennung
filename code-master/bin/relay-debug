@@ -1,0 +1,127 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+"""
+Dieses kleine Programm ermöglicht es die Debug-Daten von einem auf mehrere
+Rechner zu verteilen.
+
+.. Warning:: Auf dem host wo dieses Script läuft ist es nicht möglich eine
+    Debug-ui zu starten, da beide auf den gleichen Port lauschen.
+
+Um Daten zugeschickt zu bekommen, muss man nur eine tcp Verbindung zu port 6481
+aufbauen, und geöffnet halten. Solange die Verbindung offen ist werden
+Debugdaten die beim relay-debug ankommen an den anfragenden Host weitergeleitet.
+Eine einfache möglichkeit um daten zu bekommen ist das volgende Komando::
+
+    nc <host-ip> 6481
+
+ausgeführt in einer eigenen Konsole da die Verbindung offen bleiben muss,
+relay-debug Prüft das durch senden von 'ping' alle 10 Sekunden.
+
+.. warning:: Man sollte niemals sich selbst nac daten Fragen, das führt zu
+    endlos duplizierung der Daten!
+
+.. autoclass:: DebugRepeader
+    :members:
+"""
+
+from gevent import socket
+import gevent
+
+class DebugRepeader(object):
+    """
+    Empfängt Debug daten und verteilt sie an alle angemeldeten Clients
+    """
+    def __init__(self):
+        self.port = 6482
+        self.listeners = []
+        self.sendersock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sendersock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        gevent.spawn(self.debug_listen)
+        gevent.spawn(self.add_listener)
+        gevent.spawn(self.add_listener2)
+        gevent.spawn(self.add_listener3)
+
+    def debug_listen(self):
+        """
+        Diese Methode lauscht auf debug-Nachrichten empfängt sie und
+        verteielt sie mittels :func:`send_debug`
+        """
+        self.listensock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.listensock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.listensock.bind(("0.0.0.0", self.port))
+        while True:
+            data = self.listensock.recv(4096*16)
+            #print "Data get", data
+            self.send_debug(data)
+
+    def add_listener(self):
+        """
+        Wartet auf neue Clients auf Port 6481 (tcp) und nimmt die connection an
+        """
+        self.serversock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serversock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.serversock.bind(("0.0.0.0",6481))
+        self.serversock.listen(0)
+        while True:
+            conn = (self.serversock.accept(), 6482)
+            print 'Connected by', conn
+            gevent.spawn(self.hande_client, conn)
+            self.listeners.append(conn)
+
+    def add_listener2(self):
+        """
+        Wartet auf neue Clients auf Port 5000 (tcp) und nimmt die connection an
+        """
+        self.serversock2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serversock2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.serversock2.bind(("0.0.0.0",5000))
+        self.serversock2.listen(0)
+        while True:
+            conn = (self.serversock2.accept(), 5001)
+            print 'Connected by', conn
+            gevent.spawn(self.hande_client, conn)
+            self.listeners.append(conn)
+
+    def add_listener3(self):
+        """
+        Wartet auf neue Clients auf Port 5000 (tcp) und nimmt die connection an
+        """
+        self.serversock3 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.serversock3.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.serversock3.bind(("0.0.0.0",5002))
+        self.serversock3.listen(0)
+        while True:
+            conn = (self.serversock3.accept(), 5003)
+            print 'Connected by', conn
+            gevent.spawn(self.hande_client, conn)
+            self.listeners.append(conn)
+
+    def send_debug(self, data):
+        """
+        Sendet empfangene Daten an alle angemeldeten Clients auf den Port für
+        debug-daten (udp)
+        """
+        for conn in (self.listeners):
+            self.sendersock.sendto(data, (conn[0][1][0], conn[1]))
+
+    def hande_client(self, con):
+        """
+        :param con: Conection eines Clienten
+        :type con: tupel(con, (ip port))
+
+        Handelt die TCP-Client verbindung. Versucht alle 10 Sekunden ein
+        ping zu senden, wenn das fehlschlägt ist der Client nicht mehr da, und
+        wird aus der Liste der Clients entfehrnt.
+        """
+        try:
+            while True:
+                d = con[0][0].send("ping")
+                gevent.sleep(10)
+        except:
+            print "lost connection from ", con[1]
+            self.listeners.remove(con)
+
+if __name__ == "__main__":
+    debrelay = DebugRepeader()
+    while True:
+        gevent.sleep(10)

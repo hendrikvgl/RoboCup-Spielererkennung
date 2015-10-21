@@ -1,0 +1,12 @@
+CM-730
+******
+
+Der CM-730 ist der Subcontroller vom Darwin. Es sitzt über dem Mainboard und
+übernimmt die Ansteuerung der Motoren, sowie der LEDs. Kommunikation mit der
+Hardware läuft größtenteils über das Setzen von Werten im EEPROM des CM-730.
+
+.. note::
+    Es ist nur möglich den CM-730 direkt vom Fit-PC des Roboters anzusteuern.
+    Direktes Setzen im EEPROM über die Motorkabel funktioniert nicht! Es ist
+    also z.B. nicht möglich das USB2DXL-Tool zu benutzen, um damit auf das
+    CM-730 zuzugreifen.

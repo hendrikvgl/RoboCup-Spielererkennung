@@ -1,0 +1,17 @@
+{
+    "keyframes": [
+        {
+            "duration": 0.6,
+            "goals": {
+                "LElbow": 90.0,
+                "LShoulderPitch": 155.0,
+                "LShoulderRoll": 8.0,
+                "RElbow": -90.0,
+                "RShoulderPitch": -155,
+                "RShoulderRoll": -8
+            },
+            "pause": 0.0
+        }
+    ],
+    "name": "/tmp/backup.json"
+}

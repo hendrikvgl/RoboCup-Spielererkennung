@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#/usr/bin/espeak -p 95 -v en-uk-north -s 180 "$@"
+/usr/bin/espeak -v en+f3 -s 180 "$@"
+
+exit $?

@@ -1,0 +1,31 @@
+"PLAYER" : 4
+animations:
+    motion: # config für tamara für artificial grass
+        torjubel : "ok"
+
+"ZMPConfig":
+    Darwin:
+        "HipPitch": 20
+        "Parameter":
+            "footX": 0.033
+            "supportFront2": 0.015
+"motion":
+    min_pitch_correction: -7
+    max_pitch_correction: 1
+    angle_diff_threshold: 4
+    offset_update_interval: 0.33
+    offset_pass_zero_skip: 0.33
+    robot_angle_y_offset: 3
+
+
+
+
+"NEW_CAMERA_INVERTED_PICTURE" : true
+"JointOverride":
+ - name: "Camera"
+   id: 31
+   transform: [0, 0, 0]
+   rpy: [0, -15, 0]
+   comment: "The local and global koordinate system are equal"
+   mass_offsets:
+     Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }

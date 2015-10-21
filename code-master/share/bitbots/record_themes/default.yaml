@@ -1,0 +1,85 @@
+# Color-scheme for the record script
+# 
+# Urwid-Tuples can have the following arguments:
+# name, foreground, background[[, mono], foreground_high, background_high]
+#
+# All parameters are strings
+# name = is an unique, self descripting identifyer
+# foreground = foreground-color and optionally comma seperated "settings"
+# background = background-color
+# mono = comma seperated string of "settings"
+# foreground_high = high-color and optionally comma seperated "settings"
+# background_high = high-color
+#
+# foreground colors:
+#    'black'
+#    'dark red'
+#    'dark green'
+#    'brown'
+#    'dark blue'
+#    'dark magenta'
+#    'dark cyan'
+#    'light gray'
+#    'dark gray'
+#    'light red'
+#    'light green'
+#    'yellow'
+#    'light blue'
+#    'light magenta'
+#    'light cyan'
+#    'white'
+#
+# backgound colors:
+#    'black'
+#    'dark red'
+#    'dark green'
+#    'brown'
+#    'dark blue'
+#    'dark magenta'
+#    'dark cyan'
+#    'light gray'
+#
+# settings:
+#    ‘bold’ 
+#    ‘underline’
+#    ‘blink’
+#    ‘standout’
+#
+# foreground_/ background_high is an rgb string in the range
+# '#000' to 'fff' (so 256 colors are possible)
+# Other color specifications are possible too, but the hex-notation 
+# can map all possible colors, so let us use that as a standard.
+#
+# If a requested high_color can not be displayed on the current console,
+# urwid falls back to the specified standard-color
+# if the console is monochrome, urwid uses only the "settings" specified 
+# in the "mono" field
+#
+# @author Timon
+
+- ['caption1', 'light red', 'default']
+- ['caption2', 'light blue', 'default']
+- ['caption3', 'light magenta', 'default']
+- ['caption4', 'yellow', 'default']
+- ['unsaved', 'yellow', 'default']
+- ['alert', 'white', 'dark red','blink,bold,standout']
+- ['critical', 'white', 'dark red']
+- ['error', 'light red', 'default']
+- ['warning', 'yellow', 'default']
+- ['debug', 'light blue', 'default']
+- ['help_usage', 'light blue', 'default']
+- ['help_caption', 'light blue', 'default', '', '#44f', '']
+- ['help_default', 'default', 'default']
+- ['help_raw', 'dark blue', 'default']
+- ['help_emphasis', 'light blue', 'default', 'underline']
+- ['help_unparseable', 'brown', 'default']
+- ['scroll_indicator', 'light blue', 'default']
+- ['command_indicator', 'yellow', 'default']
+- ['red', 'light red', 'default']
+- ['mv_highlight', 'white', 'dark red','',]
+- ['green', 'light green', 'default']
+- ['mi_motor_name', 'light blue', 'default', 'bold'] #MotorInfo Screen
+- ['mi_motor_id', 'light blue', 'default'] #MotorInfo Screen
+- ['mi_motor_tag', 'light green', 'default'] #MotorInfo Screen
+- ['data_field_outline', 'default', 'default']
+- ['data_field_outline_focus', 'yellow', 'default']

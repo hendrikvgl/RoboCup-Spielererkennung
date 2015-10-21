@@ -1,0 +1,41 @@
+"RobotTypeName": "Minibot"
+"PLAYER" : 3
+
+X: 3
+Y: -10
+
+"ZMPConfig":
+    Minibot:
+        "HipPitch": 25
+        "Parameter":
+            "footX": 0.033
+            "zPhase": [0.1, 0.9]
+            "xPhase": [0.25, 0.75]
+            "phSingle": [0.2,0.7]
+
+"motion":
+    angle_diff_threshold: 5
+    angle_diff_belly_threshold: 3
+    max_pitch_correction: 50
+    min_pitch_correction: -50
+    max_belly_pitch_correction: 30
+    min_belly_pitch_correction: -10
+    robot_angle_y_offset: 1
+    # Wenn der y winkel hier -60 ist, dann ist der diff auch ca -60
+    offset_update_interval: 0.25
+    offset_pass_zero_skip: 0.25
+
+animations:
+    motion:
+        front-up: "front-up-minibot"
+        bottom-up: "front-up-minibot"
+        toSquat: "to-squat-minibot"
+        stand-up: "stand-up-minibot"
+
+getting-up-angles:
+    bendForward:
+        min: 36
+        max: 65
+    squatted:
+        min: -10
+        max: 10

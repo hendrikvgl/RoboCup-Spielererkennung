@@ -1,0 +1,112 @@
+{
+    "default_interpolator": "CatmullRomInterpolator",
+    "name": "lPASS-new",
+"discription": "Passt mit Links. winkel wurden von Marc angepasst und sinnlose motorenstellungen entfernt",
+    "keyframes": [
+        {
+            "duration": 0.2,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 70.0,
+                "LShoulderRoll": 18.0,
+                "RShoulderRoll": -21.0,
+                "LKnee": -56.0,
+                "RHipYaw": 0.0,
+                "LAnklePitch": -28.0,
+                "RKnee": 55.0,
+                "RAnkleRoll": -9.0,
+                "RAnklePitch": 28.0,
+                "LHipPitch": 45.0,
+                "LHipYaw": 0.0,
+                "LHipRoll": 0.0,
+                "RHipRoll": 0.0,
+                "LAnkleRoll": -21.0,
+                "LElbow": 0.0,
+                "RElbow": 30.0,
+                "RHipPitch": -45.0,
+                "RShoulderPitch": -33.0
+            }
+        },
+        {
+            "duration": 0.072,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 80.0,
+                "LShoulderRoll": 12.0,
+                "LKnee": -85.0,
+                "LAnklePitch": -43.0,
+                "LHipPitch": 53.0,
+                "LHipYaw": -30.0,
+                "LHipRoll": -7.0,
+                "RHipRoll": 3.0,
+                "LAnkleRoll": -16.0,
+                "RHipPitch": -52.0
+            }
+        },
+        {
+            "duration": 0.072,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderRoll": 21.0,
+                "LKnee": -30.0,
+                "LAnklePitch": 18.0,
+                "LHipPitch": 62.0,
+                "LHipYaw": -36.0,
+                "LHipRoll": 0.0,
+                "RHipRoll": 0.0,
+                "LAnkleRoll": -10.0,
+                "RElbow": 50.0,
+                "RHipPitch": -43.0,
+                "RShoulderPitch": -15.0
+            }
+        },
+        {
+            "duration": 0.072,
+            "pause": 0.096,
+            "goals": {
+                "LShoulderPitch": 90.0,
+                "LShoulderRoll": 21.0,
+                "RShoulderRoll": -21.0,
+                "RAnkleRoll": -10,
+                "LHipYaw": -27.0,
+                "LHipRoll": 37.0
+            }
+        },
+        {
+            "duration": 0.072,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 76.0,
+                "LHipYaw": -35.0,
+                "LHipRoll": 0.0
+            }
+        },
+        {
+            "duration": 0.2,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 47.0,
+                "LKnee": -85.0,
+                "LAnklePitch": -43.0,
+                "RAnklePitch": 25.0,
+                "LHipYaw": -0.0,
+                "LElbow": -30.0,
+                "RElbow": 30.0,
+                "RShoulderPitch": -42.0
+            }
+        },
+        {
+            "duration": 0.072,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 41.0,
+                "LKnee": -56.0,
+                "LAnklePitch": -28.0,
+                "RAnkleRoll": 0.0,
+                "LHipPitch": 45.0,
+                "LAnkleRoll": 0.0,
+                "RShoulderPitch": -48.0
+            }
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+# A toggle for the WhistleModule if the recognition should be active
+"toggleWhistleRecognitionActive": False
+
+# Parameter for the audio service system
+"AudioServicePort": 56434
+
+# Sampling Rate we use for recording
+# somehow the system throw an error for 441000
+# If we want to do speech processing we need to look againon that
+"SamplingRate": 24000
+
+# Window Length to use for FFT
+"WindowLength": 1024
+
+
+# The time the signal needs to be in the frequency window to count as whistle
+"ActivationThresholdTime": 0.076
+
+# The frequency range to look for whistle
+"ActivationFrequencyRange": [3500, 4000]

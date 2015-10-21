@@ -1,0 +1,247 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+# This Script checks the Synthax of Python and finds eventual problems
+
+import subprocess
+import os
+import sys
+
+
+class PythonChecker():
+    """ This Class looks on the given Python Files and checks them for Syntax Errors """
+
+    def __init__(self, WARNINGS_ENABLED=False):
+        # Test for VirtualEnv Activation
+        if not self.is_virtual_environment_active():
+            print "Please activate your VirtualEnv first!"
+            exit(1)
+        # Set the failed flag
+        self.failed = False
+
+        # Set Up Error List
+        self.errorListPEP8 = []
+        # Set Up Warning List
+        self.warningListPEP8 = []
+        # Fill the Lists
+        self.fill_list_pep8()
+
+        # Set Up Warning List
+        self.warningListPyflakes = []
+        # set Up Error List
+        self.errorListPyflakes = []
+        # Fill the Lists
+        self.fill_list_pyflakes()
+
+        # Set the Warning Flag for PEP8
+        self.WARNINGS_ENABLED = WARNINGS_ENABLED
+
+    def fill_list_pep8(self):
+        ''' WARNING List '''
+        self.warningListPEP8.append(
+            "W293")  # W293 blank line contains whitespace
+        self.warningListPEP8.append("W391")  # W391 blank line at end of file
+        self.warningListPEP8.append("E501")  # E501 line too long
+        self.warningListPEP8.append(
+            "E231")  # E231 missing whitespace after ','
+        self.warningListPEP8.append("E302")  # E302 expected 2 blank lines
+        self.warningListPEP8.append("E303")  # E303 too many blank lines
+        self.warningListPEP8.append(
+            "E225")  # E225 missing whitespace around operator
+        self.warningListPEP8.append("W291")  # W291 trailing whitespace
+        self.warningListPEP8.append("E203")  # E203 whitespace before ','
+        self.warningListPEP8.append(
+            "E261")  # E261 at least two spaces before inline comment
+        self.warningListPEP8.append("E201")  # E201 whitespace after '('
+        self.warningListPEP8.append("E301")  # E301 expected 1 blank line
+        self.warningListPEP8.append("W292")  # W292 no newline at end of file
+        self.warningListPEP8.append(
+            "E221")  # E221 multiple spaces before operator
+        self.warningListPEP8.append(
+            "E222")  # E222 multiple spaces after operator
+        self.warningListPEP8.append(
+            "E251")  # E251 no spaces around keyword / parameter equals
+        self.warningListPEP8.append(
+            "E401")  # E401 multiple imports on one line
+        ''' ERROR List '''
+        self.errorListPEP8.append("E113")  # E113 unexpected indentation
+        self.errorListPEP8.append(
+            "E101")  # E101 indentation contains mixed spaces and tabs
+        self.errorListPEP8.append(
+            "E111")  # E111 indentation is not a multiple of four
+        self.errorListPEP8.append(
+            "E702")  # E702 multiple statements on one line (semicolon)
+        self.errorListPEP8.append(
+            "E701")  # E701 multiple statements on one line (colon)
+
+    def fill_list_pyflakes(self):
+        ''' WARNING List '''
+        self.warningListPyflakes.append(" imported but unused")
+        self.warningListPyflakes.append(" unable to detect undefined names")
+        self.warningListPyflakes.append(" redefinition of unused ")
+        self.warningListPyflakes.append(" is assigned to but never used")
+        self.warningListPyflakes.append(" redefinition of function ")
+        ''' ERROR List '''
+        self.errorListPyflakes.append(" undefined name ")
+
+    def check_output(self, command):
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+        output = process.communicate()[0]
+        if "IOError" in output:
+            raise IOError
+        else:
+            return output
+
+    def check_file(self, path):
+        print
+        print "Start to Check " + path
+        try:
+            self.check_file_pep8(path)
+            self.check_file_pyflakes(path)
+        except IOError:
+            print "[ERROR] File not found!"
+            self.failed = True
+
+    def check_file_pyflakes(self, path):
+        command = 'pyflakes %s' % (path)
+        result = self.check_output(command)
+        # Error Saving
+        errors = 0
+        warnings = 0
+        # Check the result for Errors
+        for line in result.split('\n')[:-1]:
+            # Was found in Warning or Errors
+            wasFound = False
+            # Check for Warnings
+            for warning in self.warningListPyflakes:
+                if warning in line:
+                    warnings += 1
+                    if self.WARNINGS_ENABLED:
+                        print "[WARNING]: " + line
+                    wasFound = True
+                    break
+            # Check for Errors
+            for error in self.errorListPyflakes:
+                if error in line:
+                    print "[ERROR]: " + line
+                    errors += 1
+                    wasFound = True
+                    break
+
+            if not wasFound:
+                print "[UNKNOWN] : " + line
+        # Final Check and Output for Statistics
+        hasErrors = (errors != 0)
+        if hasErrors:
+            print "[PYFLAKES - FAIL]: " + "%s Errors and %s Warnings" % (errors, warnings)
+        else:
+            print "[PYFLAKES - GOOD]: " + "0 Errors and %s Warnings" % (warnings)
+        # Change the Error Flag on Errors
+        self.failed = self.failed or hasErrors
+
+    def check_file_pep8(self, path):
+        command = 'pep8 %s' % (path)
+        lines = self.check_output(command).split("\n")[0:-1]
+        # Error Saving
+        errors = 0
+        warnings = 0
+        # Iterate over all Lines and mark Errors as Errors
+        for line in lines:
+            code = line.split(" ")[1]
+            if code in self.warningListPEP8:
+                warnings += 1
+                if self.WARNINGS_ENABLED:
+                    print "[WARNING]: " + line
+            elif code in self.errorListPEP8:
+                print "[ERROR]: " + line
+                errors += 1
+            else:
+                print "[UNKNOWN] : " + line
+        # Final Check and Output for Statistics
+        hasErrors = (errors != 0)
+        if hasErrors:
+            print "[PEP8 - FAIL]: " + "%s Errors and %s Warnings" % (errors, warnings)
+        else:
+            print "[PEP8 - GOOD]: " + "0 Errors and %s Warnings" % (warnings)
+        # Change the Error Flag on Errors
+        self.failed = self.failed or hasErrors
+
+    def is_virtual_environment_active(self):
+        self.venv_path = os.environ['VIRTUAL_ENV']
+        return len(self.venv_path) > 0
+
+    def finish_run(self):
+        if self.failed:
+            print
+            print "Some checks failed!"
+            exit(1)
+        else:
+            print
+            print "All valid!"
+            exit(0)
+
+
+def check_output(command):
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+    output = process.communicate()[0]
+    if "IOError" in output:
+        raise IOError
+    else:
+        return output
+
+
+def get_all_files_to_check():
+    venv_path = os.environ['VIRTUAL_ENV']
+    one = check_output(
+        "grep --color=auto -iR '!/usr/bin/env python' " + venv_path + "/*")
+    two = check_output("find " + venv_path + " -name '*.py'")
+
+    lst = two.split("\n")
+    for element in one.split("\n"):
+        b = element.split(":")
+        if b[0] not in lst:
+            lst.append(b[0])
+    return lst
+
+
+def main(debug):
+    pc = PythonChecker(debug)
+
+    filtered = get_all_files_to_check()
+
+    # Ignore some Python Libarys
+    filtered = [v for v in filtered if '/site-packages' not in v]
+    filtered = [v for v in filtered if '/sre_parse.py' not in v]
+    filtered = [v for v in filtered if '/posixpath.py' not in v]
+    filtered = [v for v in filtered if '/re.py' not in v]
+    filtered = [v for v in filtered if '/UserDict.py' not in v]
+    filtered = [v for v in filtered if '/copy_reg.py' not in v]
+    filtered = [v for v in filtered if '/locale.py' not in v]
+    filtered = [v for v in filtered if '/genericpath.py' not in v]
+    filtered = [v for v in filtered if '/_weakrefset.py' not in v]
+    filtered = [v for v in filtered if '/sre_compile.py' not in v]
+    filtered = [v for v in filtered if '/warnings.py' not in v]
+    filtered = [v for v in filtered if '/abc.py' not in v]
+    filtered = [v for v in filtered if '/types.py' not in v]
+
+    filtered = [v for v in filtered if len(v) > 0]
+
+    for f in filtered:
+        pc.check_file(f)
+
+    pc.finish_run()
+
+if __name__ == '__main__':
+    name = sys.argv[0].split("/")[-1]
+    print
+    print "\tUse " + name + " [True] to check python files for style errors."
+    print
+
+    if len(sys.argv) == 2:
+        if (sys.argv[1] == 'True'):
+            main(True)
+        else:
+            print "\tWant to start with Warnings? Use '" + name + " True'"
+            print
+    else:
+        main(False)

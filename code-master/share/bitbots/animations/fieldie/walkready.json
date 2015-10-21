@@ -1,0 +1,36 @@
+{
+    "name": "walkready",
+    "default_interpolator": "LinearInterpolator",
+    "keyframes": [
+        {
+            "duration": 2.5,
+            "goals": {
+                "LAnklePitch": -29.971,
+                "LAnkleRoll": -0.791,
+                "LElbow": -15.0,
+                "LHipPitch": 36.123,
+                "LHipRoll": -0.352,
+                "LHipYaw": 0.0,
+                "LKnee": -53.174,
+                "LShoulderPitch": 45.0,
+                "LShoulderRoll": 0.0,
+                "RAnklePitch": 29.971,
+                "RAnkleRoll": 0.791,
+                "RElbow": 15.0,
+                "RHipPitch": -36.123,
+                "RHipRoll": 0.352,
+                "RHipYaw": 0.0,
+                "RKnee": 53.174,
+                "RShoulderPitch": -45.0,
+                "BellyRoll": 0.0,
+                "BellyPitch": 0.0,
+                "RToe": 0.0,
+                "LToe": 0.0,
+                "RSchoulderYaw": 0.0,
+                "LShoulderYaw": 0.0,
+                "RShoulderRoll": 0.0
+            },
+            "pause": 0.5
+        }
+    ]
+}

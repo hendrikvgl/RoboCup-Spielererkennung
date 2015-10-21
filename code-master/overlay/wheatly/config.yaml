@@ -1,0 +1,29 @@
+"PLAYER" : 2
+"animations" :
+    # Animations for wheatly on artificial grass wm 2015
+    motion:
+        #walkready : "walkready_zmp"
+        torjubel : "talk1"
+
+
+"ZMPConfig":
+    "Darwin":
+        "Parameter":
+            "footX": 0.040
+            "supportSideX": -0.02
+            "supportTurn": -0.02
+
+"motion":
+    robot_angle_y_offset: -1
+    max_pitch_correction: 10
+    min_pitch_correction: -10
+"NEW_CAMERA_INVERTED_PICTURE" : true
+"walking.armsOff" : true
+"JointOverride":
+ - name: "Camera"
+   id: 31
+   transform: [0, 0, 0]
+   rpy: [0, -15, 0]
+   comment: "The local and global koordinate system are equal"
+   mass_offsets:
+     Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }

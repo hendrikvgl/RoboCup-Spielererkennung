@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="62cm" height="35cm" viewBox="-460 -220 1240 700" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffb0" x="0" y="-220" width="780" height="600"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="0" y="-220" width="780" height="600"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="83.9">
+      <tspan x="390" y="83.9"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #f7b028" x="329" y="-173" width="433" height="525"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="329" y="-173" width="433" height="525"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="545.5" y="93.4">
+      <tspan x="545.5" y="93.4"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffff00" x="-460" y="-220" width="460" height="600"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-460" y="-220" width="460" height="600"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-230" y="83.9">
+      <tspan x="-230" y="83.9"></tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-100" y="400" width="200" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-100" y="400" width="200" height="60"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="0" y="433.9">
+      <tspan x="0" y="433.9">Hardware</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-420" y="100" width="200" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-420" y="100" width="200" height="40"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-320" y="123.9">
+      <tspan x="-320" y="123.9">Motion</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="548" y="214" width="180" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="548" y="214" width="180" height="40"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="638" y="237.9">
+      <tspan x="638" y="237.9">Vision</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-400" y="-40" width="200" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-400" y="-40" width="200" height="40"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-300" y="-16.1">
+      <tspan x="-300" y="-16.1">Walking</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="10" y="-167" width="274" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="10" y="-167" width="274" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="147" y="-145.1">
+      <tspan x="147" y="-145.1">Behaviour</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-60" y="80" width="140" height="60"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-60" y="80" width="140" height="60"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="10" y="113.9">
+      <tspan x="10" y="113.9">IPC</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="-60" y="200" width="120" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-60" y="200" width="120" height="40"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="0" y="223.9">
+      <tspan x="0" y="223.9">Debug</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="60" y="420" width="80" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="60" y="420" width="80" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="100" y="441.9">
+      <tspan x="100" y="441.9">Kamera</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="100" y="420">
+    <tspan x="100" y="420"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="-140" y="420" width="72.7" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-140" y="420" width="72.7" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-103.65" y="441.9">
+      <tspan x="-103.65" y="441.9">Motoren</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" x1="-288.528" y1="240.893" x2="-125.122" y2="415.107"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" points="-280.334,242.319 -290.822,238.446 -287.628,249.161 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" points="-133.316,413.681 -122.828,417.554 -126.022,406.839 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-240" y="300">
+    <tspan x="-240" y="300">Spricht mit</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" x1="140.891" y1="416.924" x2="270.591" y2="350.074"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" points="144.508,409.435 137.91,418.461 149.089,418.324 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" points="266.975,357.563 273.573,348.537 262.393,348.675 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="441" y="255">
+    <tspan x="441" y="255">Rohbild</tspan>
+    <tspan x="441" y="271">Daten</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-350" y1="0" x2="-368.684" y2="93.4221"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-372.284,85.9246 -369.342,96.711 -362.478,87.8858 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-440" y="40">
+    <tspan x="-440" y="40">Zielwerte der</tspan>
+    <tspan x="-440" y="56"> Motoren</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="10" y1="73.3433" x2="10" y2="-131"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="5,66.6974 10,76.6974 15,66.6974 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="12" y="-68">
+    <tspan x="12" y="-68">Zielgeschwindigkeit</tspan>
+    <tspan x="12" y="-52"> und Richtung</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-246.114" y1="2.59729" x2="-59.9695" y2="80.658"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-238.052,0.556467 -249.207,1.30017 -241.919,9.77841 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="340" y="80">
+    <tspan x="340" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="211" y="109">
+    <tspan x="211" y="109">Motoren Ist-Position</tspan>
+  </text>
+  <text font-size="25.9644" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-340" y="-180">
+    <tspan x="-340" y="-180">Motion Prozess</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="540" y="-60" width="180" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="540" y="-60" width="180" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="630" y="-38.1">
+      <tspan x="630" y="-38.1">P*-Processing</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="638" y="12">
+    <tspan x="638" y="12">Erkannte Bälle/Tore</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="500" y="-89">
+    <tspan x="500" y="-89">Gefilterte Bälle/Tore</tspan>
+  </text>
+  <text font-size="27.0933" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="220" y="-180">
+    <tspan x="220" y="-180">Behaviour Prozess</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="543" y="34" width="200" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2.35099e-37; stroke: #000000" x="543" y="34" width="200" height="38"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="643" y="56.9">
+      <tspan x="643" y="56.9">Transformer</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="646" y="141">
+    <tspan x="646" y="141">Position Bälle/Tore</tspan>
+    <tspan x="646" y="157">im Bild</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-220" y1="140" x2="-66.7082" y2="140"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-73.3541,145 -63.3541,140 -73.3541,135 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-200" y="160">
+    <tspan x="-200" y="160">Motoren Ist-Position</tspan>
+    <tspan x="-200" y="176">Motion-State</tspan>
+    <tspan x="-200" y="192"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-140" y="160">
+    <tspan x="-140" y="160"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-60.0009" y1="106.956" x2="-213.298" y2="100.291"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-206.441,95.5848 -216.649,100.146 -206.876,105.575 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-200" y="120">
+    <tspan x="-200" y="120">Motoren Soll-Position</tspan>
+    <tspan x="-200" y="136"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="40" y="112" width="101.9" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="40" y="112" width="101.9" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="90.95" y="133.9">
+      <tspan x="90.95" y="133.9">State</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="79.9298" y1="103.703" x2="536.321" y2="62.6062"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="530.15,68.182 539.662,62.3053 529.254,58.2223 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="240" y="100">
+    <tspan x="240" y="100"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-180" y="20">
+    <tspan x="-180" y="20">Zielgeschwindigkeit</tspan>
+    <tspan x="-180" y="36">         und Richtung</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-300" y="-20">
+    <tspan x="-300" y="-20"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-316.667" y1="100.005" x2="-301.103" y2="6.61693"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-297.263,13.9944 -300.551,3.30847 -307.127,12.3504 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-300" y="60">
+    <tspan x="-300" y="60">Motion-State</tspan>
+    <tspan x="-300" y="76">Gyro</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="357" y="-59" width="140" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="357" y="-59" width="140" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="427" y="-37.1">
+      <tspan x="427" y="-37.1">Animation Module</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="497" y1="-23" x2="86.4548" y2="93.1735"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="91.4881,86.5528 83.2274,94.0867 94.211,96.175 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="183" y="-90">
+    <tspan x="183" y="-90">Animation starten</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="345" y="38">
+    <tspan x="345" y="38">Motorpositionen</tspan>
+    <tspan x="345" y="54">State</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="79.9973" y1="83.1711" x2="350.736" y2="-20.5992"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="346.32,-13.5518 353.868,-21.7996 342.741,-22.8894 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="390" y="80">
+    <tspan x="390" y="80"></tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="190" y="18">
+    <tspan x="190" y="18">State</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-320" y="120">
+    <tspan x="-320" y="120"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="-400" y="200" width="180" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-400" y="200" width="180" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-310" y="221.9">
+      <tspan x="-310" y="221.9">Lowlevel</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" x1="-313.16" y1="193.351" x2="-319.147" y2="146.654"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-318.965,187.395 -312.734,196.678 -309.046,186.123 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #000000" points="-313.342,152.61 -319.573,143.327 -323.261,153.882 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-300" y="180">
+    <tspan x="-300" y="180">Spricht mit</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="559" y="-162" width="140" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="559" y="-162" width="140" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="629" y="-140.1">
+      <tspan x="629" y="-140.1">Gamecontroller</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="457" y="-155">
+    <tspan x="457" y="-155">State</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="-39.8" y="444" width="79.6" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="-39.8" y="444" width="79.6" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="0" y="465.9">
+      <tspan x="0" y="465.9">Sensoren</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" x1="-21.1075" y1="443.999" x2="-259.896" y2="240.353"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #ed7171" points="-251.595,240.861 -262.448,238.176 -258.084,248.47 "/>
+  </g>
+  <text font-size="22.5774" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="522.5" y="331.5">
+    <tspan x="522.5" y="331.5">Basic Module</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="241.6" y="295" width="170.8" height="52"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="241.6" y="295" width="170.8" height="52"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="327" y="316.9">
+      <tspan x="327" y="316.9">Kamera </tspan>
+      <tspan x="327" y="332.9">Representation</tspan>
+    </text>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="327" y="321">
+    <tspan x="327" y="321"></tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="327" y="321">
+    <tspan x="327" y="321"></tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="160" y="360">
+    <tspan x="160" y="360">Spricht mit</tspan>
+    <tspan x="160" y="376"></tspan>
+  </text>
+  <g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="560.014" y1="-60.0021" x2="290.497" y2="-129.329"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="298.179,-132.516 287.248,-130.164 295.688,-122.831 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="639.793" y1="34.0038" x2="631.117" y2="-17.3854"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="637.153,-11.6646 630.558,-20.6927 627.293,-9.99987 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="638.552" y1="214.004" x2="642.291" y2="78.6629"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="647.106,85.4444 642.384,75.3101 637.109,85.1682 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="193.655" y1="-131.004" x2="374.086" y2="-61.4097"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="366.086,-59.1364 377.215,-60.2027 369.685,-68.4664 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="290.697" y1="-147.509" x2="559.042" y2="-144.726"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="297.395,-152.44 287.343,-147.544 297.291,-142.441 "/>
+    </g>
+    <g>
+      <line style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" x1="412.384" y1="295.114" x2="541.58" y2="255.946"/>
+      <polyline style="fill: none; fill-opacity:0; stroke-width: 3; stroke: #1e90ff" points="536.671,262.659 544.79,254.973 533.77,253.089 "/>
+    </g>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="231" y="384" width="549" height="96"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 0.02; stroke: #000000" x="231" y="384" width="549" height="96"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="505.5" y="419.9">
+      <tspan x="505.5" y="419.9">Blaue Pfeile: Via DataDictonary</tspan>
+      <tspan x="505.5" y="435.9">          Schwarze Pfeile: Via Methodenaufrufe</tspan>
+      <tspan x="505.5" y="451.9">                Rote Pfeile: Via Hardware-Kommunikation</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #1e90ff" x1="251" y1="408" x2="357.584" y2="408"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #1e90ff" points="354.292,413 364.292,408 354.292,403 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #000000" x1="251" y1="428" x2="357.584" y2="428"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #000000" points="354.292,433 364.292,428 354.292,423 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #ed7171" x1="250" y1="450" x2="356.584" y2="450"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 6; stroke: #ed7171" points="353.292,455 363.292,450 353.292,445 "/>
+  </g>
+</svg>

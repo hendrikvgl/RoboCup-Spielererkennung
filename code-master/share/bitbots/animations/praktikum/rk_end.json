@@ -1,0 +1,82 @@
+{
+    "author": "Anne-Victoria Meyer, Benjamin Scholz, Tim Dobert", 
+    "description": "Endanimation für den dynamischen Schuss mit rechts", 
+    "hostname": "wheatley", 
+    "keyframes": [
+        {
+            "duration": 0.07200000000000001, 
+            "goals": {
+                "RAnklePitch": 43.154296875, 
+                "RAnkleRoll": 15.908203125, 
+                "RElbow": 29.970703125, 
+                "RHipPitch": -63.720703125, 
+                "RHipRoll": 7.119140625, 
+                "RHipYaw": 0.703125, 
+                "RKnee": 85.869140625, 
+                "RShoulderPitch": -47.021484375, 
+                "RShoulderRoll": 0.0, 
+                "LAnklePitch": -29.970703125, 
+                "LAnkleRoll": 7.734375, 
+                "LElbow": -28.916015625, 
+                "LHipPitch": 36.123046875, 
+                "LHipRoll": -2.8125, 
+                "LHipYaw": 0.703125, 
+                "LKnee": -53.173828125, 
+                "LShoulderPitch": 42.01171875, 
+                "LShoulderRoll": 0.0
+            }, 
+            "pause": 0.1
+        }, 
+        {
+            "duration": 0.112, 
+            "goals": {
+                "RAnklePitch": 29.970703125, 
+                "RAnkleRoll": 0.791015625, 
+                "RElbow": 29.53125, 
+                "RHipPitch": -36.123046875, 
+                "RHipRoll": 0.3515625, 
+                "RHipYaw": 0.0, 
+                "RKnee": 53.173828125, 
+                "RShoulderPitch": -41.30859375, 
+                "RShoulderRoll": 0.0, 
+                "LAnklePitch": -29.970703125, 
+                "LAnkleRoll": 0.791015625, 
+                "LElbow": -29.267578125, 
+                "LHipPitch": 36.123046875, 
+                "LHipRoll": 0.3515625, 
+                "LHipYaw": 0.0, 
+                "LKnee": -53.173828125, 
+                "LShoulderPitch": 48.33984375, 
+                "LShoulderRoll": 0.0
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.496, 
+            "goals": {
+                "RAnklePitch": 29.970703125, 
+                "RAnkleRoll": 0.791015625, 
+                "RElbow": 29.53125, 
+                "RHipPitch": -36.123046875, 
+                "RHipRoll": 0.3515625, 
+                "RHipYaw": 0.0, 
+                "RKnee": 53.173828125, 
+                "RShoulderPitch": -41.30859375, 
+                "RShoulderRoll": 0.0, 
+                "LAnklePitch": -29.970703125, 
+                "LAnkleRoll": 0.791015625, 
+                "LElbow": -29.267578125, 
+                "LHipPitch": 36.123046875, 
+                "LHipRoll": 0.3515625, 
+                "LHipYaw": 0.0, 
+                "LKnee": -53.173828125, 
+                "LShoulderPitch": 48.33984375, 
+                "LShoulderRoll": 0.0
+            }, 
+            "pause": 0.0
+        }
+    ], 
+    "last_edited": "2014-08-19 15:14:39.577256", 
+    "name": "end_kick", 
+    "version": 1
+}

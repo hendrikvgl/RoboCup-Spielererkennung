@@ -1,0 +1,24 @@
+{
+    "default_interpolator": "LinearInterpolator", 
+    "name": "sit-down", 
+    "keyframes": [
+        {
+            "duration": 0.8, 
+            "pause": 1.0, 
+            "goals": {
+                "LKnee": -129.814453125, 
+                "RHipYaw": -0.439453125, 
+                "LAnklePitch": -71.015625, 
+                "RKnee": 128.759765625, 
+                "RAnkleRoll": 2.548828125, 
+                "RAnklePitch": 69.873046875, 
+                "LHipPitch": 65.830078125, 
+                "LHipYaw": -1.318359375, 
+                "LHipRoll": -0.439453125, 
+                "RHipRoll": 0.791015625, 
+                "LAnkleRoll": -0.966796875, 
+                "RHipPitch": -67.763671875
+            }
+        }
+    ]
+}

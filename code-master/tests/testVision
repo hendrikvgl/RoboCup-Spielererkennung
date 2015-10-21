@@ -1,0 +1,128 @@
+#! /usr/bin/python
+#-*- coding:utf-8 -*-
+
+import subprocess
+from os import listdir
+from os.path import isdir
+from darwin.util import say
+import time
+
+imagepath = "/home/nils/Bilder_Mit_Ball/"
+
+VISION_RUNNING = False
+
+from darwin.debug import debugserver
+import gevent
+
+class Analyse(object):
+    def __init__(self):
+        self.bild_ges = 0
+        self.bild_count = 0
+        self.loc_ges = 0
+        self.loc_count = 0
+        self.bal_found = 0
+
+        self.again_count = 0
+        self.m_bal_found = 0
+        self.m_min_bal = 99999999999999L
+        self.m_max_bal = 0
+        self.g_bal_found = 0
+        self.m_bild_count = 0
+
+        self.path = ""
+        self.stats = ""
+
+    def data_handler(self, type, scope, data):
+        #print scope, data
+        scope = scope.split('::')
+        if scope[1] == "bin.View.Bildverarbeitung":
+            dauer = float(data.split(' ')[-1][:-2])
+            self.bild_ges += dauer
+            self.bild_count += 1
+        if scope[1] == "bin.View.Location":
+            dauer = float(data.split(' ')[-1][:-2])
+            self.loc_ges += dauer
+            self.loc_count += 1
+        if scope[1] == "bin.View.Ball":
+            self.bal_found += 1
+
+    def new_path(self, path):
+        self.stats += "\n========="
+        self.stats += "\n Stats für: %s" % path
+        self.stats += "\n Ballfound: %d Min: %d Max: %d" % (self.m_bal_found /
+            (self.again_count), self.m_min_bal, self.m_max_bal)
+        count = float(self.m_bild_count)
+        self.stats += "\n Zeit pro Frame: %.02f ms, Locator: %.02f ms"% (self.bild_ges / count, self.loc_ges / count)
+        self.stats += "\n %d Bilder %d mal angesehen" % (self.m_bild_count / self.again_count, self.again_count)
+        print self.stats
+        self.m_max_bal = 0
+        self.m_min_bal = 999999999999L
+        self.bal_found = 0
+        self.again_count = 0
+        self.g_bal_found += self.m_bal_found
+        self.m_bal_found = 0
+        self.bal_count = 0
+        self.m_bild_count = 0
+
+        self.bild_ges = 0
+        self.bild_ges = 0
+        pass
+
+    def again(self):
+        if self.bal_found < self.m_min_bal:
+            self.m_min_bal = self.bal_found
+        self.m_bal_found += self.bal_found
+        if self.bal_found > self.m_max_bal:
+            self.m_max_bal = self.bal_found
+        self.bal_found = 0
+        self.loc_ges = 0
+        self.loc_count = 0
+        self.again_count += 1
+        self.m_bild_count += self.bild_count
+        self.bild_count = 0
+
+    def print_stat(self):
+        print ("%d Bilder in %.2f ms Verarbeitet (%.2f ms pro bild)" %
+            (self.bild_count, self.bild_ges, self.bild_ges / self.bild_count))
+        print ("%d Lokalisierzngen in %.2f ms Verarbeitet (%.2f ms pro)" %
+            (self.loc_count, self.loc_ges, self.loc_ges / self.loc_count))
+        print ("Es wurden %d Balle gefunden" % self.bal_found)
+
+def cal_vision(args):
+    global VISION_RUNNING
+    print VISION_RUNNING
+    p = subprocess.Popen(args, shell=True)
+    while p.poll() == None:
+        gevent.sleep(1)
+    if p.poll() != 0:
+        say("Vision Failed with error")
+
+    VISION_RUNNING = False
+
+def cal_relay():
+    sock = gevent.socket.socket(gevent.socket.AF_INET, gevent.socket.SOCK_STREAM)
+    sock.connect(("127.0.0.1", 5002))
+    while True:
+        sock.recv(2048)
+
+if __name__ == "__main__":
+    start = time.time()
+    gevent.spawn(cal_relay)
+    an = Analyse()
+    server = debugserver.Server(("127.0.0.1",5003))
+    server.add_listener(an.data_handler)
+    server.start()
+    for path in listdir(imagepath):
+        if isdir(imagepath + path):
+            args = ("vision -n -p %s" % imagepath + path + "/*.gz")
+            gevent.sleep(0)
+            print args
+            for i in range(0,3):
+                VISION_RUNNING=True
+                gevent.spawn(cal_vision, args)
+                while VISION_RUNNING == True:
+                    gevent.sleep(1)
+                an.again()
+            an.new_path(imagepath + path)
+    dt = time.time() - start
+    print "Der Test hat %.2f Minuten gedauert" % (dt / 60)

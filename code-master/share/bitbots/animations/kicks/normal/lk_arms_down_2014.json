@@ -1,0 +1,118 @@
+{
+    "author": "Marc", 
+    "description": "aus lk_io2014 entsanden. bewegt aber arme beim schießen nicht", 
+    "hostname": "wheatley", 
+    "keyframes": [
+        {
+            "duration": 0.5,
+            "goals": {
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": -9.844,
+                "RHipPitch": -36.123, 
+                "RHipRoll": -2.0, 
+                "RHipYaw": -0.176, 
+                "RKnee": 53.174,
+                "LAnklePitch": -35.971, 
+                "LAnkleRoll": -13.623,
+                "LHipPitch": 36.123, 
+                "LHipRoll": -0.791, 
+                "LHipYaw": -0.176, 
+                "LKnee": -45.559
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.072, 
+            "goals": {
+                "RAnklePitch": 29.971,
+                "RAnkleRoll": -9.844,
+                "RHipPitch": -47.9, 
+                "RHipRoll": 10.0,
+                "RHipYaw": -0.176, 
+                "RKnee": 57.48,
+                "LAnklePitch": -42.627, 
+                "LAnkleRoll": -13.623,
+                "LHipPitch": 53.965, 
+                "LHipRoll": -6.592, 
+                "LHipYaw": -0.176, 
+                "LKnee": -85.43
+            }, 
+            "pause": 0.0
+        }, 
+        {
+            "duration": 0.0001,
+            "goals": {
+                "RAnklePitch": 27.07, 
+                "RAnkleRoll": -6.943,
+                "RHipPitch": -43.506, 
+                "RHipRoll": 5.34,
+                "RHipYaw": -0.176, 
+                "RKnee": 55.723,
+                "LAnklePitch": 22.324, 
+                "LAnkleRoll": -9.58,
+                "LHipPitch": 77.695, 
+                "LHipRoll": -6.592, 
+                "LHipYaw": -0.176, 
+                "LKnee": -29.795
+            }, 
+            "pause": 0.25
+        }, 
+        {
+            "duration": 0.072, 
+            "goals": {
+                "RAnklePitch": 29.355, 
+                "RAnkleRoll": -9.844,
+                "RHipPitch": -42.627, 
+                "RHipRoll": 3.34,
+                "RHipYaw": -0.176, 
+                "RKnee": 55.723,
+                "LAnklePitch": -42.627, 
+                "LAnkleRoll": -13.623,
+                "LHipPitch": 67.148,
+                "LHipRoll": -6.592, 
+                "LHipYaw": -0.176, 
+                "LKnee": -85.43
+            }, 
+            "pause": 0.25
+        }, 
+        {
+            "duration": 0.112, 
+            "goals": {
+                "RAnklePitch": 29.971, 
+                "RAnkleRoll": 0.791,
+                "RHipPitch": -36.123, 
+                "RHipRoll": 0.352, 
+                "RHipYaw": 0.0, 
+                "RKnee": 53.174,
+                "LAnklePitch": -29.971, 
+                "LAnkleRoll": -0.791,
+                "LHipPitch": 36.123, 
+                "LHipRoll": -0.352, 
+                "LHipYaw": 0.0, 
+                "LKnee": -53.174
+            }, 
+            "pause": 0.4
+        },
+        {
+            "duration": 0.2,
+            "goals": {
+                "RAnklePitch": 12.0, 
+                "RAnkleRoll": -0.6,
+                "RHipPitch": -50.0, 
+                "RHipRoll": 0.6, 
+                "RHipYaw": 0.277, 
+                "RKnee": 38.0,
+                "LAnklePitch": -12.0, 
+                "LAnkleRoll": 0.6,
+                "LHipPitch": 50.0, 
+                "LHipRoll": 0.6, 
+                "LHipYaw": -0.277, 
+                "LKnee": -38.0
+            }, 
+            "pause": 0.0
+        }
+    ], 
+    "last_edited": "2014-07-07 07:05:42.319522",
+    "name": "lk_arms_down_2014",
+    "version": 1
+}

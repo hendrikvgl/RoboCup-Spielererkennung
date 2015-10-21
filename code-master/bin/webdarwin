@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo -e "\033[1;31m\
+Das Skript 'webdarwin' ist veraltet, ab jetzt gibt es 'glrobot'.\
+\033[0m"
+
+echo
+exec glrobot
+

@@ -1,0 +1,47 @@
+{
+    "author": "Unknown", 
+    "description": "Edit me!", 
+    "hostname": "fiona", 
+    "keyframes": [
+        {
+            "duration": "1.500", 
+            "goals": {
+                "BellyPitch": 0.0, 
+                "BellyRoll": 0.0, 
+                "HeadPan": 0.176, 
+                "HeadTilt": 0.088, 
+                "LAnklePitch": -43.594, 
+                "LAnkleRoll": -1.934, 
+                "LElbow": 69.961, 
+                "LElbowRoll": 0.0, 
+                "LHand": 0.0, 
+                "LHipPitch": 53.965, 
+                "LHipRoll": -3.34, 
+                "LHipYaw": -1.406, 
+                "LKnee": -77.08, 
+                "LShoulderPitch": -0.439, 
+                "LShoulderRoll": 21.182, 
+                "LShoulderYaw": 0.0, 
+                "LToe": 0.0, 
+                "RAnklePitch": 43.066, 
+                "RAnkleRoll": 2.021, 
+                "RElbow": -69.873, 
+                "RElbowRoll": 0.0, 
+                "RHand": 0.0, 
+                "RHipPitch": -53.174, 
+                "RHipRoll": 2.461, 
+                "RHipYaw": 0.791, 
+                "RKnee": 77.256, 
+                "RShoulderPitch": 0.352, 
+                "RShoulderRoll": -21.27, 
+                "RShoulderYaw": 0.0, 
+                "RToe": 0.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "2015-04-24 12:56:12.111816", 
+    "name": "walk_ready_go_2015", 
+    "version": 2
+}

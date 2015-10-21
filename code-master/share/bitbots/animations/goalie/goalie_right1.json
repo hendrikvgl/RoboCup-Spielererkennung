@@ -1,0 +1,8 @@
+{
+
+    "name": "/tmp/backup.json",
+    "keyframes": [
+
+    {"duration": 1, "pause": 0.0, "goals": {"LShoulderPitch": 28.212890625, "LShoulderRoll": 17.490234375, "RShoulderRoll": -21.4453125, "LKnee": -130.25390625, "RHipYaw": 0.087890625, "LAnklePitch": -73.388671875, "RKnee": 128.759765625, "HeadTilt": -40.0, "RAnklePitch": 70.927734375, "LHipPitch": 66.181640625, "LHipYaw": 0.966796875, "LHipRoll": -0.615234375, "RAnkleRoll": -3.955078125, "LAnkleRoll": 1.494140625, "LElbow": -26.015625, "RHipRoll": -4.130859375, "RHipPitch": -69.43359375, "HeadPan": 0.0, "RElbow": -91.494140625, "RShoulderPitch": -170.419921875}},
+    {"duration": 1, "pause": 0.0, "goals": {"LShoulderPitch": 0.52734375, "LShoulderRoll": 26.455078125, "RShoulderRoll": -35.859375, "HeadTilt": -40.0, "LKnee": -11.6015625, "RHipYaw": 5.009765625, "LAnklePitch": -3.69140625, "RKnee": 129.19921875, "RAnkleRoll": 1.7578125, "RAnklePitch": 66.533203125, "LHipPitch": 7.3828125, "LHipYaw": 12.12890625, "LHipRoll": -22.67578125, "RHipRoll": -23.642578125, "LAnkleRoll": -25.400390625, "LElbow": 59.501953125, "RElbow": -93.515625, "RHipPitch": -62.666015625, "HeadPan": -0.52734375, "RShoulderPitch": -176.748046875}}]
+}

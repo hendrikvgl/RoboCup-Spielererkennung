@@ -1,0 +1,11 @@
+Anleitung zur Benutzung des DynamicThrowModule:
+
+* in code/bin/start-demo muss das Modul eingetragen sein: DEMO_RUNS.append("DynamicThrowModule")
+* es darf zeitgleich kein anderes Modul eingetragen sein, dessen Verhalten im Konflikt mit diesem Modul steht
+* auf dem Roboter:
+** Motion mit "motion --no --nostandup" starten
+** Demo mit "start-demo" aktivieren
+* der Roboter sollte sich positionieren und seine Kamera so ausrichten, dass er auf den Bereich vor seinen Füßen guckt
+* wenn nun ein Ball nah genug ist, und nicht zu weit rechts oder links liegt, nimmt der Roboter den Ball auf
+* wenn er den Ball gegriffen hat, macht er einen Einwurf
+* wenn er daneben gegriffen hat, wird der Einwurf abgebrochen und er geht in seine wartende Position zurück

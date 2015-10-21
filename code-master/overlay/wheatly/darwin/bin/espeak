@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/usr/bin/espeak -p 20 -v en-sc -s 140 "$@"
+
+exit $?

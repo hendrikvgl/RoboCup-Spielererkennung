@@ -1,0 +1,138 @@
+{
+    "default_interpolator": "CatmullRomInterpolator",
+"discription": "Bewegt den Arm zum Grüßen",
+    "name": "gruss3",
+
+    "keyframes": [
+        {
+            "duration": 1.0,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.6640625,
+                "RShoulderRoll": 0.439453125,
+                "HeadTilt": -45.0,
+                "LKnee": -5.9765625,
+                "RHipYaw": -0.087890625,
+                "LAnklePitch": -1.58203125,
+                "RKnee": 5.712890625,
+                "RAnkleRoll": -0.087890625,
+                "RAnklePitch": 1.318359375,
+                "LHipPitch": 11.6015625,
+                "LHipYaw": -0.087890625,
+                "LHipRoll": -0.087890625,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "RElbow": 52.646484375,
+                "RHipPitch": -11.77734375,
+                "HeadPan": -26.19140625,
+                "RShoulderPitch": 98.876953125
+            }
+        },
+        {
+            "duration": 0.4,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.6640625,
+                "RShoulderRoll": -25.83984375,
+                "HeadTilt": -60.0,
+                "LKnee": -5.9765625,
+                "RHipYaw": -0.087890625,
+                "LAnklePitch": -1.58203125,
+                "RKnee": 5.712890625,
+                "RAnkleRoll": -0.087890625,
+                "RAnklePitch": 1.318359375,
+                "LHipPitch": 11.6015625,
+                "LHipYaw": -0.087890625,
+                "LHipRoll": -0.087890625,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "RElbow": 60.556640625,
+                "RHipPitch": -11.77734375,
+                "HeadPan": -13.271484375,
+                "RShoulderPitch": 58.798828125
+            }
+        },
+        {
+            "duration": 0.4,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.6640625,
+                "RShoulderRoll": 0.439453125,
+                "HeadTilt": -45.0,
+                "LKnee": -5.9765625,
+                "RHipYaw": -0.087890625,
+                "LAnklePitch": -1.58203125,
+                "RKnee": 5.712890625,
+                "RAnkleRoll": -0.087890625,
+                "RAnklePitch": 1.318359375,
+                "LHipPitch": 11.6015625,
+                "LHipYaw": -0.087890625,
+                "LHipRoll": -0.087890625,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "RElbow": 52.646484375,
+                "RHipPitch": -11.77734375,
+                "HeadPan": -26.19140625,
+                "RShoulderPitch": 98.876953125
+            }
+        },
+        {
+            "duration": 0.4,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.6640625,
+                "RShoulderRoll": -25.83984375,
+                "HeadTilt": -60.0,
+                "LKnee": -5.9765625,
+                "RHipYaw": -0.087890625,
+                "LAnklePitch": -1.58203125,
+                "RKnee": 5.712890625,
+                "RAnkleRoll": -0.087890625,
+                "RAnklePitch": 1.318359375,
+                "LHipPitch": 11.6015625,
+                "LHipYaw": -0.087890625,
+                "LHipRoll": -0.087890625,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "RElbow": 60.556640625,
+                "RHipPitch": -11.77734375,
+                "HeadPan": -13.271484375,
+                "RShoulderPitch": 58.798828125
+            }
+        },
+        {
+            "duration": 1.0,
+            "pause": 0.0,
+            "goals": {
+                "LShoulderPitch": 49.39453125,
+                "LShoulderRoll": 25.927734375,
+                "RShoulderRoll": -26.455078125,
+                "HeadTilt": -35.0,
+                "LKnee": -0.087890625,
+                "RHipYaw": -0.087890625,
+                "LAnklePitch": -1.58203125,
+                "RKnee": -0.087890625,
+                "RAnkleRoll": -0.087890625,
+                "RAnklePitch": 1.318359375,
+                "LHipPitch": 2.8125,
+                "LHipYaw": -0.087890625,
+                "LHipRoll": -0.087890625,
+                "RHipRoll": -0.087890625,
+                "LAnkleRoll": -0.087890625,
+                "LElbow": -9.140625,
+                "RElbow": 8.701171875,
+                "RHipPitch": -3.076171875,
+                "HeadPan": -0.087890625,
+                "RShoulderPitch": -49.921875
+            }
+        }
+    ]
+}

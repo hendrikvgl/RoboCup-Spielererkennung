@@ -1,0 +1,22 @@
+#! /usr/bin/env python
+
+import os
+import sys
+import re
+
+command = "cd $(dirname %s)/../lib ; find bitbots -name \"*.py\"" % str(sys.argv[0])
+#print command
+all_files = os.popen(command)
+
+all_files = [re.sub("/", ".", re.sub(".py\n", "", file)) for file in all_files]
+
+
+for file in all_files:
+    if re.match(".*__init__$", str(file)):
+        continue
+    else:
+        try:
+            #print "__import__(str(%s))\n" % file
+            __import__(str(file))
+        except BaseException as e:
+            print("Exception on import of %s: %s" % (file, e))

@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+from bitbots.remote_control.x_box import XBox
+from bitbots.remote_control.keyboard import KeyBoardControl
+from bitbots.debug import Scope
+
+class MouseControl(KeyBoardControl):
+    def __init__(self, debug,  dev='/dev/hidraw0'):
+        super(MouseControl, self).__init__(debug)
+        self.xbox=XBox(dev)
+
+    def control(self):
+        self.forward = 0
+        self. angular = 0
+        tmp = 0
+        tmp2 = 0
+        tmp3 = 0
+        tmp4 = 0
+        while True:
+            self.xbox.wait_get_event()
+
+            tmp =  self.xbox.forward_l()
+            tmp =  int(tmp / (0x80 / 5))
+            tmp2 =  self.xbox.backward_l()
+            tmp2 =  int(tmp2 / (0x80 / 5)) * -1
+            tmp3 =  self.xbox.left_l()
+            tmp3 =  int(tmp3 / (0x80 / 5))
+            tmp4 =  self.xbox.right_l()
+            tmp4 =  int(tmp4 / (0x80 / 5)) * -1
+            print tmp, tmp2, tmp+tmp2, tmp3, tmp4, tmp3 + tmp4
+            tmp = tmp + tmp2
+            tmp3 = tmp3 + tmp4
+
+
+            if tmp == 0 and tmp3 == 0 and self.forward == 0 and self.angular == 0:
+                self.send(" ")
+            if tmp > self.forward:
+                self.forward +=1
+                self.send('w')
+            elif tmp < self.forward:
+                self.send("s")
+                self.forward -=1
+
+            if tmp3 > self.angular:
+                self.angular +=1
+                self.send('a')
+            elif tmp3 < self.angular:
+                self.send("d")
+                self.angular -=1
+
+            if self.xbox.btn5():
+                self.send("play lk")
+
+            if self.xbox.btn7():
+                self.send("play rk")
+
+
+
+if __name__ == '__main__':
+    debug = Scope("Mousecontrol")
+    dev = raw_input("Device vom Dancepad ändern? (default: /dev/hidraw0)")
+    if not dev:
+        dev = "/dev/hidraw0"
+    ctrl = MouseControl(debug, dev)
+    ctrl.control()

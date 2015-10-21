@@ -1,0 +1,246 @@
+# Hilfstexte für das Record-Script
+append:
+  usage: append <name>
+  help: 
+    Hängt die Animation <name> an die bestehende Animation an.
+author:
+  usage: "author [authorname(s)]"
+  help: |
+    Setzt die Autoreninformationen auf den/die angegebenen Namen 
+    oder zeigt die aktuellen Autorinformationen wenn keine Parameter angegeben werden.
+    .. hint:: Die Namen werden *nicht* in Anführungszeichen gesetzt.
+desc:
+  usage: "desc [description Text]"
+  help: |
+    Setzt den Beschreibungstext, oder zeigt die aktuelle 
+    Beschreibung der Animation an wenn kein neuer Text gegeben ist.
+    .. hint:: Die Beschreibung wird *nicht* in Anführungszeichen gesetzt.
+dump: 
+  usage: "dump <name>"
+  help: |
+    Speichert die aktuelle Animation unter dem angegebenen namen
+    im Homeverzeichnis.
+clear:
+  usage: "clear"
+  help: |
+    Löscht sämtliche bisher aufgenommene Arbeit.
+    Es gibt ein Backup unter ~/backup.json bis zur nächsten
+    Aktion die ein Automatisches Speichern hervorruft.
+copy:
+  usage: "copy <frame> [ziel]"
+  help: |
+    Kopiert den angegebenen frame und fügt ihn an angegebener Stelle ein. 
+    ein. Wird kein Ziel angegeben, so wird der Frame an Ort und Stelle kopiert.
+    Der Frame der sich ggf. an der Zielposition befindet wird nach hinten geschoben.
+exit:
+  usage: "exit"
+  help: |
+    Alias für "quit" - beendet das Record-Script
+help:
+  usage: "help [topic]"
+  help: |
+
+    Befehl: help
+    ============
+
+    Liefert soforthilfe zum thema topic (default: help)
+
+    z.B. help commands gibt einem die Liste mit den verfügbaren Kommandos
+
+
+    Hilfssyntax:
+    <p>         Parameter p ist Pflicht.
+    [p]         Parameter p ist Optional
+    a|b         a XOR b
+record:
+  usage: record
+  help: |
+    Hängt die aktuelle Pose an die Liste der Keyframes an. 
+    Außerdem wird ein backup der neuen animation in ~darwin/backup.json gespeichert.
+revert:
+  usage: "revert [keyframe]"
+  help: |
+    Löscht den letzten Keyframe der Liste.
+    Wird eine Nummer angegeben so wird der Keyframe mit dieser ID gelöscht.
+stiff:
+  usage: "stiff"
+  help: |
+    synonym für *on*.
+meta:
+  usage: "meta"
+  help: |
+    Öffnet eine Ansicht zum editieren der Metadaten, 
+    die zusammen mit einer Animation
+    gespeichert werden.
+move: 
+  usage: "move <von> <nach>"
+  help: |
+    verschriebt angegebenen Frame an die Angegebene Position. 
+    Der Frame beim Ziel wird dabei nach hinten verschoben wenn er existiert.
+    Existiert die Ziel-ID nicht, wird der Frame einfach hinten angehängt.
+init:
+  usage: init
+  help: |
+    Lässt alle Motoren in die Initpose fahren.
+'on': 
+  usage: "on [Motorbezeichnung]"
+  help: |
+    Schaltet die spezifizierten (default: alle) Motoren an,
+    so dass sie ihre aktuelle Position zu halten versuchen. 
+'off': 
+  usage: "off [Motorbezeichnung]"
+  help: |
+    Schaltet die spezifizierten (default: alle) Motoren aus,
+    so dass sie sich frei bewegen lasen.
+play: 
+  usage: "play [selector] [name]"
+  help: |
+    Spielt eine Animation ab.
+    Wird keine Animation angegeben wird die aktuelle Animation abgespielt.
+
+    Optional kann ein *selector* gewählt werden um nur die spezifizierten 
+    Keyframes in die Animation mit aufzunehmen. 
+    Ein gültiger selector sieht folgendermaßen aus::
+
+      1,3-5,7
+
+    Dieser würde genau die Keyframes 1, 3 bis 5 und 7 abspielen.
+
+    Selektoren müssen um Fehler zu vermeiden immer in aufsteigender Reihenfolge
+    aufgeschrieben werden.
+pose:
+  usage: "pose <frame>"
+  help: |
+    Lässt den Roboter die Position des angegebenen keyframes einnehmen.
+    Die Geschwindigkeit des Frames wird ignoriert.
+load: 
+  usage: load <name>
+  help: |
+    Lädt <name>.json in den Zwischenspeicher. 
+    Sucht zunächst im Homeverzeichnis, anschließend unter
+    darwin/share/darwin/animations/
+loglevel:
+  usage: "loglevel [level]"
+  help: |
+    Setzt den loglevel für die Konsole.
+    Python loglevel liegen zwischen 0 und 50
+    Default ist logging.INFO = 20
+    Bei einem Wert über 20 gehen wichtige User-Ausgaben verloren.
+    Ein Wert unter 20 kann debug-zwecken dienen.
+    Der Wert beeinflusst nicht die Loglevel anderer Logging-Senken wie z.B. für die Debug-UI
+    oder eine eventuelle lokale Logdatei.
+    Default- und weitere Einstellungen können in der normalen config.json vorgenommen werden.
+quit:
+  usage: quit
+  help: |
+    Beendet das record script ohne Rückfrage
+relax:
+  usage: relax
+  help: |
+    Synonym für *off*
+navigation:
+  help:  |
+
+      Navigation im Record-UI
+      =======================
+
+      Die Record-UI besteht aus zwei Haupt-Ansichten.
+      Der Obere Teil der Ansicht dient normalerweise der Anzeige der Keyframes.
+      Der Untere Teil dient der Eingabe.
+
+      Es ist möglich die Elemente die man bedienen möchte mit der Maus zu selektieren.
+
+      Desweiteren existieren einige Shortcuts. 
+      Je nach fokussierter Ansicht gibt es unterschiedliche Bedienungsparadigmen.
+
+
+      Keyframe-Ansicht
+      ----------------
+
+      Die Keyframe-Ansicht ist Hotkey-basiert:
+
+      n       - wechsel zum nächsten Keyframe
+      TAB     - wechsel zum nächsten Gelenk
+      h,k,l,j - Navigation wie mit Pfeiltasten (vim-like)
+      ←,↑,→,↓ - Normale Navigation
+      g       - gehe zum ersten Keyframe
+      G       - gehe zum letzten Keyframe
+      i       - Insert Mode (Editiert Feld)
+      DEL     - Löscht Feldinhalt und geht in Edit-Mode
+      m       - Toggle Motorübersicht
+      :       - Wechselt in die Konsole
+
+      Konsolen-Ansicht
+      ----------------
+
+      Enter      - Bestätigt Eingabe
+      ESC        - Wechselt zur Keyframe-Ansicht
+      SHIFT UP   - Wechselt von der Konsoleneingabe zur History
+      SHIFT DOWN - Wechselt von der History zur Konsoleneingabe
+commands:
+  help: |
+    Folgende Kommandos existieren:
+    ------------------------------
+
+    append   - Anfügen einer animationsdatei
+    author   - Lesen/Setzen der Autorinformation
+    clear    - Leeren der Keyframeliste
+    copy     - Kopieren eines Keyframes
+    desc     - Lesen/setzen des Beschreibungstextes
+    dump     - Speichern der Animation
+    help     - Hilfefunktion
+    init     - Bewegt Roboter in Ausgangsposition
+    load     - Laden einer Animationsdatei in den editor
+    loglevel - Stellt Ausgabemenge auf der Konsole ein
+    meta     - Startet die Metadateneditierung
+    motors   - Zeigt Motorübersicht an
+    move     - Verschiebt einen Keyframe
+    off      - Schaltet Motoren locker
+    on       - Schaltet Motoren fest
+    play     - Spielt eine Animation ab
+    pose     - Lässt den Roboter ein Keyframe einnehmen
+    quit     - Beendet die record-ui
+    record   - Nimmt aktuelle Position des Roboters auf
+    relax    - siehe off
+    stiff    - siehe on
+motors:
+  usage: "motors [MotorGruppe]"
+  help: |
+    Zeigt eine Übersicht über die Darwin-Standardmotoren an.
+    Wird der Optionale Parameter "MotorGruppe" übergeben so
+    werden alle Motoren ge-highlighted die dieser Gruppe zugeordnet sind
+motorinfo:
+  usage: "motorinfo [MotorName | MotorID | MotorTag]"
+  help: |
+    Zeigt Informationen zu den Motoren an die dem Suchbegriff zugeordnet werden können.
+    z.B. den Namen zur ID, alle zugerodneten "Tags" sowie 
+    den gegenüberliegenden motor sofern vorhanden und ob dieser invertiert ist.
+mirror:
+  usage: "mirror <keyframe> <motor-tag>"
+  help: |
+    Spiegelt die positionen der unter dem Tag <motor-tag> gefundenen Motoren auf die jeweils 
+    gegenüber liegenden Motoren. Spezialtags für diesen Zweck sind *left*, und *right*
+id:
+  usage: "id <motor-tag>"
+  help: |
+    Gibt die mit dem Tag assoziierten Motor-ID's in der Konsole aus
+
+undo:
+  usage: "undo [n]"
+  help: |
+    Macht n schritte rückgängig, bzw. den letzten wenn kein n gegeben wird.
+
+    Undo wirkt auf jede Aktion die den Zustand der bearbeiteten 
+    Animation verändert hat.
+
+redo:
+  usage: "undo [n]"
+  help: |
+    Stellt n Schritte wieder her, die zuvor rückgängig gemacht wurden, 
+    bzw. den letzten wenn kein n gegeben wird.
+
+xxxtestcommand:
+  usage: "Do not use"
+  help: |
+    Testkommando für diagnosezwecke.
+    Wie hast du überhaupt diese Hilfe-Seite gefunden?

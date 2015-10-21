@@ -1,0 +1,34 @@
+{
+    "name": "backup",
+    "discription": "Nimmt die Arme nach hinteun und lehnt sich ein Stück zurück",
+    "hands": "Ignore",
+    "keyframes": [
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": 55.37109375,
+                "HeadTilt": -25.0,
+                "LAnklePitch": -67.939453125,
+                "LAnkleRoll": 4.658203125,
+                "LElbow": 88.681640625,
+                "LHipPitch": 54.755859375,
+                "LHipRoll": -12.12890625,
+                "LHipYaw": -4.74609375,
+                "LKnee": -130.4296875,
+                "LShoulderPitch": 174.375,
+                "LShoulderRoll": -17.921875,
+                "RAnklePitch": 66.357421875,
+                "RAnkleRoll": -9.84375,
+                "RElbow": 26.19140625,
+                "RHipPitch": -49.5703125,
+                "RHipRoll": -16.34765625,
+                "RHipYaw": -0.263671875,
+                "RKnee": 122.87109375,
+                "RShoulderPitch": -39.55078125,
+                "RShoulderRoll": -17.666015625
+            },
+            "pause": 0.0
+        }
+    ],
+    "name": "/tmp/backup.json"
+}

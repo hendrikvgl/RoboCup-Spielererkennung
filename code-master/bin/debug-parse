@@ -1,0 +1,183 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+from os import listdir, path, system
+from sys import argv
+import re
+
+"""
+Dieses Skript wird während des Builds ausgeführt. Es wird in der CMakeLists.txt
+im lib-Verzeichnis eingebunden. Bei Änderungen an diesem Skript wird
+im 1. Build danach das Skript aktualisiert und die funktionalen Änderungen
+werden erst im 2. Build anwendbar sein.
+
+Dieses Skript pared die Python Dateien nach DEBUG(LEVEL, Log und so weiter... .
+Wenn das Level niedrig genug ist, dann wird DEBUG durch self.debug ersetzt.
+Das ruft im Debug::Scope die __callable__ Methode auf, der reguläre Debug weg.
+In diesem Fall stimmt implizit die Klammerung.
+Wenn das Level zu groß ist, dann werden alle zu dem DEBUG(LEVEL, ... statement
+gehörenden Zeilen auskommentiert.
+Dieses Skript verändert keine Zeilenzahlen.
+
+Zur Benutzung sind das Quell- und das Zielverzeichnis verpflichtende Parameter
+in der genannten Reihenfolge. Optional kann -r für eine rekursive Ordnerabarbeitung
+gesetzt werden und -d LEVEL übergibt ein Level, obehalb dessen die Debug-
+Ausgeben auskommentiert werden.
+"""
+
+def usage():
+    print("%s mit 2 Parametern: Sourcedir, Targetdir, und den Optionen" % argv[0],
+            "-r für rekursive bearbeitung der Verzeichnisse und -d für das Debuglevel.",
+            "-d erwartet einen weiteren Parameter. Es gibt keine Hilfsoption.")
+    exit()
+
+def main():
+    if len(argv) < 3:
+        usage()
+
+    program = argv.pop(0)
+    source = argv.pop(0)
+    target = argv.pop(0)
+
+    #assuring target and source are endig with '/'
+    if not re.search("/$", source):
+        source = source + "/"
+    if not re.search("/$", target):
+        target = target + "/"
+
+    #parse args
+    recursive = False
+    debug_level = 100
+    for idx in range(len(argv)):
+        if argv[idx] == "-r":
+            recursive = True
+        if argv[idx] == "-d" and idx < len(argv) - 1:
+            debug_level = int(argv[idx + 1])
+
+    root=listdir(source)
+
+    for dir in root:
+        if path.isdir(source+dir) and recursive:
+            process_dir(source,dir,target,debug_level)
+        elif path.isfile(source+dir):
+            process_file(source,dir,target,debug_level)
+        else:
+            print("%s not identified\n" % dir)
+
+
+def process_dir(source,dir,target,debug_level):
+    #Skip dirs ending with .
+    if re.search("\/\.+$", dir): return
+    files=listdir(source+dir)
+    for file in files:
+        n_dir = dir + "/" + file
+        if path.isdir(source+n_dir):
+            process_dir(source,n_dir,target,debug_level)
+        elif path.isfile(source+n_dir):
+            if not path.exists(target+dir):
+                #create target dir for files when it doesn't exist
+                system("mkdir -p %s" % target+dir)
+            process_file(source,n_dir,target,debug_level)
+
+def process_file(source,file,target,debug_level):
+    #process only python files
+    if not re.search("\.py$", file): return
+    #Reading the File
+    #print(file)
+    with open(source+file) as f:
+        content = f.readlines()
+
+    #Processing the file linewise
+    for idx in range(len(content)):
+        line = content[idx]
+        #matching for lines beginning with DEBUG
+        match = re.search("^\s*debug_m\(\s*(\d+)\s*,", line)
+        if match is not None:
+            level = int(match.group(1))
+            #Replace debug_m with self.debug, when log_level is low
+            if level <= debug_level:
+                #defining python regex replacement function
+                def repl(m):
+                    return "%sself.debug(" % m.group(1)
+                line = re.sub("^(\s*)debug_m\(\s*\d+\s*,\t* *", repl,line)
+                content[idx] = line
+
+            #comment out all lines belonging to the debug statement
+            else:
+                #Counting opening and closing brackets and backslashes to
+                #determine the number of lines to comment out
+                num_open = 0
+                num_close = 0
+                num_spaces_is_known = False
+                first_loop = True
+                spaces = ""
+                begin_idx = idx
+                #do while loop
+                while len(content) > idx + 1 and (first_loop is True or num_open is not num_close \
+                        or re.search("\\\s*$", content[idx-1]) ):
+                    first_loop = False
+                    #Inserting '#' always at same identation
+                    if num_spaces_is_known is False:
+                        spaces = re.search("^(\s*)", line).group(0)
+                        #give the first line of the replacement an additional "pass"
+                        #to avoid errors of empty identation blocks
+                        line = re.sub("^(\s*)", "%spass#" % spaces ,line)
+                        num_spaces_is_known = True
+                    else:
+                        line = re.sub("^%s" % spaces, "%s#" %spaces, line)
+                    content[idx] = line
+                    num_open += len(re.split("\(" , line))
+                    num_close += len(re.split("\)", line))
+                    idx += 1
+                    line = content[idx]
+
+                if is_lone_statement(content,begin_idx, idx) is False:
+                    content[begin_idx] = re.sub("pass#","#",content[begin_idx])
+                #print re.sub("^\s+", "        " ,content[begin_idx])
+                idx -= 1
+
+    #Now Installing the File
+    #When File already exists, then read and compare  them
+    t_lines = ""
+    t_exists = False
+    if path.exists(target+file):
+        with open(target+file) as t:
+            t_lines = t.readlines()
+        t_exists = True
+
+    #Write into target file, when they are not equal
+    if t_exists is False or not(len(t_lines)==len(content) and \
+            all(t_lines[i] == content[i] for i in range(0,len(content)-1))):
+        print("-- Installing: %s" % (target+file))
+        o_lines = "";
+        w_target = open(target+file, "w")
+        for line in content:
+            w_target.write(line)
+        w_target.close()
+    else:
+        #print "-- Up-to-date: %s\n" % target+dir
+        pass
+
+def is_lone_statement(lines, current, next):
+    spaces=re.search("^(\s+)",lines[current]).group(1)
+    #find next line that is no comment nor empty line
+    while next < len(lines) - 1 and (re.match("^\s*$", lines[next]) \
+            or re.search("^\s+#",lines[next])):
+        next+=1
+    #When identation is identical, it's not a lonly statement
+    if re.match("^%s[a-zA-Z].+" % spaces, lines[next]):
+        return False
+    current -= 1
+    #searching the last line before that's not empty nor comment
+    while current > 0 and (re.search("^\s*#",lines[current]) \
+            or re.match("^\s*$",lines[current])):
+        current-=1
+    #When identation is identical and the line doesn't end on """ the
+    #the statement is not lonly
+    if re.match("^%s[a-zA-Z].+" % spaces, lines[current]) and \
+            not re.search("\"\"\"\s*$", lines[current]):
+        return False
+    return True
+
+if "main" in __name__:
+    main()

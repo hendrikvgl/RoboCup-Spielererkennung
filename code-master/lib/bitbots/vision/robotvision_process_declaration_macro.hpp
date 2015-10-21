@@ -1,0 +1,56 @@
+#if ! defined _ROBOTVISION_HPP || ! defined VISION_DEFINE_PROCESS_MACROS
+#error "Nur die Robotvision darf diesen Header includieren"
+#endif
+/*
+ * @ Author Robert 03.03.2014
+ * This file was written give a simple interface to adjust the adapters the vision uses to process the image
+ * The macros VISION_PROCESS_DECLARATION and VISION_PROCESS_FORWARD_IMPLEMENTATION are most important. They are the implemented methods in
+ * the vision header and implementation file. The rest is to enable the list macro definition.
+ * Currently there are only 10 adapters allowed; see the maximum number in the list of MACRO_DEFINE_MULTIPLE_ARGSXX
+ */
+#ifndef ROBOTVISION_PROCESS_SIMPLIFICATION_MACRO_HPP__
+#define ROBOTVISION_PROCESS_SIMPLIFICATION_MACRO_HPP__
+
+#define VISION_PROCESS_DECLARATION(ADAPTER) \
+    void process(const Adapter::ADAPTER& input, const bool recalibrate_ball_color=false, const bool ignore_carpet=false);
+
+#define VISION_PROCESS_FORWARD_IMPLEMENTATION(ADAPTER) \
+    void RobotVision::process(const ADAPTER& input, const bool recalibrate_ball_color, const bool ignore_carpet) { \
+        process_intern<ADAPTER>(input, recalibrate_ball_color, ignore_carpet); \
+    }
+
+#define VISION_GET_IMAGE_DATA_DECLARATION(ADAPTER) \
+Info::ImageData get_image_data(const Adapter::ADAPTER input) const;
+
+#define VISION_GET_IMAGE_DATA_FORWARD_IMPLEMENTATION(ADAPTER) \
+Info::ImageData RobotVision::get_image_data(const ADAPTER input) const { \
+    return get_image_data_intern(input); \
+}
+
+//#define MACRO_DEFINE_MULTIPLE_ARGS11(__VA_ARGS__) #error "To much adapters, read the komments in this Macrofile"
+#define MACRO_DEFINE_MULTIPLE_ARGS10(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS9(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS9(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS8(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS8(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS7(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS7(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS6(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS6(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS5(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS5(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS4(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS4(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS3(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS3(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS2(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS2(MACRO, FIRST_ARG, ...) MACRO(FIRST_ARG) MACRO_DEFINE_MULTIPLE_ARGS1(MACRO, __VA_ARGS__)
+#define MACRO_DEFINE_MULTIPLE_ARGS1(MACRO, FIRST_ARG) MACRO(FIRST_ARG)
+
+#ifndef VISION_ADAPBER_LIST
+    /*It's important that this is a comma separated list with the number of used adapters at the first index. The adapters MUST be in namespace Vision::Adapter*/
+    #define VISION_ADAPBER_LIST 6, RawYUYVAdapter, RGBYUVAdapter, DRITTER_FAKE_ADAPTER, 4444, 555, SECHS_SEX_SECHS_SEX_SECHS
+#endif
+
+#define PREPARE_FORWARD_DECLARATION(FORWARD_DECLARATION_MACRO, NUMBER, ...) MACRO_DEFINE_MULTIPLE_ARGS##NUMBER(FORWARD_DECLARATION_MACRO ,__VA_ARGS__)
+
+#define MACRO_INVERSE_ARGUMENTS(A,B,C) C(A,B)
+
+#define VISION_PROCESS_FOR_HEADER MACRO_INVERSE_ARGUMENTS(VISION_PROCESS_DECLARATION, VISION_ADAPBER_LIST, PREPARE_FORWARD_DECLARATION)
+#define VISION_PROCESS_FOR_IMPL   MACRO_INVERSE_ARGUMENTS(VISION_PROCESS_FORWARD_IMPLEMENTATION, VISION_ADAPBER_LIST, PREPARE_FORWARD_DECLARATION)
+#define VISION_GET_IMAGE_DATA_FOR_HEADER MACRO_INVERSE_ARGUMENTS(VISION_GET_IMAGE_DATA_DECLARATION, VISION_ADAPBER_LIST, PREPARE_FORWARD_DECLARATION)
+#define VISION_GET_IMAGE_DATA_FOR_IMPL   MACRO_INVERSE_ARGUMENTS(VISION_GET_IMAGE_DATA_FORWARD_IMPLEMENTATION, VISION_ADAPBER_LIST, PREPARE_FORWARD_DECLARATION)
+
+#endif

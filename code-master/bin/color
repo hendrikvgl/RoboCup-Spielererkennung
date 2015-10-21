@@ -1,0 +1,115 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+"""
+A simple script to set the colors of the darwin eyes.
+Help is provided with the --help or -h parameter.
+
+Comand Structure
+----------------
+::
+    color [eyes|forehead|all] [str Colorstring | rgb R G B]
+
+Example Commands
+----------------
+::
+    color eyes str blue
+    color forehead rgb 0 255 0
+    color all str pink
+
+"""
+# I make heavy use of the argparse library
+import argparse
+# I decided to copy this library to our lib folder as it is pretty small
+import webcolors.webcolors as webcolors
+# The IPC is for communicating the color settings with other modules
+from bitbots.ipc import SharedMemoryIPC
+
+# For this simple script we can introduce the ipc here
+ipc = SharedMemoryIPC()
+
+
+def rgb(val):
+    """Simple Type definition of allowed integer-values for RGB-Colors
+    """
+    val = int(val)
+    if 0 <= val <= 255:
+        return val
+    raise argparse.ArgumentTypeError("RGB-value not allowed")
+
+
+def set_eyes_from_rgb(args):
+    """Set eyes color to specified RGB sequence
+    """
+    ipc.eye_color = args.rgb
+
+
+def set_forehead_from_rgb(args):
+    """Set forehead to specified RGB sequence
+    """
+    ipc.forehead_color = args.rgb
+
+
+def set_all_from_rgb(args):
+    """Set eyes and forehead at once to specified RGB sequence
+    """
+    set_eyes_from_rgb(args)
+    set_forehead_from_rgb(args)
+
+# Main Argument Parser:
+parser = argparse.ArgumentParser(description="Set LED-Colors for this Darwin")
+
+# Use subcommands to set forehead or eye colors
+subparsers = parser.add_subparsers(
+    title="subcommands",
+    description="specify what LED to set")
+
+# Make one abstract parser, because setting eyes, or forehead,
+# or all requires mostly the same arguments
+abstract = argparse.ArgumentParser(add_help=False)
+
+# Add subsubparsers to the abstract-parser
+# To allow different color-specifications
+abstract_sub = abstract.add_subparsers(
+    title="subcomands",
+    description="allow different color specification",
+    help="colors can be given as 'common' names")
+# SubSubparser for Strings
+abstract_string = abstract_sub.add_parser('str',
+                                          help="set the LED color as a common name string")
+abstract_string.add_argument('rgb',
+                             metavar='Colorstring',
+                             type=webcolors.name_to_rgb,
+                             help="the colors name, eg. 'Lime','Magenta','Blue'...")
+
+# SubSubparser for RGB values
+abstract_rgb = abstract_sub.add_parser('rgb',
+                                       help="set the LED color as R G B values")
+abstract_rgb.add_argument('rgb',
+                          type=rgb,
+                          nargs=3,
+                          help="Red, Green and Blue values (0-255)")
+
+# Now for the real "subcomands": eyes, forehead, all
+
+# The 'eyes' subcomand
+eyes = subparsers.add_parser('eyes',
+                             help="set the eyes color",
+                             parents=[abstract])
+eyes.set_defaults(func=set_eyes_from_rgb)
+
+#The 'forehead' subcomand
+forehead = subparsers.add_parser('forehead',
+                                 help="set the forehead color",
+                                 parents=[abstract])
+forehead.set_defaults(func=set_forehead_from_rgb)
+
+#The 'all' subcomand
+setall = subparsers.add_parser('all',
+                               help="set forehead and eyes color at once",
+                               parents=[abstract])
+setall.set_defaults(func=set_all_from_rgb)
+
+# Start the argument parsing
+args = parser.parse_args()
+# call apropriate functions
+args.func(args)

@@ -1,0 +1,92 @@
+##########################
+##
+##    Vision Config
+##
+##########################
+
+help: |
+    Variablen für die Vision. Hier sind alle mit der Bildverarbeitung
+    zusammenhängende Variablen gesammelt
+
+#Kameraöffnungswinkel
+"CameraAngle": 66.5
+"FocalLength": 4.3
+#Kameraauflösung
+"CameraResolution": [800,600]
+"MAX_FPS": 25
+# color config für die Vision
+"VISION_COLOR_CONFIG" : "GermanOpen2015"
+# vision ballsuche aktivieren?
+"vision-ball_enabled" : true
+# vision torsuche aktivieren?
+"vision-goals_enabled" : true
+"vision-ignore_goals_out_of_field" : true
+# vision team marker suche aktivieren?
+"vision-team_marker_enabled" : false
+# vision liniensuche aktivieren?
+"vision-lines_enabled" : false
+# vision pylonsuche aktivieren? (shape-vectors sollten an sein)
+"vision-pylons_enabled" : false
+# vision shape_vectors aktivieren? (shape-vectors sollten an sein)
+"vision-shape_vectors_enabled" : false
+# ob die Vision einen von der Kinematic berechneten Horizon beachten soll
+"use_kinematic_horizon": true
+
+#see ball module
+"orange_ball_hack": true
+
+# low value (e.g. 300) for dark indoor high value (e.g. 50 or lower) for outdoor
+"CAMERA_EXPOSURE_ABSOLUTE": 300
+#Direct Camera Parameter for Image configuration
+"CAMERA_WHITE_BALANCE": 0.5
+"CAMERA_BRIGHTNESS": 0.5
+"CAMERA_FOCUS_ABSOLUTE": 10
+"CAMERA_GAIN": 32
+"CAMERA_CONTRAST": 0.14
+"CAMERA_GAIN_AUTO": false
+"CAMERA_SATURATION": 32
+# Die Vision lässt bei zu niedriger oder zu hoher Bildhelligkeit das Cameraexposure anpassen
+# Mit diesen Werten kann das akzeptierte Intervall bestimmt werden.
+"vision-intensity-min": 75
+"vision-intensity-max": 105
+
+# Define the ball radius that the distance calclation is correct (default 4.5) now in mm
+"DEFAULT_RADIUS" : 75
+"ball_radius_max": 130
+"ball_radius_min": 50
+"rating_max": 400
+"number_rated_candidates": 5
+max_distance_to_motor: 80
+max_distance: 10000
+
+
+"export_every_n_th_frame": -1
+# Define the ball radius that the distance calclation is correct (default 4.5) now in mm
+
+"GOALPOST_WIDTH" : 100
+"GOALPOST_HEIGHT" : 1200
+"goalpost_width_min" : 33
+"goalpost_width_max" : 300
+"goalpost_height_min" : 600
+"goalpost_height_max" : 2400
+"goal_width_tolerance" : 1000
+
+
+# position from vision is the point were the ball touches the ground (from transformer)
+"ball_pos_is_ball_footprint": True
+
+# Legt fest ob der Roboter aufgrund der neuen Kamera jetzt ein richtig gedrehtes Bild hat @Robert 10.12.2013
+invertetPicture: false
+
+newCamera: true
+#Das rgb Bild ist größer als das s/w Bild, erhöhe daher den "Step" der übersprungenden Pixel um factor n
+"RGB_STEP_FACTOR": 1.5
+"SEND_BW_DEBUG": true
+
+# Werte zur Kalibrierung der Vision
+"vision-thresholds" :
+    "green_y" : 40 #20 For AIGrass
+    "green_u" : 10 #5  For AIGrass
+    "green_v" : 20 #10 For AIGrass
+    # dynamisches anpassen des u thresholds
+    "green_dynamic" : false

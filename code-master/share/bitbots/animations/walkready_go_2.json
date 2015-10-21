@@ -1,0 +1,47 @@
+{
+    "author": "Unknown", 
+    "description": "Edit me!", 
+    "hostname": "tamara", 
+    "keyframes": [
+        {
+            "duration": "1.500", 
+            "goals": {
+                "BellyPitch": 0.0, 
+                "BellyRoll": 0.0, 
+                "HeadPan": 0.527, 
+                "HeadTilt": -0.615, 
+                "LAnklePitch": -54.404, 
+                "LAnkleRoll": -0.967, 
+                "LElbow": 69.258, 
+                "LElbowRoll": 0.0, 
+                "LHand": 0.0, 
+                "LHipPitch": 73.125, 
+                "LHipRoll": -0.352, 
+                "LHipYaw": -1.406, 
+                "LKnee": -108.896, 
+                "LShoulderPitch": -0.879, 
+                "LShoulderRoll": 20.566, 
+                "LShoulderYaw": 0.0, 
+                "LToe": 0.0, 
+                "RAnklePitch": 53.262, 
+                "RAnkleRoll": 6.328, 
+                "RElbow": -69.434, 
+                "RElbowRoll": 0.0, 
+                "RHand": 0.0, 
+                "RHipPitch": -73.301, 
+                "RHipRoll": 6.592, 
+                "RHipYaw": -0.264, 
+                "RKnee": 107.666, 
+                "RShoulderPitch": 0.791, 
+                "RShoulderRoll": -23.203, 
+                "RShoulderYaw": 0.0, 
+                "RToe": 0.0
+            }, 
+            "p": {}, 
+            "pause": "0.000"
+        }
+    ], 
+    "last_edited": "2015-04-24 18:37:46.085062", 
+    "name": "walkready_go_2", 
+    "version": 2
+}

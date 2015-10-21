@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import subprocess
+import random
+import os
+import time
+import socket
+import sys
+from bitbots.util.config import get_config
+
+config = get_config()["speaker"]
+
+if config['test-server'] and not config['server-bin'] in os.popen("ps xa").read():
+            subprocess.Popen([config['server-bin']])
+            time.sleep(1)
+pipe = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+pipe.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+pipe.connect((config["server-ip"], config['server-port']))
+begin=1
+block=False
+if sys.argv[1] == "-b":
+    block=True
+    begin=2
+text = ' '.join(sys.argv[begin:])
+pipe.sendall("%d顶%s" % (random.randint(0,9999999),text))
+if block:
+    pipe.recv(1024)
+pipe.close()

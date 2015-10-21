@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import sys
+import socket
+import struct
+import time
+
+def make_socket():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return sock
+
+def replay(fp):
+    sock = make_socket()
+    addr = ("localhost", 6482)
+    
+    offset = None
+    last_stamp = None
+    
+    # Geschwindigkeit mitrechnen
+    speed_size = 0
+    speed_stamp = time.time()
+    
+    while True:
+        now = time.time()
+        stamp, size = struct.unpack("qi", fp.read(12))
+        stamp *= 0.001
+        
+        if offset is None:
+            offset = now - stamp
+        
+        # Überlauf der Zeit erfassen
+        if last_stamp is not None and stamp < last_stamp:
+            offset += 3600 * 24
+        
+        last_stamp = stamp
+        
+        # Geschwindigkeit hin und wieder ausgeben
+        speed_size += size
+        if now - speed_stamp > 2:
+            speed = (speed_size / 1024.0) / (now - speed_stamp)
+            print "[DebugReplay] Versende Debug mit etwa %1.2fkb/s" % speed
+            speed_size = 0
+            speed_stamp = now
+        
+        # Etwas warten, bevor wir das Paket raussenden
+        diff = stamp + offset - now
+        if diff > 0:
+            time.sleep(diff)
+        
+        # Paket versenden
+        sock.sendto(fp.read(size), addr)
+
+if __name__ == "__main__":
+    with open(sys.argv[1]) as fp:
+        replay(fp)
+

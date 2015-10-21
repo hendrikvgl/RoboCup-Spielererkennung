@@ -1,0 +1,290 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import time
+import math
+import numpy
+
+import gtk
+
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from gtk.gtkgl.apputils import *
+
+from bitbots.robot.pypose import PyPose as Pose
+from bitbots.util import find_resource
+from bitbots.ipc import SharedMemoryIPC
+
+from glrobot.scenegraph import *
+from glrobot.util import glPreserveMatrix
+from glrobot.loader import load_texture_from_file, load_object_from_obj
+from glrobot.object import Plane
+from glrobot.camera import FPSCamera
+
+from glrobot.robot import Robot, Skeleton
+
+def find(what):
+    return find_resource(what, base="glrobot/")
+
+
+ipc = SharedMemoryIPC()
+
+class Field(Group):
+    def __init__(self):
+        super(Field, self).__init__()
+
+    def load(self):
+        gras = Group(Plane(load_texture_from_file(find("gfx/field.png"))))
+        gras.set_scale(7.4, 1, 5.4)
+        self.add(gras)
+
+        goal = load_object_from_obj(find("gl/goal.obj"))
+        blue_goal = Group(goal)
+        blue_goal.set_position(3, 0, 0)
+        self.add(blue_goal)
+
+        yellow_goal = Group(goal)
+        yellow_goal.rotation.y = 180
+        yellow_goal.set_position(-3, 0, 0)
+        self.add(yellow_goal)
+
+class GLRobot(GLScene, GLSceneTimeout, GLSceneButton, GLSceneButtonMotion, GLSceneKey):
+    def __init__(self):
+        GLScene.__init__(self,
+            gtk.gdkgl.MODE_RGB   |
+            gtk.gdkgl.MODE_DEPTH |
+            gtk.gdkgl.MODE_DOUBLE)
+
+        GLSceneTimeout.__init__(self, 20)
+
+        self.display_skeleton = False
+        self.display_field = True
+
+        self.last = time.time()
+        self.keys = set()
+        self.camera = FPSCamera((0, 1, 1), yaw=0, pitch=45)
+        self.alignment_mode = "none"
+
+        self.field = Field()
+        self.robot = Robot()
+
+    def init(self):
+        glEnable(GL_DEPTH_TEST)
+        glEnable(GL_NORMALIZE)
+        glEnable(GL_CULL_FACE)
+
+        glEnable(GL_LIGHTING)
+
+        glShadeModel(GL_FLAT)
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (0, 0, 0, 1))
+
+        glEnable(GL_LIGHT0)
+        glLightfv(GL_LIGHT0, GL_AMBIENT,  ( 0,  0,  0, 1))
+        glLightfv(GL_LIGHT0, GL_DIFFUSE,  (.5, .5, .5, 1))
+
+        glEnable(GL_LIGHT1)
+        glLightfv(GL_LIGHT1, GL_AMBIENT,  ( 0,  0,  0, 1))
+        glLightfv(GL_LIGHT1, GL_DIFFUSE,  (.5, .5, .5, 1))
+
+        glEnable(GL_COLOR_MATERIAL)
+        glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+
+        self.load()
+
+    def load(self):
+        sphere = load_object_from_obj(find("gl/sphere.obj"))
+        sphere.set_color(1, 0, 0, 1)
+        sphere.set_scale(0.01, 0.01, 0.01)
+
+        line = load_object_from_obj(find("gl/line.obj"))
+        line.set_color(0, 0, 1, 1)
+        line.set_scale(0.005, 1, 0.005)
+
+        self.skeleton = Skeleton(sphere, line)
+        self.skeleton_parent = MatrixNode(self.skeleton)
+
+        self.field.load()
+        self.robot.load()
+
+    def display(self, width, height):
+        glClearColor(.7, .7, .7, 1)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        with glPreserveMatrix:
+            self.camera.render()
+
+            glLightfv(GL_LIGHT0, GL_POSITION, (-1,  1,   0, 0))
+            glLightfv(GL_LIGHT1, GL_POSITION, ( 1, -0.5, 1, 0))
+
+            skel_matrix = getattr(self.skeleton, "get_alignment_%s" % self.alignment_mode)()
+            if self.display_skeleton:
+                self.skeleton_parent.set_matrix(skel_matrix)
+                self.skeleton_parent.render()
+
+            if self.display_field:
+                self.field.render()
+
+            robot = MatrixNode(self.robot)
+            robot.set_matrix(skel_matrix)
+            robot.render()
+
+    def reshape(self, width, height):
+        glViewport(0, 0, width, height)
+
+        glMatrixMode(GL_PROJECTION)
+        glLoadIdentity()
+        aspect = float(width) / float(height)
+        gluPerspective(60, aspect, 0.1, 60)
+
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+
+    def timeout(self, width, height):
+        now = time.time()
+        dt = min(now - self.last, 0.5)
+        self.last = now
+
+        self.camera.update(self.keys, dt)
+        self.robot.set_pose(ipc.get_pose())
+
+        self.skeleton.update(ipc.get_pose())
+
+        self.invalidate()
+        self.update()
+
+    def button_press(self, width, height, event):
+        if event.button == 1:
+            self.camera.handle_mouse_event(True, event.x, event.y)
+
+    def button_release(self, width, height, event):
+        if event.button == 1:
+            self.camera.handle_mouse_event(False, event.x, event.y)
+
+    def button_motion(self, width, height, event):
+        self.camera.handle_mouse_motion_event(event.x, event.y)
+
+    def key_press(self, width, height, event):
+        keyval = event.keyval
+        if ord('a') <= keyval <= ord('z') or keyval == 32:
+            self.keys.add(chr(keyval))
+        else:
+            self.keys.add(keyval)
+
+    def key_release(self, width, height, event):
+        keyval = event.keyval
+        if ord('a') <= keyval <= ord('z') or keyval == 32:
+            self.keys.discard(chr(keyval))
+        else:
+            self.keys.discard(keyval)
+
+def make_ui_proxy(builder):
+    class UIProxy(object):
+        def __getattr__(self, name):
+            result = builder.get_object(name)
+            if result is None:
+                raise KeyError(name + " not a valid ui-object")
+
+            setattr(self, name, result)
+            return result
+
+        def get(self, name):
+            return getattr(self, name)
+
+        def has(self, name):
+            return builder.get_object(name) is not None
+
+    return UIProxy()
+
+import gobject
+
+class Window(object):
+    def __init__(self):
+        self.glscene = GLRobot()
+        self.setup_ui()
+
+        gobject.timeout_add(20, self.update_fast)
+        gobject.timeout_add(200, self.update_slow)
+
+    def setup_ui(self):
+        builder = gtk.Builder()
+        builder.add_from_file(find("ui/window.ui"))
+        builder.connect_signals(self)
+        self.ui = make_ui_proxy(builder)
+
+        # OpenGL Area erstellen
+        glarea = GLArea(self.glscene)
+        glarea.register_key_events(self.ui.window)
+        glarea.show()
+
+        self.ui.glbox.add(glarea)
+
+        # Die Gelenkdödels bauen
+        for idx, name in enumerate(sorted(Pose().names)):
+            self.ui.joints.append((name, "--", False))
+
+        # Default Werte explizit setzen
+        self.ui.robot_alpha.set_value(1)
+        self.ui.window.show()
+
+    def update_fast(self):
+        if self.ui.joints_update_realtime.get_active():
+            self.update_joints()
+
+        return True
+
+    def update_slow(self):
+        if not self.ui.joints_update_realtime.get_active():
+            self.update_joints()
+
+        return True
+
+    def update_joints(self):
+        pose = ipc.get_pose()
+
+        if self.ui.joints_show_goals.get_active():
+            self.update_joint_values(pose, field="goals")
+
+        if self.ui.joints_show_positions.get_active():
+            self.update_joint_values(pose, field="positions")
+
+    def update_joint_values(self, pose, field="position"):
+        if not self.ui.joints_expander.get_expanded():
+            return
+
+        model = self.ui.joints
+        for idx in xrange(len(model)):
+            name = model[idx][0]
+            model[idx][1] = "%1.1f°" % pose[name].position
+
+    def on_display_skeleton_toggled(self, widget):
+        self.glscene.display_skeleton = widget.get_active()
+
+    def on_display_field_toggled(self, widget):
+        self.glscene.display_field = widget.get_active()
+
+    def on_xray_toggled(self, widget):
+        xray = widget.get_active()
+        self.glscene.robot.xray = xray
+
+    def on_alpha_changed(self, adjust):
+        alpha = adjust.get_value()
+        blend = alpha < 0.99
+        self.ui.xray.set_sensitive(blend)
+        self.glscene.robot.set_alpha(alpha)
+
+    def on_alignment_toggled(self, widget):
+        for mode in ("auto", "left_leg", "right_leg", "none"):
+            if self.ui.get("align_%s" % mode).get_active():
+                self.glscene.alignment_mode = mode
+                break
+
+    def on_window_destroy(self, window):
+        gtk.main_quit()
+
+def main():
+    win = Window()
+    gtk.main()
+
+if __name__ == '__main__':
+    main()
+
+

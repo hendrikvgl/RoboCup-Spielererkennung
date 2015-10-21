@@ -1,0 +1,59 @@
+{
+
+    "name": "Gruss5",
+    "discription": "Geht in die Knie und gruesst",
+    "keyframes": [
+        {
+            "duration": 0.3,
+            "goals": {
+                "HeadPan": 0.17578125,
+                "HeadTilt": -35.0,
+                "LAnklePitch": -72.861328125,
+                "LAnkleRoll": 0.52734375,
+                "LElbow": 91.40625,
+                "LHipPitch": 63.017578125,
+                "LHipRoll": -0.263671875,
+                "LHipYaw": -2.197265625,
+                "LKnee": -130.517578125,
+                "LShoulderPitch": 155.7421875,
+                "LShoulderRoll": 8.349609375,
+                "RAnklePitch": 69.873046875,
+                "RAnkleRoll": -4.833984375,
+                "RElbow": 26.19140625,
+                "RHipPitch": -67.32421875,
+                "RHipRoll": -4.306640625,
+                "RHipYaw": 0.615234375,
+                "RKnee": 129.111328125,
+                "RShoulderPitch": -39.55078125,
+                "RShoulderRoll": -17.666015625
+            },
+            "pause": 0.0
+        },
+        {
+            "duration": 1,
+            "goals": {
+                "HeadPan": 0.0,
+                "HeadTilt": -35.0,
+                "LAnklePitch": -73.037109375,
+                "LAnkleRoll": 0.703125,
+                "LElbow": 90.52734375,
+                "LHipPitch": 61.34765625,
+                "LHipRoll": 0.615234375,
+                "LHipYaw": -2.021484375,
+                "LKnee": -130.60546875,
+                "LShoulderPitch": 154.16015625,
+                "LShoulderRoll": 7.294921875,
+                "RAnklePitch": 69.521484375,
+                "RAnkleRoll": -4.482421875,
+                "RElbow": 26.279296875,
+                "RHipPitch": -66.26953125,
+                "RHipRoll": -4.130859375,
+                "RHipYaw": 0.17578125,
+                "RKnee": 129.287109375,
+                "RShoulderPitch": -38.408203125,
+                "RShoulderRoll": -17.9296875
+            },
+            "pause": 0.0
+        }
+    ]
+}

@@ -1,0 +1,63 @@
+cm-board:
+  to: none
+  name: none
+1:
+  to: cm-board
+  name:  wm3
+2:
+  to: cm-board
+  name: wm4
+3:
+  to: 1
+  name: wm8
+4:
+  to: 2
+  name: wm4
+5:
+  to: 3
+  name: wm7
+6:
+  to: 4
+  name: wm9
+7:
+  to: cm-board
+  name: wm5
+8:
+  to: cm-board
+  name: wm6
+9:
+  to: 7
+  name: wm11
+10:
+  to: 8
+  name: wm12
+11:
+  to: 9
+  name: wm13
+12:
+  to: 10
+  name: wm14
+13:
+  to: 11
+  name: wm15
+14:
+  to: 12
+  name: wm16
+15:
+  to: 13
+  name: wm17
+16:
+  to: 14
+  name: wm18
+17:
+  to: 15
+  name: wm19
+18:
+  to: 16
+  name: wm20
+19:
+  to: cm-board
+  name: wm2
+20:
+  to: 19
+  name: wm1

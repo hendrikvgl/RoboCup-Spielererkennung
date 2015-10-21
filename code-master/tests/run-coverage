@@ -1,0 +1,36 @@
+#!/bin/bash
+cd $VIRTUAL_ENV/lib/python2.7
+
+FAILFAST="--failfast"
+
+# Argumente parsen
+while [ $# -gt 0 ]
+do
+    case $1 in
+        -l|--long-test) FAILFAST= ;;
+        (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1 ;;
+        (*) break ;;
+    esac
+    shift
+done
+
+export FORCE_SPEAKER_TO_BE_QUIET=1
+
+DEBUG=1 DEBUG_HOST=127.0.0.1 DEBUG_PORT=60445 coverage run --branch --source=darwin/ -m unittest discover -v
+EXIT_CODE=$?
+
+coverage html --include=./* --omit=./*__init__.py,./*tests/*
+firefox htmlcov/index.html &
+
+startup_error=`startup-test`
+
+if ! [ -z "$startup_error" ]
+then
+    echo -e "================\n$startup_error"
+fi
+
+export FORCE_SPEAKER_TO_BE_QUIET=
+
+echo $EXIT_CODE
+
+exit $EXIT_CODE

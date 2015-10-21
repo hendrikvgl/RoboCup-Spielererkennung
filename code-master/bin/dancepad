@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+
+import socket
+
+from bitbots.remote_control.dance_pad import DancePad
+
+
+print "ACHTUNG!: Auf dem Roboter muss start-demo laufen"
+ip = raw_input("IP vom Roboter: ")
+dev = raw_input("Device vom Dancepad ändern? (default: /dev/hidraw0)")
+if not dev:
+    dev = "/dev/hidraw0"
+
+addr = (ip,12345)
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+pad = DancePad(dev)
+
+while True:
+    pad.wait_get_event()
+    if pad.is_arrow_up():
+        sock.sendto('w',addr)
+        print "Up"
+    if pad.is_arrow_down():
+        sock.sendto('s',addr)
+        print "Down"
+    if pad.is_arrow_left():
+        sock.sendto('a',addr)
+        print "Left"
+    if pad.is_arrow_rigth():
+        sock.sendto('d',addr)
+        print "Right"
+    if pad.is_x():
+        sock.sendto(' ',addr)
+        print "Stop"
+    if pad.is_viereck():
+        sock.sendto('play rk',addr)
+        print "rk"
+    if pad.is_dreieck():
+        sock.sendto('play lk',addr)
+        print "lk"
+    if pad.is_circle():
+        sock.sendto('play mul1',addr)
+        print "mul"

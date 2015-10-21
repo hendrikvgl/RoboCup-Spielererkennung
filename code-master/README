@@ -1,0 +1,79 @@
+This is the code from the robocup team Hamburg Bit-Bots at University of Hamburg.
+We are playing in the Humanoid League on Darwin OP robots.
+
+There is an install script in infrastruktur/setup/install.sh witch installs most dependencies
+and creates the necessary python virtual enviroment in ~/darwin-env/
+You can activate it with
+
+$ source ~/darwin-env/bin/activate
+
+After this you can build the software with
+
+$ ./build Release
+
+The programms will be installed to the bin path in the virtual enviroment. So it
+can be started with
+
+$ start-fieldie
+
+The software is parted in 2 parts: Behaviours and motionserver. On the robot you can
+start the motionserver with
+
+$ motion
+
+(--help is available)
+
+For local testing on a pc there is the command
+
+$ simulateT
+
+which will start a simulated motionserver, the robot is viewable with
+
+$ gl-robot
+
+If you want to inspect the debug data more closely you can start
+
+$ debug-ui-neu
+
+on your local machine (let's say its IP is 192.168.0.3)
+
+and export some variables on the robot:
+
+$ export DEBUG=1
+$ export DEBUG_HOST=192.168.0.3
+
+For Vision Debug:
+
+$ export VISION_DEBUG=1
+
+now start the process:
+
+$ start-goalie
+
+The documentation (unfortunately mostly in german) is in the folder doc/ and can be build with
+
+$ make html
+
+if you are in the activated virtual enviroment.
+Or in the most current state online at
+http://doku.bit-bots.de
+
+
+Short list of programms:
+motion            Motionserver for DarwinOp
+simulation        Simulated motionserver
+start-*           Starts behaviour *
+dxl_monitor       The original dxl_monitor (patched) for debug purpose
+debug-ui          The old debug UI
+debug-ui-new      The new debug UI (not completely finished yet)
+record            Script for recording animations on the robot
+boot-*            Scripts for autostart after boot
+flash             Script for copying software to robot (the virtual env on our robots is in /home/darwin/darwin/ not like in the installscript in ~/darwin-env)
+off               Switches off all motors
+color             Script for change of eye colors (requires "EyesOff": false in config (share/darwin/config.json) and a running motion server)
+walk              Script for testwalking and animation playing (if connected remotely: there must be a start-demo running on remote robot, locally it is started automatically)
+vision       Script for testing and debugging the vision with a camera or images recorded by the vision. This script is not connected to the behaviour
+
+If you have any questions just contact us!
+
+Contact: info@bit-bots.de

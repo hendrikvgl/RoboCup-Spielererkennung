@@ -1,0 +1,21 @@
+"PLAYER" : 6
+animations:
+#    "bottom-up" : "bottom-up-zmp-tamara"
+    motion:
+        torjubel : "wave"
+        front-up : "front-up-wheatly-wm2015"
+        bottom-up : "bottom-up-fiona-wm2015"
+"ZMPConfig":
+    Darwin:
+        #"HipPitch": 25
+        "Parameter":
+            "footX": 0.037
+            "supportSideX": -0.02
+            "supportTurn": -0.02
+"JointOverride":
+ - name: "Camera"
+   id: 31
+   transform: [0, 0, 0]
+   rpy: [0, -15, 0]
+   mass_offsets:
+     Beispielmasse: {mass: 0.0, offset: [0, 0, 0] }

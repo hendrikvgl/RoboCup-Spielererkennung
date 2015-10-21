@@ -1,0 +1,128 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler, SimpleXMLRPCServer
+import sys
+import threading
+import xmlrpclib
+import time
+
+from bitbots.debug import debugserver
+from hook_system.DebugHookServer import DebugHookServer
+from hook_system.RequiredDebugLevel import RequiredDebugLevel
+from hook_clients.RobotKeepAliveClient import RobotKeepAliveClient
+from hook_clients.AbsolutePositionShowClient import AbsolutePositionShowClient
+from hook_clients.VisionInfoClient import VisionInfoClient
+
+import bitbots.glibevent
+
+# TODO DEFINE THE CURRENT DEBUG_LEVEL_DYNAMICALLY
+CURRENT_DEBUG_LEVEL = 1
+
+
+class ClientRegistrationProcess():
+
+    def __init__(self, debug_server):
+        self.debug_sever = debug_server
+
+        # Register the defined debug clients
+        self.add_keep_alive_client()
+        self.add_vision_info_client()
+
+    @RequiredDebugLevel(1, CURRENT_DEBUG_LEVEL)
+    def add_keep_alive_client(self):
+        # Add the example client which shows which robot is connected
+        robot_kal_client = RobotKeepAliveClient()
+        self.debug_sever.register_client(robot_kal_client)
+
+    @RequiredDebugLevel(1, CURRENT_DEBUG_LEVEL)
+    def add_vision_info_client(self):
+        vic = VisionInfoClient()
+        dhs.register_client(vic)
+
+
+    @RequiredDebugLevel(1, CURRENT_DEBUG_LEVEL)
+    def add_absolut_position_show_client(self):
+        apsc = AbsolutePositionShowClient()
+        dhs.register_client(apsc)
+
+
+    """
+    # Don't forget to call it in the constructor
+    @RequiredDebugLevel(1, CURRENT_DEBUG_LEVEL)
+    def add_your_own_client_like_this(self):
+        vic = YourOwnClient()
+        dhs.register_client(vic)
+    """
+
+
+class RequestHandler(SimpleXMLRPCRequestHandler):
+    rpc_paths = ('/RPC2',)
+
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'text/html')
+        self.end_headers()
+
+        self.wfile.write("<center>")
+        self.wfile.write("<h4>Registered Clients</h4>")
+        for key, value in self.server.instance.registered.items():
+            self.wfile.write("<div style=\"float:left; border-radius: 5px; margin: 10px; border: 2px solid black; padding: 5px; background-color: #ddd\">"
+                             "Available Client - %s - will send data to port %i</div>" % (key, value))
+        self.wfile.write("</center>")
+
+
+class Registry(object):
+
+    def __init__(self):
+        self.registered = {}
+
+    def register(self, name, port):
+        self.registered[name] = port
+
+    def has_registered(self, name):
+        return name in self.registered
+
+    def get_port_by_name(self, name):
+        return self.registered.get(name, None)
+
+
+class RegistryThread(threading.Thread):
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+
+        print "Added Registry - visit http://127.0.0.1:55600 for info about registered clients"
+
+        self.start()
+
+    def run(self):
+        # Create server
+        server = SimpleXMLRPCServer(("localhost", 55600), requestHandler=RequestHandler, allow_none=True)
+        server.register_introspection_functions()
+
+        dh = Registry()
+
+        server.register_instance(dh)
+
+        # Run the server's main loop
+        server.serve_forever()
+
+
+
+
+if __name__ == "__main__":
+    if len(sys.argv) == 2:
+        CURRENT_DEBUG_LEVEL = int(sys.argv[1])
+
+    port = 6482
+    server = debugserver.Server(("", port))
+    server.start()
+
+    dhs = DebugHookServer(server)
+
+    rt = RegistryThread()
+    time.sleep(1)
+
+    crp = ClientRegistrationProcess(dhs)
+
+    bitbots.glibevent.glib_gevent_loop()

@@ -1,0 +1,19 @@
+##########################
+##
+##   MiteCom Config
+##
+##########################
+
+help: |
+    (Inter-) Teamkommunikations Protokoll.
+    Mithilfe dieses Protokolles werden Daten zwischen
+    den Robotern ausgetauscht. Dieses Protokoll ist
+    zusammen mit einigen anderen Teams standartisiert.
+
+# Ob überhaubt etwas versenbdet werden soll
+enabled: True
+
+# Der Port auf dem Kommuniziert werden soll
+port: 12321
+
+

@@ -1,0 +1,56 @@
+{
+   "keyframes" : [
+      {
+         "pause" : 0,
+         "duration" : 1,
+         "goals" : {
+            "RKnee" : -0.087890625,
+            "LShoulderPitch" : 49.39453125,
+            "HeadPan" : -0.087890625,
+            "LHipYaw" : -0.087890625,
+            "RHipYaw" : -0.087890625,
+            "LElbow" : -9.140625,
+            "RHipRoll" : -0.087890625,
+            "LHipRoll" : -0.087890625,
+            "LHipPitch" : 2.8125,
+            "RAnklePitch" : 1.318359375,
+            "LKnee" : -0.087890625,
+            "HeadTilt" : 10.72265625,
+            "RAnkleRoll" : -0.087890625,
+            "LAnkleRoll" : -0.087890625,
+            "RHipPitch" : -3.076171875,
+            "RShoulderPitch" : -49.921875,
+            "RElbow" : 8.701171875,
+            "LShoulderRoll" : 25.927734375,
+            "LAnklePitch" : -1.58203125,
+            "RShoulderRoll" : -26.455078125
+         }
+      },
+      {
+         "pause" : 0,
+         "duration" : 1,
+         "goals" : {
+            "LElbow" : -28.30078125,
+            "LShoulderRoll" : 17.666015625,
+            "LShoulderPitch" : 39.90234375,
+            "RShoulderPitch" : -47.021484375,
+            "RShoulderRoll" : -17.841796875,
+            "RElbow" : 28.125
+         }
+      },
+      {
+         "pause" : 0,
+         "duration" : 1,
+         "goals" : {
+            "LElbow" : -27.861328125,
+            "LShoulderRoll" : 17.666015625,
+            "LShoulderPitch" : 37.177734375,
+            "RShoulderPitch" : -44.384765625,
+            "RShoulderRoll" : -17.841796875,
+            "RElbow" : 27.7734375
+         }
+      }
+   ],
+   "name" : "init",
+   "default_interpolator" : "LinearInterpolator"
+}

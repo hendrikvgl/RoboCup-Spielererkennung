@@ -1,0 +1,16 @@
+
+[connection]
+id=HL_Field_A
+uuid=1b0f0ce5-1ab4-4d19-967e-86772d1c6ec3
+type=802-11-wireless
+
+[802-11-wireless]
+ssid=HL_Field_A
+mode=infrastructure
+
+[ipv6]
+method=ignore
+
+[ipv4]
+method=manual
+addresses1=99.99.99.99;16;0.0.0.0;

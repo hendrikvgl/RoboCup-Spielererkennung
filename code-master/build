@@ -1,0 +1,301 @@
+#!/bin/bash
+
+function usage() {
+    echo "first active your virtualenv"
+    echo "usage: $0 [Debug|Release|other BuildType]"
+    exit 1
+}
+
+function execute_tests() {
+    if [[ $QUIET ]] && [ ${QUIET} -gt 0 ]
+    then
+        exit
+    fi
+    echo "[WARNING] Python unittests are not triggered automatically anymore!"
+    echo "[WARNING] Call run-python-tests instead to get a HTML overview!"
+    $ROOT/bin/find_test_failures&
+}
+
+function install_python()
+{
+    echo $@
+    if [ $# -ge 2 ] && [[ $2 =~ [0-9\-]+ ]]
+    then
+        level=$2
+    else
+        level=100
+    fi
+    ROOT=$(readlink -f $(dirname $0))
+
+    # Prüfen ob der Installationspfad ein virtualenv ist, sonst
+    # hier sofort abbrechen
+    INSTALL_PATH=${VIRTUAL_ENV}
+    if [ -z "$INSTALL_PATH" -o ! -f $INSTALL_PATH/bin/activate ] ; then
+        usage
+    fi
+
+    $ROOT/bin/debug-parse $ROOT/lib $INSTALL_PATH/lib/python${PYTHON_VERSION} -r -d $level
+    #debug-parse $ROOT/lib $INSTALL_PATH/lib/python${PYTHON_VERSION} -r -d $1
+    execute_tests
+    echo $@
+    exit
+}
+
+function determine_build_path() {
+    # Pfad in dem unser lokaler Build landen wird
+    BUILD_DIR_SUFFIX=$($COMPILER -v 2>&1 | grep Target | sed -r 's/Target: //')
+    BUILD_ROOT=${ROOT}/.build_
+    if [[ $ROOT =~ ^/homes/[0-9][0-9] ]] ; then # We are on our LDUP system
+        BUILD_ROOT=/local/${HOME/\/homes\//}/build_
+    fi
+    if [[ $1 ]] ; then
+        BUILD_ROOT=$1
+    fi
+    BUILD_PATH=${BUILD_ROOT}${COMPILER}_${BUILD_DIR_SUFFIX}${CROSS}
+    echo "$BUILD_PATH"
+}
+
+function to_upper() {
+    echo $@ | tr [a-z] [A-Z]
+}
+
+function determine_build_type {
+    TYPE=$(to_upper $1)
+    case $TYPE in
+        DEBUG) TYPE=Debug ;;
+        RELEASEWITHDEBINF) TYPE=ReleaseWithDebInf ;;
+        RELEASE) TYPE=Release ;;
+        *) return 1 ;;
+    esac
+    echo $TYPE
+}
+
+function clean()
+{
+    clean_env
+    clean_build_path
+}
+
+function clean_env()
+{
+    # Versuche unsere Programme im bin Verzeichnis über eine Suche in den CMakeLists zu finden.
+    BIN_PROGRAMS=$(
+        for i in $(find ${ROOT} -name CMakeLists.txt) ; do
+            grep -A 3 -B 3 "DESTINATION bin" $i | grep -A 6 "install(" | grep -B 6 ")" ; done \
+                | grep -v -e MESSAGE -e "endif()" \
+                | sed -r "s/install\(|\)|TARGETS|RUNTIME|DESTINATION bin|else\(|PROGRAMS|\-\-//g" \
+                | sed -r "s/\s+/ /g"
+    )
+
+
+    BIN_FILES=$(
+        for i in $BIN_PROGRAMS ; do
+            echo ${VIRTUAL_ENV}/bin/$(basename $i)
+        done
+    )
+    echo -e "Should the bin folder also be cleared?  Note, this may delete some important files that cannot be recovered \nType Y or L to list the files"
+    read A
+    if [ "$A" = "Y" ]; then
+        for i in $BIN_FILES ; do
+            if [ -e $i ] ; then
+                rm -v $i
+            fi
+        done
+    elif [ "$A" = "L" ]; then
+        echo $(for i in $BIN_FILES ; do echo -n "$(basename $i) " ; done)
+        echo "Delete now? [Y/n]"
+        read A
+        if [ "$A" = "Y" ]; then
+        for i in $BIN_FILES ; do
+            if [ -e $i ] ; then
+                rm -v $i
+            fi
+        done
+        fi
+    fi
+
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/bitbots
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/darwin
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/tests
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/glrobot
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/nabo
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/framework
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/debuguineu
+    rm -r $VIRTUAL_ENV/lib/python${PYTHON_VERSION}/mitecom
+    rm -r $VIRTUAL_ENV/share/*/*
+    rm -r $VIRTUAL_ENV/overlay
+}
+
+function clean_build_path()
+{
+    #@Robert 31.04.2014 den Buildpfad mit dem Buildtyp versehen
+    BUILD_PATH=$(determine_build_path $1)
+    rm -r ${BUILD_PATH}*
+}
+
+function update()
+{
+    echo "Check for enviroment Updates"
+    $ROOT/bin/update-env.sh
+    echo "Done"
+}
+
+export PYTHON_VERSION=$(python --version 2>&1 | sed -r 's/^[^0-9]*([0-9]\.[0-9]).*$/\1/')
+
+COMPILER=clang
+#Testing if clang is installed, currently clang doesn't compile for arm
+$COMPILER -v >/dev/null 2>&1
+if [ $? -ne 0 ] || [ "$NOCLANG" == "1" ]
+then
+  COMPILER=gcc
+fi
+
+#@Robert 10.03.2014
+#Ob wir für einen Atomprozessor bauen oder nicht; wenn der User darwin ist, dann sind wir im chroot
+if [ `whoami` = darwin ]
+then
+    PROCESSOR_ARCHITECTURE="-DATOM_PROCESSOR=1"
+else
+    PROCESSOR_ARCHITECTURE=""
+fi
+if [ $(uname -a | grep -c ' armv7l ') -eq 1 ]
+then
+    PROCESSOR_ARCHITECTURE="-DARM_PROCESSOR=1"
+fi
+
+# Anzahl der CPUs im System
+CPUS=$(cat /proc/cpuinfo | grep processor | wc -l)
+
+# Der Wurzelpfad des Repositories
+ROOT=$(readlink -f $(dirname $0))
+
+#Das Virtual-env sollte mitlerweile im git liegen, so dass wir es auf gut Glück aktivieren können
+if ! [[ $VIRTUAL_ENV ]]
+then
+    . $ROOT/.py-env/bin/activate >/dev/null 2>&1
+fi
+if [[ $VIRTUAL_ENV ]] && ! [ -e $ROOT/.py-env ]
+then
+    ln -s $VIRTUAL_ENV $ROOT/.py-env >/dev/null 2>&1
+fi
+
+# Prüfen ob der Installationspfad ein virtualenv ist, sonst
+# hier sofort abbrechen
+INSTALL_PATH=${VIRTUAL_ENV}
+if [ -z "$INSTALL_PATH" -o ! -f $INSTALL_PATH/bin/activate ] ; then
+    usage
+fi
+
+#Das Virtual-env updaten
+update
+
+echo "Aktiviere Python Environment"
+source $INSTALL_PATH/bin/activate
+
+CMAKE_COMPILE_D_OPTIONS=""
+ADDITIONAL_PLAIN_ARGS=""
+VERBOSE=""
+# Argumente parsen
+while [ $# -gt 0 ]
+do
+    case $1 in
+        -p|--python-only) install_python $@ ;;
+        -c|--clean) clean ;;
+        -v) VERBOSE="-DVERBOSE_COMPILE=ON";;
+        -vv) VERBOSE="-DVERBOSE_COMPILE=ON -DCMAKE_VERBOSE_MAKEFILE=ON " ;;
+        (--clean-env) clean_env ;;
+        (--clean-build-path) clean_build_path ;;
+        #allow giving options via -D e.g. -DDEBUG_LEVEL=3 for release builds for games
+        (-D*) CMAKE_COMPILE_D_OPTIONS="$CMAKE_COMPILE_D_OPTIONS $1" ;;
+        #26.04.2014 @Robert: I've excuded some projects, that can be build giving -i as option
+        -i| --include) if [[ $1 =~ ^(\-i|\-\-include)$ ]] ; then shift ; T=$1 ; else T=${1/-i//} ; fi ; \
+                    CMAKE_COMPILE_D_OPTIONS="$CMAKE_COMPILE_D_OPTIONS -DBUILD_`to_upper $T`=1" ;;
+        (-gcc) COMPILER=gcc;;
+        (-clang) COMPILER=clang;;
+        (-arm) PROCESSOR_ARCHITECTURE="-DARM_PROCESSOR=1" && CROSS="-arm-cross";;
+        -e| --exit) exit ;;
+        (-j) shift; CPUS=$1;;
+        -d|--build-dir) shift; BUILD_DIR_PREFIX=$1;;
+        (-*) echo "$0: error - unrecognized option $1" 1>&2; exit 1 ;;
+        (*) if [ -z "${BUILDTYPE}" ];then BUILDTYPE=$1 ; shift ; continue; fi; ADDITIONAL_PLAIN_ARGS="${ADDITIONAL_PLAIN_ARGS} $1" ;;
+    esac
+    shift
+done
+
+# Pfad in dem unser lokaler Build landen wird
+BUILD_PATH=$(determine_build_path $BUILD_DIR_PREFIX)
+
+
+if ! [ -z "$1" ] ; then
+    BUILDTYPE=$1
+    shift
+elif [ -z "${BUILDTYPE}" ]; then
+    BUILDTYPE="Debug"
+    echo "Implicid chaged Buildtype to Debug"
+else
+    ORG_TYPE=${BUILDTYPE}
+    BUILDTYPE=$(determine_build_type ${BUILDTYPE})
+    if [ $? -ne 0 ] ; then echo "Unknown Build type ${ORG_TYPE}"; exit 1 ; fi
+fi
+
+#stelle sicher, dass gtests vorhanden sind; sie sind standartmäßig aktiviert.
+ENABLE_GTESTS=
+$ROOT/bin/place_gtests.sh ${PYTHON_VERSION} || ENABLE_GTESTS="-DENABLE_GTESTS=0"
+#wenn wir ein cross compile machen gtest wieder aus
+if ! [ -z "$CROSS" ]; then
+    ENABLE_GTESTS="-DENABLE_GTESTS=0"
+fi
+
+#Adding buildtype to buildpath do reduce recompilings
+BUILD_PATH="${BUILD_PATH}_T_${BUILDTYPE} "
+echo "build path is $BUILD_PATH"
+# Pfad erzeugen und hineinwechseln
+if ! [ -d $BUILD_PATH ] ; then
+    mkdir -p $BUILD_PATH
+    cd $BUILD_PATH
+
+    if [ $COMPILER = clang ]
+    then
+        COMPILER_CONFIG="-DCLANG=1"
+    else
+        COMPILER_CONFIG=""
+    fi
+    # cmake initialisieren
+    cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_PATH $ROOT $COMPILER_CONFIG $CMAKE_COMPILE_D_OPTIONS $ENABLE_GTESTS $VERBOSE -DPY_VERSION=${PYTHON_VERSION}
+else
+    cd $BUILD_PATH
+fi
+cmake -DCMAKE_BUILD_TYPE="$BUILDTYPE" "$PROCESSOR_ARCHITECTURE" "$CMAKE_COMPILE_D_OPTIONS" "${ADDITIONAL_PLAIN_ARGS}" -DPY_VERSION=${PYTHON_VERSION} .
+
+# Set the current build parameters into the Makefile to enable easy building with make.
+sed -r -i "s/(BUILD_DIR=).*/\1${BUILD_PATH//\//\\\/}/" ${ROOT}/Makefile
+sed -r -i "s/(CPUS=).*/\1${CPUS}/" ${ROOT}/Makefile
+cd ${ROOT}
+git update-index --assume-unchanged Makefile >/dev/null 2>&1
+
+cd ${BUILD_PATH}
+
+make -j$CPUS all || exit $?
+make -j$CPUS install  | grep --color=always -v -e " Up-to-date:" -e "Installing:.*/[^\.]*$" || exit 1
+
+if ! grep -q LD_LIBRARY_PATH ${VIRTUAL_ENV}/bin/activate ; then
+    echo "Ergänze LD_LIBRARY_PATH im VirtualEnv"
+    echo "Bitte aktiviere das VirtualEnv neu!"
+    sed -e 's/export VIRTUAL_ENV/export VIRTUAL_ENV\nexport LD_LIBRARY_PATH=$VIRTUAL_ENV\/lib:$LD_LIBRARY_PATH/g' --in-place $VIRTUAL_ENV/bin/activate
+fi
+if ! grep -q LD_LIBRARY_PATH ${VIRTUAL_ENV}/bin/activate.fish ; then
+    echo "Ergänze LD_LIBRARY_PATH im VirtualEnv"
+    echo "Bitte aktiviere das VirtualEnv neu!"
+    echo 'set -gx LD_LIBRARY_PATH "$VIRTUAL_ENV/lib" $LD_LIBRARY_PATH' >> $VIRTUAL_ENV/bin/activate.fish
+fi
+
+# beim crosscompilieren treten hierbei Warnings auf, die wir nach dev/null verschieben
+simplify-config >/dev/null
+
+if [[ $CROSS ]]; then
+    echo "Don't execute tests, crosscompiling"
+else
+    $ROOT/bin/import_all_python || exit $?
+    execute_tests
+    $ROOT/bin/import_all_python || exit $?
+fi

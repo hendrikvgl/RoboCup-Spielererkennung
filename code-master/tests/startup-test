@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function start_behaviour(){
+    BEHAVIOUR=start-demo
+
+	#behaviour="$BEHAVIOUR"
+    #get_py_pros_command ='ps aux | grep $BEHAVIOUR | grep python | sed -r "s/[^ ]* *([0-9]*).*/\1/"'
+    #Warte, bis keine Prozesse mehr existieren, die den gleichen namen haben
+    NUM=0
+    while ! [ -z "`ps aux | grep $BEHAVIOUR | grep python | sed -r "s/[^ ]* *([0-9]*).*/\1/"`" ];
+    do
+        sleep 0.1
+        NUM=`expr $NUM + 1`
+        if [ $NUM -gt 100 ]; then return 1; fi
+    done
+	$BEHAVIOUR &
+	PID=$!
+	sleep 10
+    #grep nach python prozessen, die $BEHAVIOUR heißen
+	pypros=`ps aux | grep $BEHAVIOUR | grep python | sed -r "s/[^ ]* *([0-9]*).*/\1/"`
+    #echo "error $pypros" 1>&2
+	kill -INT $PID
+    if [ $? -ne 0 ]; then echo "error, behaviour terminated because of an error"; fi
+	while ! [ -z "`ps aux | grep $BEHAVIOUR | grep python | sed -r "s/[^ ]* *([0-9]*).*/\1/"`" ]
+	do
+        #echo "Error behaviour died before it could be killed" 1>&2
+		for p in `ps aux | grep $BEHAVIOUR | grep python | sed -r "s/[^ ]* *([0-9]*).*/\1/"`
+		do
+            #echo "Error Killing $p, Behaviour hat sich nicht Erwartungsgemäß beendet" 1>&2
+            kill -9 $p
+            sleep 0.1
+		done
+	done
+    #echo "error Ende" 1>&2
+}
+start_behaviour 3>&1 1>/dev/null 2>&3 | grep --ignore-case -e "error" -e "Segmentation fault" -e "numpy" -A 20 -B 5
